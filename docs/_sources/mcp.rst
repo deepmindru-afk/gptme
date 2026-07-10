@@ -34,6 +34,24 @@ You can configure MCP in your :ref:`global-config` (``~/.config/gptme/config.tom
 
 We also intend to support specifying it in the :ref:`project-config`, and the ability to set it per-conversation.
 
+Management Tool
+---------------
+
+gptme includes a powerful MCP management tool that allows you to discover and dynamically load MCP servers during a conversation.
+
+Commands
+~~~~~~~~
+
+The ``mcp`` tool provides the following slash-commands:
+
+- ``/search [query]``: Search for MCP servers across registries
+- ``/info <server-name>``: Get detailed information about a specific server
+- ``/load <server-name>``: Dynamically load an MCP server into the current session
+- ``/unload <server-name>``: Unload a previously loaded MCP server
+- ``/list``: List all currently configured and loaded MCP servers
+
+Once loaded, the server's tools will be available as ``<server-name>.<tool-name>`` in the conversation.
+
 Configuration Options
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -91,6 +109,46 @@ Resources:
 - ``memo://insights``: A continuously updated business insights memo
 
 The server also includes a demonstration prompt ``mcp-demo`` that guides users through database operations and analysis.
+
+Chrome DevTools Server
+~~~~~~~~~~~~~~~~~~~~~~
+
+The `Chrome DevTools MCP server <https://github.com/ChromeDevTools/chrome-devtools-mcp>`_ exposes Chrome DevTools Protocol capabilities — DOM inspection, network traffic analysis, JavaScript console, performance profiling, and Lighthouse audits — directly as MCP tools.
+
+Requires Node.js and ``npx``.
+
+.. code-block:: toml
+
+    [[mcp.servers]]
+    name = "chrome-devtools"
+    enabled = true
+    command = "npx"
+    args = ["-y", "chrome-devtools-mcp@latest"]
+
+The server provides tools across several categories:
+
+- **Navigation**: ``navigate_page``, ``new_page``, ``close_page``, ``select_page``
+- **Inspection**: ``take_snapshot``, ``take_screenshot``, ``evaluate_script``
+- **Network**: ``list_network_requests``, ``get_network_request``
+- **Console**: ``list_console_messages``, ``get_console_message``
+- **Performance**: ``performance_analyze_insight``, ``lighthouse_audit``
+- **Automation**: ``click``, ``type_text``, ``fill_form``, ``hover``, ``drag``
+
+Useful flags:
+
+- ``--headless`` — run without a visible window (server environments)
+- ``--isolated`` — clean browser state per session
+- ``--slim`` — navigation and screenshots only (lightweight)
+
+For example, to run headless with an isolated browser profile:
+
+.. code-block:: toml
+
+    [[mcp.servers]]
+    name = "chrome-devtools"
+    enabled = true
+    command = "npx"
+    args = ["-y", "chrome-devtools-mcp@latest", "--headless", "--isolated"]
 
 Running MCP Servers
 -------------------

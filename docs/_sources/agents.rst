@@ -148,38 +148,79 @@ Usage
 
 **Installing dependencies:**
 
-First install the required dependencies using `pipx <https://pipx.pypa.io/>`_ (recommended) to ensure isolation and easy management:
+First install the required dependencies and then gptme itself using `pipx <https://pipx.pypa.io/>`_ (recommended) to ensure isolation and easy management:
 
 .. code-block:: bash
 
-    # Install required dependencies
-    pipx install gptme   # or `pipx install -e ./gptme` to install from local source
+    # Install pipx and other system dependencies
+    sudo apt install pipx tree
+    # or `brew install pipx tree`
+
+    # Install common dev dependencies (recommended)
+    sudo apt install git curl make build-essential \
+        python3 python3-dev python-is-python3
+
+    # Install gptme itself
+    pipx install gptme
+    # or `pipx install -e ./gptme` to install from local source
+    # or `pipx install "git+https://github.com/gptme/gptme.git@master#egg=gptme[browser,server,telemetry]"`_ for latest master with extras
+
+    # Requirements for agent
     pipx install uv
     pipx install pre-commit
 
+    # Install optional dependencies
+    sudo apt install lynx shellcheck jq pandoc ripgrep
+    # or `brew install lynx shellcheck jq pandoc ripgrep`
+
+    # Recommended:
+    # Install latest `gh` GitHub CLI from GitHub source (not old package manager version)
+    # See https://cli.github.com/
+
 **Creating an Agent:**
 
-Use the `gptme-agent-template <https://github.com/gptme/gptme-agent-template/>`_ to create new agents:
+The ``gptme-agent`` CLI (included with gptme) makes it easy to create and manage agents:
 
 .. code-block:: bash
 
-    # Clone the template repository
-    git clone https://github.com/gptme/gptme-agent-template
-    cd gptme-agent-template
+    # Create a new agent workspace (clones and customizes the template)
+    gptme-agent create ~/my-agent --name MyAgent
 
-    # Fork the template
-    ./fork.sh ../my-agent "MyAgent"
-    cd ../my-agent
+    # For a minimal workspace without the full template
+    gptme-agent create ~/my-agent --name MyAgent --no-template
 
-    # (optional) set up pre-commit hooks
-    make install
+See the `gptme-agent-template <https://github.com/gptme/gptme-agent-template/>`_ repository for more details on the template structure.
+
+.. note::
+
+    You can also create agents manually by cloning the template repository and running ``./scripts/fork.sh``. The ``gptme-agent create`` command automates this process.
 
 **Running an Agent:**
 
 .. code-block:: bash
 
-    # Run the agent
+    # Run the agent interactively
+    cd ~/my-agent
     gptme "your prompt here"
+
+**Autonomous Operation:**
+
+Agents can run autonomously on a schedule using systemd (Linux) or launchd (macOS):
+
+.. code-block:: bash
+
+    # Install as a system service (runs every 30 minutes by default)
+    gptme-agent install
+
+    # Customize the schedule
+    gptme-agent install --schedule "*:00"    # Every hour
+
+    # Manage the agent
+    gptme-agent status              # Check status
+    gptme-agent logs --follow       # Monitor logs
+    gptme-agent run                 # Trigger immediate run
+    gptme-agent stop                # Pause scheduled runs
+    gptme-agent start               # Resume scheduled runs
 
 **Execution Flow:**
 
@@ -315,3 +356,10 @@ For more details, see the following resources:
 
 - `gptme-agent-template <https://github.com/gptme/gptme-agent-template/>`_ - Template for creating new agents
 - `gptme-contrib <https://github.com/gptme/gptme-contrib>`_ - Community-contributed tools and scripts for agents
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Agent Profiles
+   :hidden:
+
+   agent/verifier-profile
