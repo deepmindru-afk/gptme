@@ -27,7 +27,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
@@ -613,14 +613,16 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/computer-use.html">How to Automate GUIs with Computer Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="custom-providers.html">Custom Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
@@ -666,6 +668,7 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.29.0.html">v0.29.0</a></li>
@@ -1030,6 +1033,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    --gear
+
+      <ul>
+        <li><a href="cli.html#cmdoption-gptme-gear">gptme command line option</a>
+</li>
+      </ul></li>
+      <li>
     --host
 
       <ul>
@@ -1160,6 +1170,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    --no-prune-tool-output
+
+      <ul>
+        <li><a href="cli.html#cmdoption-gptme-prune-tool-output">gptme command line option</a>
+</li>
+      </ul></li>
+      <li>
     --no-stream
 
       <ul>
@@ -1256,6 +1273,13 @@ document.write(`
 
       <ul>
         <li><a href="cli.html#cmdoption-gptme-util-models-list-provider">gptme-util-models-list command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --prune-tool-output
+
+      <ul>
+        <li><a href="cli.html#cmdoption-gptme-prune-tool-output">gptme command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1575,6 +1599,8 @@ document.write(`
 </li>
         <li><a href="api.html#gptme.config.RagConfig.__init__">(gptme.config.RagConfig method)</a>
 </li>
+        <li><a href="api.html#gptme.config.SettingsConfig.__init__">(gptme.config.SettingsConfig method)</a>
+</li>
         <li><a href="api.html#gptme.config.UserConfig.__init__">(gptme.config.UserConfig method)</a>
 </li>
         <li><a href="api.html#gptme.config.UserIdentityConfig.__init__">(gptme.config.UserIdentityConfig method)</a>
@@ -1808,11 +1834,15 @@ document.write(`
 </li>
         <li><a href="cli.html#cmdoption-gptme-editor-model">--editor-model</a>
 </li>
+        <li><a href="cli.html#cmdoption-gptme-gear">--gear</a>
+</li>
         <li><a href="cli.html#cmdoption-gptme-m">--model</a>
 </li>
         <li><a href="cli.html#cmdoption-gptme-name">--name</a>
 </li>
         <li><a href="cli.html#cmdoption-gptme-y">--no-confirm</a>
+</li>
+        <li><a href="cli.html#cmdoption-gptme-prune-tool-output">--no-prune-tool-output</a>
 </li>
         <li><a href="cli.html#cmdoption-gptme-stream">--no-stream</a>
 </li>
@@ -1823,6 +1853,8 @@ document.write(`
         <li><a href="cli.html#cmdoption-gptme-output-format">--output-format</a>
 </li>
         <li><a href="cli.html#cmdoption-gptme-profile">--profile</a>
+</li>
+        <li><a href="cli.html#cmdoption-gptme-prune-tool-output">--prune-tool-output</a>
 </li>
         <li><a href="cli.html#cmdoption-gptme-r">--resume</a>
 </li>
@@ -2366,6 +2398,8 @@ document.write(`
 </li>
       <li><a href="api.html#gptme.logmanager.prepare_messages">prepare_messages() (in module gptme.logmanager)</a>
 </li>
+      <li><a href="api.html#gptme.logmanager.Log.print">print() (gptme.logmanager.Log method)</a>
+</li>
       <li><a href="api.html#gptme.config.ProjectConfig">ProjectConfig (class in gptme.config)</a>
 </li>
       <li>
@@ -2483,6 +2517,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#gptme.config.set_config_value">set_config_value() (in module gptme.config)</a>
+</li>
+      <li><a href="api.html#gptme.config.SettingsConfig">SettingsConfig (class in gptme.config)</a>
 </li>
       <li><a href="api.html#gptme.config.setup_config_from_cli">setup_config_from_cli() (in module gptme.config)</a>
 </li>

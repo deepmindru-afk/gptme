@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/asciinema-player_3.12.1.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=3a28e17f" />
@@ -48,7 +48,7 @@
     <link rel="icon" href="../_static/logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Tools" href="../tools.html" />
+    <link rel="next" title="Set Up Text-to-Speech" href="tts-setup.html" />
     <link rel="prev" title="How to Refactor Code" href="refactor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -178,14 +178,16 @@
 <li class="toctree-l2"><a class="reference internal" href="automate-task.html">How to Automate Tasks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="refactor.html">How to Refactor Code</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">How to Automate GUIs with Computer Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../tools.html">Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../commands.html">Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../custom-providers.html">Custom Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers-custom.html">Custom and Local Providers</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../model-routing.html">Choosing your model</a></li>
@@ -231,6 +233,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../releases/v0.30.0.html">v0.30.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../releases/v0.29.0.html">v0.29.0</a></li>
@@ -487,6 +490,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-your-setup">Validate your setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-a-computer-use-session">Start a computer-use session</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#web-automation-structured-first">Web automation (structured-first)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authenticated-sessions-save-and-reuse-login-state">Authenticated sessions (save and reuse login state)</a></li>
@@ -502,6 +506,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-selection-cheat-sheet">Backend selection cheat sheet</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnosing-delays">Diagnosing delays</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">Tips</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
 </ul>
             </nav>
         </div>
@@ -558,6 +563,30 @@ install the AT-SPI2 stack:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Xvfb<span class="w"> </span>:1<span class="w"> </span>-screen<span class="w"> </span><span class="m">0</span><span class="w"> </span>1024x768x24<span class="w"> </span><span class="p">&amp;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">DISPLAY</span><span class="o">=</span>:1
 fluxbox<span class="w"> </span><span class="p">&amp;</span><span class="w">   </span><span class="c1"># or any window manager</span>
+</pre></div>
+</div>
+</section>
+<section id="validate-your-setup">
+<h2>Validate your setup<a class="headerlink" href="#validate-your-setup" title="Link to this heading">#</a></h2>
+<p>After installing prerequisites, confirm everything is working:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check computer-use specific prerequisites (X11 tools, Playwright, ffmpeg, AT-SPI2...)</span>
+gptme-util<span class="w"> </span>computer<span class="w"> </span>doctor
+
+<span class="c1"># Run all three milestone demos (tweet, factorio, doom) against local HTML fixtures</span>
+gptme-util<span class="w"> </span>computer<span class="w"> </span>demo<span class="w"> </span>--all
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">gptme-util</span> <span class="pre">computer</span> <span class="pre">doctor</span></code> reports Playwright and Chromium availability as
+warnings rather than hard errors. If it warns about a missing browser runtime,
+<code class="docutils literal notranslate"><span class="pre">gptme-util</span> <span class="pre">computer</span> <span class="pre">demo</span> <span class="pre">--all</span></code> will also fail — install the missing dependency
+before proceeding.</p>
+<p><code class="docutils literal notranslate"><span class="pre">gptme-util</span> <span class="pre">computer</span> <span class="pre">demo</span> <span class="pre">--all</span></code> drives the real Playwright browser tool against
+local HTML fixtures — the same <code class="docutils literal notranslate"><span class="pre">open_page</span></code>, <code class="docutils literal notranslate"><span class="pre">fill_element</span></code>, and <code class="docutils literal notranslate"><span class="pre">click_element</span></code>
+calls that work against live sites. When all three milestones pass, browser
+interaction and selector resolution are working.</p>
+<p>For X11/native-desktop diagnostics (requires a running display):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>computer<span class="w"> </span>latency<span class="w">            </span><span class="c1"># screenshot capture latency (target: &lt; 100 ms)</span>
+gptme-util<span class="w"> </span>computer<span class="w"> </span>latency<span class="w"> </span>--terminal<span class="w"> </span><span class="c1"># terminal startup latency (target: &lt; 500 ms)</span>
 </pre></div>
 </div>
 </section>
@@ -726,7 +755,7 @@ context; only a text summary comes back to the parent:</p>
 than having the parent accumulate dozens of screenshots and intermediate steps, the
 subagent runs the full loop internally and reports back a brief summary.</p>
 <p>If the task fails or you need the full step-by-step transcript:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gptme.tools.subagent</span> <span class="kn">import</span> <span class="n">subagent_read_log</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gptme.tools.subagent</span><span class="w"> </span><span class="kn">import</span> <span class="n">subagent_read_log</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">subagent_read_log</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;agent_id&quot;</span><span class="p">]))</span>
 </pre></div>
 </div>
@@ -887,6 +916,18 @@ prompts (but ensure the task is well-scoped first).</p></li>
 <li><p><strong>Describe visual outcomes</strong>: “confirm the dialog closed” works better than “click OK and move on”.</p></li>
 </ul>
 </section>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Link to this heading">#</a></h2>
+<p>Computer use support in gptme was bootstrapped in
+<a class="reference external" href="https://github.com/gptme/gptme/issues/32">issue #32</a>, where gptme used its own
+screenshot and keyboard tools to extend its own computer-use capabilities — writing
+much of the initial implementation itself.  That thread is an end-to-end example of
+gptme applying computer use in practice: taking screenshots of its own output, reading
+the results, and editing its own source code in response.</p>
+<p>The feature has since grown substantially (see <a class="reference external" href="https://github.com/gptme/gptme/issues/216">issue #216</a>
+for the full development history), but the original conversation in #32 remains the
+clearest self-contained demonstration of what the tool can do when pointed at a real task.</p>
+</section>
 </section>
 
 
@@ -910,11 +951,11 @@ prompts (but ensure the task is well-scoped first).</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="../tools.html"
+       href="tts-setup.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tools</p>
+        <p class="prev-next-title">Set Up Text-to-Speech</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -935,6 +976,7 @@ prompts (but ensure the task is well-scoped first).</p></li>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-your-setup">Validate your setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#start-a-computer-use-session">Start a computer-use session</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#web-automation-structured-first">Web automation (structured-first)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authenticated-sessions-save-and-reuse-login-state">Authenticated sessions (save and reuse login state)</a></li>
@@ -950,6 +992,7 @@ prompts (but ensure the task is well-scoped first).</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-selection-cheat-sheet">Backend selection cheat sheet</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnosing-delays">Diagnosing delays</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">Tips</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background">Background</a></li>
 </ul>
   </nav></div>
 
