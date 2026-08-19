@@ -170,7 +170,9 @@
 <li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a workflow for your task</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
@@ -181,15 +183,20 @@
 <li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser.html">Browser Tool</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">CLI Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="provider-integration.html">Provider Integration Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
 </ul>
@@ -211,6 +218,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
@@ -225,6 +233,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/ptc-tool-interface.html">Design: Programmatic Tool Calling (PTC) Interface</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -233,6 +242,8 @@
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.33.0.html">v0.33.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.32.1.html">v0.32.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
@@ -498,9 +509,11 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-eval">gptme-eval</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth">gptme-auth</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-grok-subscription">grok-subscription</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-login">login</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-logout">logout</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openai-subscription">openai-subscription</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openrouter">openrouter</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-status">status</a></li>
 </ul>
 </li>
@@ -536,6 +549,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers">providers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-add">add</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-list">list</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-test">test</a></li>
 </ul>
@@ -589,6 +603,7 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 <div class="line">gptme “fix TODOs” main.py                  Include file or URL in context</div>
 <div class="line">gptme “review” github.com/org/repo/pull/1  Include a GitHub PR in context</div>
 <div class="line">gptme –tools none “what is 2+2”           No tools, just chat</div>
+<div class="line">gptme -t read-only “summarize this repo”   Read files only; no writes or execution</div>
 <div class="line">gptme -t patch,save “fix typo” main.py     Only specific tools (comma-separated)</div>
 <div class="line">gptme -t +subagent “plan a refactor”       Default tools + subagent</div>
 <div class="line">gptme -t=-browser “summarize code”         Default tools minus browser</div>
@@ -697,7 +712,7 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-gptme-system">
 <span class="sig-name descname"><span class="pre">--system</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;prompt_system&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-system" title="Link to this definition">#</a></dt>
-<dd><p>System prompt [full|short|&lt;custom&gt;]. Defaults to ‘full’, or the value of <cite>system</cite> in gptme.toml [prompt] if set.</p>
+<dd><p>System prompt [full|full-noexamples|short|&lt;custom&gt;]. Defaults to ‘full’, or the value of <cite>system</cite> in gptme.toml [prompt] if set. ‘full-noexamples’ omits tool examples (~40% token reduction).</p>
 </dd></dl>
 
 <dl class="std option">
@@ -756,7 +771,13 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-gptme-version">
 <span class="sig-name descname"><span class="pre">--version</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-version" title="Link to this definition">#</a></dt>
-<dd><p>Show version and configuration information</p>
+<dd><p>Show version. With -v/–verbose, show full configuration info.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-version-json">
+<span class="sig-name descname"><span class="pre">--version-json</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-version-json" title="Link to this definition">#</a></dt>
+<dd><p>Show version info as JSON (machine-readable, for scripting).</p>
 </dd></dl>
 
 <dl class="std option">
@@ -801,11 +822,45 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 <dd><p>Skip user confirmation between architect and editor turns.</p>
 </dd></dl>
 
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-injection-hygiene">
+<span class="sig-name descname"><span class="pre">--injection-hygiene</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;injection_hygiene&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-injection-hygiene" title="Link to this definition">#</a></dt>
+<dd><p>Prompt injection hygiene for tool outputs: off (disabled), warn (flag suspicious content), block (redact HIGH-severity patterns). Overrides GPTME_INJECTION_HYGIENE env var.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>off | warn | block</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-manifest-dir">
+<span class="sig-name descname"><span class="pre">--manifest-dir</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;manifest_dir&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-manifest-dir" title="Link to this definition">#</a></dt>
+<dd><p>Write a JSON record before and after each tool call to this directory. Records can be committed alongside session artifacts for tool-call-level attribution.</p>
+</dd></dl>
+
 <p class="rubric">Arguments</p>
 <dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-gptme-arg-PROMPTS">
 <span class="sig-name descname"><span class="pre">PROMPTS</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-gptme-arg-PROMPTS" title="Link to this definition">#</a></dt>
 <dd><p>Optional argument(s)</p>
+</dd></dl>
+
+<p class="rubric">Environment variables</p>
+<dl class="std envvar" id="gptme-injection-hygiene-gptme-injection-hygiene">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_INJECTION_HYGIENE</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-injection-hygiene"><code class="xref std std-option docutils literal notranslate"><span class="pre">--injection-hygiene</span></code></a></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="std envvar" id="gptme-manifest-dir-gptme-manifest-dir">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_MANIFEST_DIR</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-manifest-dir"><code class="xref std std-option docutils literal notranslate"><span class="pre">--manifest-dir</span></code></a></p>
+</div></blockquote>
 </dd></dl>
 
 </section>
@@ -882,9 +937,15 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-gptme-server-serve-allowed-hosts">
+<span class="sig-name descname"><span class="pre">--allowed-hosts</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;allowed_hosts&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-allowed-hosts" title="Link to this definition">#</a></dt>
+<dd><p>Comma-separated hostnames to accept in the Host header, in addition to the built-in localhost/127.0.0.1/[::1] allow-list. Relevant when bearer auth is explicitly disabled with GPTME_DISABLE_AUTH. Can also be set via the GPTME_SERVER_ALLOWED_HOSTS environment variable.</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-gptme-server-serve-webui-dir">
 <span class="sig-name descname"><span class="pre">--webui-dir</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;webui_dir&gt;</span></span><a class="headerlink" href="#cmdoption-gptme-server-serve-webui-dir" title="Link to this definition">#</a></dt>
-<dd><p>Directory containing a web UI build (e.g. the modern React webui’s dist/) to serve instead of the bundled legacy UI. Can also be set via the GPTME_WEBUI_DIR environment variable.</p>
+<dd><p>Directory containing a web UI build to serve instead of the bundled modern UI. Can also be set via the GPTME_WEBUI_DIR environment variable.</p>
 </dd></dl>
 
 <dl class="std option">
@@ -919,6 +980,14 @@ PROMPTS can be chained with the ‘-’ separator.</p>
 <span class="sig-name descname"><span class="pre">GPTME_SERVER_PORT</span></span></dt>
 <dd><blockquote>
 <div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-server-serve-port"><code class="xref std std-option docutils literal notranslate"><span class="pre">--port</span></code></a></p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="std envvar" id="gptme-server-serve-allowed-hosts-gptme-server-allowed-hosts">
+<dt class="sig sig-object std">
+<span class="sig-name descname"><span class="pre">GPTME_SERVER_ALLOWED_HOSTS</span></span></dt>
+<dd><blockquote>
+<div><p>Provide a default for <a class="reference internal" href="#cmdoption-gptme-server-serve-allowed-hosts"><code class="xref std std-option docutils literal notranslate"><span class="pre">--allowed-hosts</span></code></a></p>
 </div></blockquote>
 </dd></dl>
 
@@ -1085,6 +1154,18 @@ Pass eval or suite names to run, or result files to print.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
+<section id="gptme-auth-grok-subscription">
+<h3>grok-subscription<a class="headerlink" href="#gptme-auth-grok-subscription" title="Link to this heading">#</a></h3>
+<p>Authenticate with xAI using your SuperGrok subscription.</p>
+<p>If you have the grok CLI installed and have run <code class="docutils literal notranslate"><span class="pre">grok</span> <span class="pre">login</span></code>, gptme
+will automatically reuse those tokens — no extra steps needed.</p>
+<p>If you don’t have the grok CLI, this command guides you through the same
+OAuth flow to obtain tokens stored at ~/.config/gptme/oauth/grok_subscription.json.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>grok-subscription<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
 <section id="gptme-auth-login">
 <h3>login<a class="headerlink" href="#gptme-auth-login" title="Link to this heading">#</a></h3>
 <p>Login to gptme cloud using RFC 8628 Device Flow.</p>
@@ -1152,6 +1233,21 @@ Pass eval or suite names to run, or result files to print.</p>
 After successful login, tokens are stored locally for future use.</p>
 <p class="rubric">Usage</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>openai-subscription<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gptme-auth-openrouter">
+<h3>openrouter<a class="headerlink" href="#gptme-auth-openrouter" title="Link to this heading">#</a></h3>
+<p>Authenticate with OpenRouter via PKCE OAuth and store a permanent API key.</p>
+<p>Opens a browser so you can sign in to openrouter.ai.  After successful
+sign-in, a permanent API key (<code class="docutils literal notranslate"><span class="pre">sk-or-v1-…</span></code>) is exchanged and saved to
+the gptme config as <code class="docutils literal notranslate"><span class="pre">env.OPENROUTER_API_KEY</span></code>.</p>
+<p>You can then use any model on OpenRouter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gptme</span> <span class="o">--</span><span class="n">model</span> <span class="n">openrouter</span><span class="o">/</span><span class="n">anthropic</span><span class="o">/</span><span class="n">claude</span><span class="o">-</span><span class="n">sonnet</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">6</span> <span class="s2">&quot;Hello&quot;</span>
+</pre></div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>openrouter<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 </section>
@@ -1603,6 +1699,18 @@ using the same logic as the main gptme tool.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>providers<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
+<section id="gptme-util-providers-add">
+<h4>add<a class="headerlink" href="#gptme-util-providers-add" title="Link to this heading">#</a></h4>
+<p>Interactively add a custom OpenAI-compatible provider.</p>
+<p>Prompts for provider name, base URL, API key, and default model, then
+writes the configuration to gptme.toml.</p>
+<p>Example providers: Ollama (<a class="reference external" href="http://localhost:11434/v1">http://localhost:11434/v1</a>), LM Studio
+(<a class="reference external" href="http://localhost:1234/v1">http://localhost:1234/v1</a>), vLLM, or any OpenAI-compatible relay.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>gptme-util<span class="w"> </span>providers<span class="w"> </span>add<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+</section>
 <section id="gptme-util-providers-list">
 <h4>list<a class="headerlink" href="#gptme-util-providers-list" title="Link to this heading">#</a></h4>
 <p>List configured custom OpenAI-compatible providers.</p>
@@ -1835,9 +1943,11 @@ Use –all to include unavailable tools as well.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-eval">gptme-eval</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth">gptme-auth</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-grok-subscription">grok-subscription</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-login">login</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-logout">logout</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openai-subscription">openai-subscription</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-openrouter">openrouter</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-auth-status">status</a></li>
 </ul>
 </li>
@@ -1873,6 +1983,7 @@ Use –all to include unavailable tools as well.</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers">providers</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-add">add</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-list">list</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-util-providers-test">test</a></li>
 </ul>

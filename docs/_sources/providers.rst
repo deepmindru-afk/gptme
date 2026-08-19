@@ -5,65 +5,12 @@ We support LLMs from several providers, including OpenAI, Anthropic, OpenRouter,
 
 .. note::
 
-    We are in the process of adding support for configurable `custom providers <providers-custom>`_.
-
-.. rubric:: Provider Plugins (Entry Points)
-
-Third-party packages can register LLM providers via Python entry points, making them available immediately after ``pip install`` without any configuration changes.
-
-**How it works:** A plugin package declares an entry point in the ``gptme.providers`` group::
-
-    [project.entry-points."gptme.providers"]
-    minimax = "gptme_provider_minimax:provider"
-
-Where ``provider`` is a ``ProviderPlugin`` instance.
-
-**Usage:** Once installed, use the provider name as the model prefix::
-
-    pip install gptme-provider-minimax
-    gptme "hello" -m minimax/abab6.5s-chat
-
-**Creating a provider plugin:**
-
-.. code-block:: python
-
-    from gptme.llm.models import ModelMeta, ProviderPlugin
-
-    provider = ProviderPlugin(
-        name="minimax",                          # Unique provider name
-        api_key_env="MINIMAX_API_KEY",           # Env var for API key
-        base_url="https://api.minimax.chat/v1",  # OpenAI-compatible endpoint
-        models=[
-            ModelMeta(provider="unknown", model="minimax/abab6.5s-chat", context=245_760),
-        ],
-    )
-
-**ProviderPlugin fields:**
-
-================= ======== ==========================================================
-Field             Required Description
-================= ======== ==========================================================
-``name``           Yes      Unique provider name (e.g. ``"minimax"``)
-``api_key_env``    Yes      Environment variable holding the API key
-``base_url``       Yes      OpenAI-compatible API base URL
-``models``         No       List of ``ModelMeta`` objects
-``init``           No       Custom ``(Config) -> None``; ``None`` = auto-init OpenAI client
-================= ======== ==========================================================
-
-If ``init`` is provided, it **must** register an OpenAI-compatible client before returning, or gptme will raise a ``RuntimeError``.
-
-Plugin providers are auto-initialised on first use and routed through the OpenAI client path.
-
-.. note::
-
-   For new plugins, consider using the :ref:`unified plugin system <unified-plugins>` (``gptme.plugins`` entry-point group) instead. It lets a single package provide tools, hooks, commands, **and** a provider together. The ``gptme.providers`` group still works and is supported for backward compatibility.
+    We are in the process of adding support for configurable :doc:`custom providers <providers-custom>`.
 
 You can find our model recommendations on the :doc:`evals` page.
 
-.. toctree::
-   :maxdepth: 2
-
-   providers-custom
+Selecting a provider and model
+------------------------------
 
 To select a provider and model, run ``gptme`` with the ``-m``/``--model`` flag set to ``<provider>/<model>``, for example:
 
@@ -81,6 +28,12 @@ To select a provider and model, run ``gptme`` with the ``-m``/``--model`` flag s
     gptme "hello" -m gptme/claude-sonnet-4-6
 
 You can list the models known to gptme using ``gptme '/models' - '/exit'``.
+
+Which tool format a model performs best with also varies by provider and model —
+see :doc:`tool-formats` for how to choose one.
+
+Configuring credentials
+-----------------------
 
 To configure provider credentials interactively, run ``/account`` inside gptme:
 
@@ -104,7 +57,8 @@ You can still use the ``[env]`` section in the :ref:`global-config` file to stor
 - ``GROQ_API_KEY="your-api-key"``
 - ``DEEPSEEK_API_KEY="your-api-key"``
 
-.. rubric:: OpenAI Platform
+OpenAI Platform
+---------------
 
 Use the direct OpenAI Platform provider with ``openai/<model>``:
 
@@ -143,7 +97,8 @@ falsy values.
     ``openai-subscription`` provider uses its own Responses API path by
     default.
 
-.. rubric:: OpenRouter
+OpenRouter
+----------
 
 `OpenRouter <https://openrouter.ai/>`_ provides access to 100+ models through a single API key. gptme applies sensible defaults for OpenRouter requests:
 
@@ -168,7 +123,8 @@ falsy values.
     # Common values: fp16, bf16, fp8, int8, int4, unknown
     OPENROUTER_QUANTIZATION = "fp16,bf16"
 
-.. rubric:: Requesty
+Requesty
+--------
 
 `Requesty <https://requesty.ai/>`_ is an OpenAI-compatible LLM gateway that routes to many models through a single API key, using the same ``provider/model`` naming as OpenRouter (e.g. ``requesty/openai/gpt-4o-mini``, ``requesty/anthropic/claude-sonnet-4-5``). It is reached through the standard OpenAI-compatible client path.
 
@@ -182,7 +138,8 @@ falsy values.
 
 Get an API key at https://app.requesty.ai/api-keys. See https://docs.requesty.ai for details.
 
-.. rubric:: Groq
+Groq
+----
 
 `Groq <https://groq.com/>`_ provides fast inference for open-source models via its own API key — **not** through the ``OPENAI_BASE_URL`` / ``OPENAI_API_KEY`` pattern.
 
@@ -217,7 +174,8 @@ Popular Groq models:
 - ``groq/llama-3.3-70b-versatile`` — fast 70B Llama 3.3
 - ``groq/llama-3.1-8b-instant`` — fastest, smallest
 
-.. rubric:: OpenAI Subscription
+OpenAI Subscription
+-------------------
 
 You can use your existing ChatGPT Plus/Pro subscription with gptme. This uses the ChatGPT backend API (Codex endpoint) instead of the OpenAI Platform API, allowing you to leverage your subscription for development.
 
@@ -264,7 +222,8 @@ You can also append reasoning levels: ``:low``, ``:medium``, ``:high``, or ``:xh
     For production or multi-user applications, use the OpenAI Platform API.
     OAuth credentials are stored locally and access tokens are refreshed automatically.
 
-.. rubric:: gptme Managed Service
+gptme Managed Service
+---------------------
 
 The ``gptme`` provider connects to the `gptme.ai <https://gptme.ai>`_ managed service, which acts as an OpenAI-compatible LLM proxy/gateway. This gives you access to multiple model providers (Anthropic, OpenAI, etc.) through a single account.
 
@@ -301,7 +260,76 @@ Models are pass-through: ``gptme/<model>`` proxies to the corresponding backend 
     gptme-auth status              # Show current login status
     gptme-auth logout              # Remove stored credentials
 
-.. rubric:: Local
+Provider Plugins (Entry Points)
+-------------------------------
+
+Third-party packages can register LLM providers via Python entry points, making them available immediately after ``pip install`` without any configuration changes.
+
+**How it works:** A plugin package declares an entry point in the ``gptme.providers`` group::
+
+    [project.entry-points."gptme.providers"]
+    minimax = "gptme_provider_minimax:provider"
+
+Where ``provider`` is a ``ProviderPlugin`` instance.
+
+**Usage:** Once installed, use the provider name as the model prefix::
+
+    pip install gptme-provider-minimax
+    gptme "hello" -m minimax/MiniMax-M3
+
+**Creating a provider plugin:**
+
+.. code-block:: python
+
+    from gptme.llm.models import ModelMeta, ProviderPlugin
+
+    provider = ProviderPlugin(
+        name="minimax",                          # Unique provider name
+        api_key_env="MINIMAX_API_KEY",           # Env var for API key
+        base_url="https://api.minimax.chat/v1",  # OpenAI-compatible endpoint
+        models=[
+            ModelMeta(
+                provider="unknown",
+                model="minimax/MiniMax-M3",
+                context=1_000_000,
+                price_input=0.6,
+                price_output=2.4,
+                supports_vision=True,
+                supports_reasoning=True,
+            ),
+            ModelMeta(
+                provider="unknown",
+                model="minimax/MiniMax-M2.7",
+                context=204_800,
+                price_input=0.3,
+                price_output=1.2,
+                supports_reasoning=True,
+            ),
+        ],
+    )
+
+**ProviderPlugin fields:**
+
+================= ======== ==========================================================
+Field             Required Description
+================= ======== ==========================================================
+``name``           Yes      Unique provider name (e.g. ``"minimax"``)
+``api_key_env``    Yes      Environment variable holding the API key
+``base_url``       Yes      OpenAI-compatible API base URL
+``models``         No       List of ``ModelMeta`` objects
+``init``           No       Custom ``(Config) -> None``; ``None`` = auto-init OpenAI client
+================= ======== ==========================================================
+
+If ``init`` is provided, it **must** register an OpenAI-compatible client before returning, or gptme will raise a ``RuntimeError``.
+
+Plugin providers are auto-initialised on first use and routed through the OpenAI client path.
+
+.. note::
+
+   For new plugins, consider using the :ref:`unified plugin system <unified-plugins>` (``gptme.plugins`` entry-point group) instead. It lets a single package provide tools, hooks, commands, **and** a provider together. The ``gptme.providers`` group still works and is supported for backward compatibility.
+
+Local
+-----
 
 You can use local LLM models using any OpenAI API-compatible server.
 
@@ -316,3 +344,10 @@ To achieve that with ``ollama``, install it then run:
 .. note::
 
     Small models won't work well with tools, severely limiting the usefulness of gptme. You can find an overview of how different models perform on the :doc:`evals` page.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: More about providers
+
+   providers-custom
+   tool-formats

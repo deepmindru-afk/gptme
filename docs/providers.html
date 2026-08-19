@@ -170,7 +170,9 @@
 <li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a workflow for your task</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
@@ -181,15 +183,20 @@
 <li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser.html">Browser Tool</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Providers</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="provider-integration.html">Provider Integration Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
 </ul>
@@ -211,6 +218,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
@@ -225,6 +233,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/ptc-tool-interface.html">Design: Programmatic Tool Calling (PTC) Interface</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -233,6 +242,8 @@
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.33.0.html">v0.33.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.32.1.html">v0.32.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
@@ -466,7 +477,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -482,6 +495,23 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-a-provider-and-model">Selecting a provider and model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-credentials">Configuring credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-platform">OpenAI Platform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openrouter">OpenRouter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requesty">Requesty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groq">Groq</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-subscription">OpenAI Subscription</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-managed-service">gptme Managed Service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#provider-plugins-entry-points">Provider Plugins (Entry Points)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local">Local</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -496,9 +526,214 @@ document.write(`
 <p>We support LLMs from several providers, including OpenAI, Anthropic, OpenRouter, Requesty, Deepseek, Azure, and any OpenAI-compatible server (e.g. <code class="docutils literal notranslate"><span class="pre">ollama</span></code>, <code class="docutils literal notranslate"><span class="pre">llama-cpp-python</span></code>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We are in the process of adding support for configurable <a class="reference external" href="providers-custom">custom providers</a>.</p>
+<p>We are in the process of adding support for configurable <a class="reference internal" href="providers-custom.html"><span class="doc">custom providers</span></a>.</p>
 </div>
-<p class="rubric">Provider Plugins (Entry Points)</p>
+<p>You can find our model recommendations on the <a class="reference internal" href="evals.html"><span class="doc">Evals</span></a> page.</p>
+<section id="selecting-a-provider-and-model">
+<h2>Selecting a provider and model<a class="headerlink" href="#selecting-a-provider-and-model" title="Link to this heading">#</a></h2>
+<p>To select a provider and model, run <code class="docutils literal notranslate"><span class="pre">gptme</span></code> with the <code class="docutils literal notranslate"><span class="pre">-m</span></code>/<code class="docutils literal notranslate"><span class="pre">--model</span></code> flag set to <code class="docutils literal notranslate"><span class="pre">&lt;provider&gt;/&lt;model&gt;</span></code>, for example:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5.5
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>anthropic<span class="w">  </span><span class="c1"># will use provider default</span>
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openrouter/x-ai/grok-4
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openrouter/deepseek/deepseek-v4-pro
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>deepseek/deepseek-reasoner
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gemini/gemini-2.5-flash
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>groq/llama-3.3-70b-versatile
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>xai/grok-4
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>local/llama3.2:1b
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme/claude-sonnet-4-6
+</pre></div>
+</div>
+<p>You can list the models known to gptme using <code class="docutils literal notranslate"><span class="pre">gptme</span> <span class="pre">'/models'</span> <span class="pre">-</span> <span class="pre">'/exit'</span></code>.</p>
+<p>Which tool format a model performs best with also varies by provider and model —
+see <a class="reference internal" href="tool-formats.html"><span class="doc">Tool Formats</span></a> for how to choose one.</p>
+</section>
+<section id="configuring-credentials">
+<h2>Configuring credentials<a class="headerlink" href="#configuring-credentials" title="Link to this heading">#</a></h2>
+<p>To configure provider credentials interactively, run <code class="docutils literal notranslate"><span class="pre">/account</span></code> inside gptme:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/account
+/account setup
+/account setup openrouter
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">/account</span> <span class="pre">setup</span> <span class="pre">openrouter</span></code> starts browser-based OpenRouter sign-in using OAuth / PKCE, stores the resulting key in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/credentials.toml</span></code>, and switches the default model to OpenRouter’s recommended default.</p>
+<p>For providers without OAuth onboarding yet, <code class="docutils literal notranslate"><span class="pre">/account</span> <span class="pre">setup</span> <span class="pre">&lt;provider&gt;</span></code> prompts for the key without putting it in shell history and stores it in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/credentials.toml</span></code> (or <code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_HOME/gptme/credentials.toml</span></code> if set). Supported manual providers currently include <code class="docutils literal notranslate"><span class="pre">anthropic</span></code>, <code class="docutils literal notranslate"><span class="pre">openai</span></code>, <code class="docutils literal notranslate"><span class="pre">deepseek</span></code>, <code class="docutils literal notranslate"><span class="pre">gemini</span></code>, <code class="docutils literal notranslate"><span class="pre">groq</span></code>, and <code class="docutils literal notranslate"><span class="pre">xai</span></code>.</p>
+<p>You can still use the <code class="docutils literal notranslate"><span class="pre">[env]</span></code> section in the <a class="reference internal" href="config.html#global-config"><span class="std std-ref">Global config</span></a> file to store API keys using the same format as the environment variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OPENROUTER_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GEMINI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">XAI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GROQ_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DEEPSEEK_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
+</ul>
+</section>
+<section id="openai-platform">
+<h2>OpenAI Platform<a class="headerlink" href="#openai-platform" title="Link to this heading">#</a></h2>
+<p>Use the direct OpenAI Platform provider with <code class="docutils literal notranslate"><span class="pre">openai/&lt;model&gt;</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-4o
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
+gptme<span class="w"> </span><span class="s2">&quot;fix this bug&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5.5
+</pre></div>
+</div>
+<p>GPT-5-class <code class="docutils literal notranslate"><span class="pre">openai/*</span></code> models (<code class="docutils literal notranslate"><span class="pre">gpt-5</span></code>, <code class="docutils literal notranslate"><span class="pre">gpt-5.5</span></code>, <code class="docutils literal notranslate"><span class="pre">gpt-5-mini</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">gpt-5-nano</span></code>) and o-series models automatically use the OpenAI Responses API.
+gptme routes these models through <code class="docutils literal notranslate"><span class="pre">/v1/responses</span></code> by default:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-api-key&quot;</span>
+gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
+</pre></div>
+</div>
+<p>Non-GPT-5 models, proxy providers such as OpenRouter, and other
+OpenAI-compatible backends continue using the chat-completions path.</p>
+<p>To force the legacy chat-completions path for debugging or comparison, set
+<code class="docutils literal notranslate"><span class="pre">GPTME_OPENAI_RESPONSES_API=0</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GPTME_OPENAI_RESPONSES_API</span><span class="o">=</span><span class="m">0</span>
+gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
+</pre></div>
+</div>
+<p>In addition to <code class="docutils literal notranslate"><span class="pre">0</span></code>, the flag also accepts <code class="docutils literal notranslate"><span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>, and <code class="docutils literal notranslate"><span class="pre">off</span></code> as
+falsy values.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This flag only affects the direct <code class="docutils literal notranslate"><span class="pre">openai</span></code> provider. The
+<code class="docutils literal notranslate"><span class="pre">openai-subscription</span></code> provider uses its own Responses API path by
+default.</p>
+</div>
+</section>
+<section id="openrouter">
+<h2>OpenRouter<a class="headerlink" href="#openrouter" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://openrouter.ai/">OpenRouter</a> provides access to 100+ models through a single API key. gptme applies sensible defaults for OpenRouter requests:</p>
+<ul class="simple">
+<li><p><strong>Provider routing</strong>: <code class="docutils literal notranslate"><span class="pre">require_parameters</span></code> is enabled, ensuring the routed provider supports all request parameters (tools, response format, etc.). This prevents silent failures when OpenRouter falls back to a provider that doesn’t support function calling.</p></li>
+<li><p><strong>Privacy</strong>: <code class="docutils literal notranslate"><span class="pre">data_collection</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">&quot;deny&quot;</span></code>, preventing providers from training on your data. This aligns with gptme’s privacy-first philosophy.</p></li>
+<li><p><strong>Provider override</strong>: Use <code class="docutils literal notranslate"><span class="pre">model&#64;provider</span></code> syntax to pin a specific backend (e.g. <code class="docutils literal notranslate"><span class="pre">anthropic/claude-sonnet-4-20250514&#64;anthropic</span></code>).</p></li>
+<li><p><strong>Quantization</strong>: Optionally restrict to specific precision levels (e.g. <code class="docutils literal notranslate"><span class="pre">fp16</span></code> for quality, <code class="docutils literal notranslate"><span class="pre">int4</span></code> for cost savings). Set <code class="docutils literal notranslate"><span class="pre">OPENROUTER_QUANTIZATION</span></code> to a comma-separated list of accepted levels.</p></li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># In gptme.toml or ~/.config/gptme/config.toml</span>
+<span class="k">[env]</span>
+<span class="n">OPENROUTER_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-api-key&quot;</span>
+
+<span class="c1"># Override data collection preference (default: &quot;deny&quot;)</span>
+<span class="c1"># Set to &quot;allow&quot; if you need providers that require data collection consent</span>
+<span class="n">OPENROUTER_DATA_COLLECTION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;allow&quot;</span>
+
+<span class="c1"># Restrict to specific quantization levels (optional)</span>
+<span class="c1"># Common values: fp16, bf16, fp8, int8, int4, unknown</span>
+<span class="n">OPENROUTER_QUANTIZATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;fp16,bf16&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="requesty">
+<h2>Requesty<a class="headerlink" href="#requesty" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://requesty.ai/">Requesty</a> is an OpenAI-compatible LLM gateway that routes to many models through a single API key, using the same <code class="docutils literal notranslate"><span class="pre">provider/model</span></code> naming as OpenRouter (e.g. <code class="docutils literal notranslate"><span class="pre">requesty/openai/gpt-4o-mini</span></code>, <code class="docutils literal notranslate"><span class="pre">requesty/anthropic/claude-sonnet-4-5</span></code>). It is reached through the standard OpenAI-compatible client path.</p>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># In gptme.toml or ~/.config/gptme/config.toml</span>
+<span class="k">[env]</span>
+<span class="n">REQUESTY_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-api-key&quot;</span>
+</pre></div>
+</div>
+<p>Get an API key at <a class="reference external" href="https://app.requesty.ai/api-keys">https://app.requesty.ai/api-keys</a>. See <a class="reference external" href="https://docs.requesty.ai">https://docs.requesty.ai</a> for details.</p>
+</section>
+<section id="groq">
+<h2>Groq<a class="headerlink" href="#groq" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://groq.com/">Groq</a> provides fast inference for open-source models via its own API key — <strong>not</strong> through the <code class="docutils literal notranslate"><span class="pre">OPENAI_BASE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY</span></code> pattern.</p>
+<p><strong>Configuration:</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GROQ_API_KEY</span><span class="o">=</span><span class="s2">&quot;gsk_...&quot;</span>
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>groq/llama-3.3-70b-versatile
+</pre></div>
+</div>
+<p>Or store the key via the interactive setup:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s1">&#39;/account setup groq&#39;</span>
+</pre></div>
+</div>
+<p>Or in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/config.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[env]</span>
+<span class="n">GROQ_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gsk_...&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">OPENAI_BASE_URL=https://api.groq.com/openai/v1</span></code> with <code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY</span></code>
+will return a 401 — Groq requires its own <code class="docutils literal notranslate"><span class="pre">GROQ_API_KEY</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">groq/&lt;model&gt;</span></code> provider prefix handles this automatically.</p>
+</div>
+<p>Popular Groq models:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">groq/llama-3.3-70b-versatile</span></code> — fast 70B Llama 3.3</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">groq/llama-3.1-8b-instant</span></code> — fastest, smallest</p></li>
+</ul>
+</section>
+<section id="openai-subscription">
+<h2>OpenAI Subscription<a class="headerlink" href="#openai-subscription" title="Link to this heading">#</a></h2>
+<p>You can use your existing ChatGPT Plus/Pro subscription with gptme. This uses the ChatGPT backend API (Codex endpoint) instead of the OpenAI Platform API, allowing you to leverage your subscription for development.</p>
+<p><strong>Setup:</strong></p>
+<p>Authenticate using the OAuth command (opens browser for login):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>openai-subscription
+</pre></div>
+</div>
+<p>This stores credentials locally at <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/oauth/openai_subscription.json</span></code>.
+Access tokens are automatically refreshed before expiry, so you only need to authenticate once.</p>
+<p><strong>Usage:</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.5-pro
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.4
+</pre></div>
+</div>
+<p>You can also append reasoning levels: <code class="docutils literal notranslate"><span class="pre">:low</span></code>, <code class="docutils literal notranslate"><span class="pre">:medium</span></code>, <code class="docutils literal notranslate"><span class="pre">:high</span></code>, or <code class="docutils literal notranslate"><span class="pre">:xhigh</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.5-pro:high
+</pre></div>
+</div>
+<p><strong>Available Models:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.5-pro</span></code> - Latest flagship with maximum reasoning compute (Responses API only)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.4</span></code> - Previous flagship with reasoning capabilities</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.3-codex</span></code> - Previous code-optimized variant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.3-codex-spark</span></code> - Faster variant of gpt-5.3-codex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.2</span></code> - Previous generation GPT model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.2-codex</span></code> - Previous code-optimized variant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex-max</span></code> - Maximum capability variant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex</span></code> - Code-optimized</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex-mini</span></code> - Smaller code-optimized variant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1</span></code> - Previous generation</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is for <strong>personal development use</strong> with your own ChatGPT Plus/Pro subscription.
+For production or multi-user applications, use the OpenAI Platform API.
+OAuth credentials are stored locally and access tokens are refreshed automatically.</p>
+</div>
+</section>
+<section id="gptme-managed-service">
+<h2>gptme Managed Service<a class="headerlink" href="#gptme-managed-service" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">gptme</span></code> provider connects to the <a class="reference external" href="https://gptme.ai">gptme.ai</a> managed service, which acts as an OpenAI-compatible LLM proxy/gateway. This gives you access to multiple model providers (Anthropic, OpenAI, etc.) through a single account.</p>
+<p><strong>Setup:</strong></p>
+<p>Authenticate using the Device Flow command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>login
+</pre></div>
+</div>
+<p>This opens your browser to approve access, then stores a token locally at <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/auth/gptme-cloud-&lt;hash&gt;.json</span></code>. Tokens are refreshed automatically.</p>
+<p><strong>Usage:</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme/claude-sonnet-4-6
+gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme<span class="w">                    </span><span class="c1"># uses default model</span>
+</pre></div>
+</div>
+<p>Models are pass-through: <code class="docutils literal notranslate"><span class="pre">gptme/&lt;model&gt;</span></code> proxies to the corresponding backend provider.</p>
+<p><strong>Environment variables</strong> (alternative to Device Flow login):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_CLOUD_API_KEY</span></code>: API key for the managed service</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_CLOUD_BASE_URL</span></code>: Custom service URL (default: <code class="docutils literal notranslate"><span class="pre">https://fleet.gptme.ai/v1</span></code>)</p></li>
+</ul>
+<p><strong>Auth commands:</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>login<span class="w">               </span><span class="c1"># Login via Device Flow (opens browser)</span>
+gptme-auth<span class="w"> </span>login<span class="w"> </span>--no-browser<span class="w">  </span><span class="c1"># Print URL instead of opening browser</span>
+gptme-auth<span class="w"> </span>status<span class="w">              </span><span class="c1"># Show current login status</span>
+gptme-auth<span class="w"> </span><span class="nb">logout</span><span class="w">              </span><span class="c1"># Remove stored credentials</span>
+</pre></div>
+</div>
+</section>
+<section id="provider-plugins-entry-points">
+<h2>Provider Plugins (Entry Points)<a class="headerlink" href="#provider-plugins-entry-points" title="Link to this heading">#</a></h2>
 <p>Third-party packages can register LLM providers via Python entry points, making them available immediately after <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> without any configuration changes.</p>
 <p><strong>How it works:</strong> A plugin package declares an entry point in the <code class="docutils literal notranslate"><span class="pre">gptme.providers</span></code> group:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">&quot;gptme.providers&quot;</span><span class="p">]</span>
@@ -508,7 +743,7 @@ document.write(`
 <p>Where <code class="docutils literal notranslate"><span class="pre">provider</span></code> is a <code class="docutils literal notranslate"><span class="pre">ProviderPlugin</span></code> instance.</p>
 <p><strong>Usage:</strong> Once installed, use the provider name as the model prefix:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">gptme</span><span class="o">-</span><span class="n">provider</span><span class="o">-</span><span class="n">minimax</span>
-<span class="n">gptme</span> <span class="s2">&quot;hello&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="n">minimax</span><span class="o">/</span><span class="n">abab6</span><span class="mf">.5</span><span class="n">s</span><span class="o">-</span><span class="n">chat</span>
+<span class="n">gptme</span> <span class="s2">&quot;hello&quot;</span> <span class="o">-</span><span class="n">m</span> <span class="n">minimax</span><span class="o">/</span><span class="n">MiniMax</span><span class="o">-</span><span class="n">M3</span>
 </pre></div>
 </div>
 <p><strong>Creating a provider plugin:</strong></p>
@@ -519,7 +754,23 @@ document.write(`
     <span class="n">api_key_env</span><span class="o">=</span><span class="s2">&quot;MINIMAX_API_KEY&quot;</span><span class="p">,</span>           <span class="c1"># Env var for API key</span>
     <span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;https://api.minimax.chat/v1&quot;</span><span class="p">,</span>  <span class="c1"># OpenAI-compatible endpoint</span>
     <span class="n">models</span><span class="o">=</span><span class="p">[</span>
-        <span class="n">ModelMeta</span><span class="p">(</span><span class="n">provider</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;minimax/abab6.5s-chat&quot;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="mi">245_760</span><span class="p">),</span>
+        <span class="n">ModelMeta</span><span class="p">(</span>
+            <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="s2">&quot;minimax/MiniMax-M3&quot;</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="mi">1_000_000</span><span class="p">,</span>
+            <span class="n">price_input</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+            <span class="n">price_output</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span>
+            <span class="n">supports_vision</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">supports_reasoning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">ModelMeta</span><span class="p">(</span>
+            <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="s2">&quot;minimax/MiniMax-M2.7&quot;</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="mi">204_800</span><span class="p">,</span>
+            <span class="n">price_input</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+            <span class="n">price_output</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+            <span class="n">supports_reasoning</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
@@ -562,204 +813,9 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>For new plugins, consider using the <a class="reference internal" href="plugins.html#unified-plugins"><span class="std std-ref">unified plugin system</span></a> (<code class="docutils literal notranslate"><span class="pre">gptme.plugins</span></code> entry-point group) instead. It lets a single package provide tools, hooks, commands, <strong>and</strong> a provider together. The <code class="docutils literal notranslate"><span class="pre">gptme.providers</span></code> group still works and is supported for backward compatibility.</p>
 </div>
-<p>You can find our model recommendations on the <a class="reference internal" href="evals.html"><span class="doc">Evals</span></a> page.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#ollama-local">Ollama (local)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#vllm-and-openai-compatible-servers">vLLM and OpenAI-compatible servers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#setting-a-default-model">Setting a default model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#backward-compatibility">Backward compatibility</a></li>
-<li class="toctree-l2"><a class="reference internal" href="providers-custom.html#related-discussions">Related discussions</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<p>To select a provider and model, run <code class="docutils literal notranslate"><span class="pre">gptme</span></code> with the <code class="docutils literal notranslate"><span class="pre">-m</span></code>/<code class="docutils literal notranslate"><span class="pre">--model</span></code> flag set to <code class="docutils literal notranslate"><span class="pre">&lt;provider&gt;/&lt;model&gt;</span></code>, for example:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5.5
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>anthropic<span class="w">  </span><span class="c1"># will use provider default</span>
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openrouter/x-ai/grok-4
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openrouter/deepseek/deepseek-v4-pro
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>deepseek/deepseek-reasoner
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gemini/gemini-2.5-flash
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>groq/llama-3.3-70b-versatile
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>xai/grok-4
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>local/llama3.2:1b
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme/claude-sonnet-4-6
-</pre></div>
-</div>
-<p>You can list the models known to gptme using <code class="docutils literal notranslate"><span class="pre">gptme</span> <span class="pre">'/models'</span> <span class="pre">-</span> <span class="pre">'/exit'</span></code>.</p>
-<p>To configure provider credentials interactively, run <code class="docutils literal notranslate"><span class="pre">/account</span></code> inside gptme:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/account
-/account setup
-/account setup openrouter
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">/account</span> <span class="pre">setup</span> <span class="pre">openrouter</span></code> starts browser-based OpenRouter sign-in using OAuth / PKCE, stores the resulting key in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/credentials.toml</span></code>, and switches the default model to OpenRouter’s recommended default.</p>
-<p>For providers without OAuth onboarding yet, <code class="docutils literal notranslate"><span class="pre">/account</span> <span class="pre">setup</span> <span class="pre">&lt;provider&gt;</span></code> prompts for the key without putting it in shell history and stores it in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/credentials.toml</span></code> (or <code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_HOME/gptme/credentials.toml</span></code> if set). Supported manual providers currently include <code class="docutils literal notranslate"><span class="pre">anthropic</span></code>, <code class="docutils literal notranslate"><span class="pre">openai</span></code>, <code class="docutils literal notranslate"><span class="pre">deepseek</span></code>, <code class="docutils literal notranslate"><span class="pre">gemini</span></code>, <code class="docutils literal notranslate"><span class="pre">groq</span></code>, and <code class="docutils literal notranslate"><span class="pre">xai</span></code>.</p>
-<p>You can still use the <code class="docutils literal notranslate"><span class="pre">[env]</span></code> section in the <a class="reference internal" href="config.html#global-config"><span class="std std-ref">Global config</span></a> file to store API keys using the same format as the environment variables:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">OPENROUTER_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GEMINI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">XAI_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GROQ_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">DEEPSEEK_API_KEY=&quot;your-api-key&quot;</span></code></p></li>
-</ul>
-<p class="rubric">OpenAI Platform</p>
-<p>Use the direct OpenAI Platform provider with <code class="docutils literal notranslate"><span class="pre">openai/&lt;model&gt;</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-4o
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
-gptme<span class="w"> </span><span class="s2">&quot;fix this bug&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5.5
-</pre></div>
-</div>
-<p>GPT-5-class <code class="docutils literal notranslate"><span class="pre">openai/*</span></code> models (<code class="docutils literal notranslate"><span class="pre">gpt-5</span></code>, <code class="docutils literal notranslate"><span class="pre">gpt-5.5</span></code>, <code class="docutils literal notranslate"><span class="pre">gpt-5-mini</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">gpt-5-nano</span></code>) and o-series models automatically use the OpenAI Responses API.
-gptme routes these models through <code class="docutils literal notranslate"><span class="pre">/v1/responses</span></code> by default:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;your-api-key&quot;</span>
-gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
-</pre></div>
-</div>
-<p>Non-GPT-5 models, proxy providers such as OpenRouter, and other
-OpenAI-compatible backends continue using the chat-completions path.</p>
-<p>To force the legacy chat-completions path for debugging or comparison, set
-<code class="docutils literal notranslate"><span class="pre">GPTME_OPENAI_RESPONSES_API=0</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GPTME_OPENAI_RESPONSES_API</span><span class="o">=</span><span class="m">0</span>
-gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai/gpt-5
-</pre></div>
-</div>
-<p>In addition to <code class="docutils literal notranslate"><span class="pre">0</span></code>, the flag also accepts <code class="docutils literal notranslate"><span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>, and <code class="docutils literal notranslate"><span class="pre">off</span></code> as
-falsy values.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This flag only affects the direct <code class="docutils literal notranslate"><span class="pre">openai</span></code> provider. The
-<code class="docutils literal notranslate"><span class="pre">openai-subscription</span></code> provider uses its own Responses API path by
-default.</p>
-</div>
-<p class="rubric">OpenRouter</p>
-<p><a class="reference external" href="https://openrouter.ai/">OpenRouter</a> provides access to 100+ models through a single API key. gptme applies sensible defaults for OpenRouter requests:</p>
-<ul class="simple">
-<li><p><strong>Provider routing</strong>: <code class="docutils literal notranslate"><span class="pre">require_parameters</span></code> is enabled, ensuring the routed provider supports all request parameters (tools, response format, etc.). This prevents silent failures when OpenRouter falls back to a provider that doesn’t support function calling.</p></li>
-<li><p><strong>Privacy</strong>: <code class="docutils literal notranslate"><span class="pre">data_collection</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">&quot;deny&quot;</span></code>, preventing providers from training on your data. This aligns with gptme’s privacy-first philosophy.</p></li>
-<li><p><strong>Provider override</strong>: Use <code class="docutils literal notranslate"><span class="pre">model&#64;provider</span></code> syntax to pin a specific backend (e.g. <code class="docutils literal notranslate"><span class="pre">anthropic/claude-sonnet-4-20250514&#64;anthropic</span></code>).</p></li>
-<li><p><strong>Quantization</strong>: Optionally restrict to specific precision levels (e.g. <code class="docutils literal notranslate"><span class="pre">fp16</span></code> for quality, <code class="docutils literal notranslate"><span class="pre">int4</span></code> for cost savings). Set <code class="docutils literal notranslate"><span class="pre">OPENROUTER_QUANTIZATION</span></code> to a comma-separated list of accepted levels.</p></li>
-</ul>
-<p><strong>Configuration:</strong></p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># In gptme.toml or ~/.config/gptme/config.toml</span>
-<span class="k">[env]</span>
-<span class="n">OPENROUTER_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-api-key&quot;</span>
-
-<span class="c1"># Override data collection preference (default: &quot;deny&quot;)</span>
-<span class="c1"># Set to &quot;allow&quot; if you need providers that require data collection consent</span>
-<span class="n">OPENROUTER_DATA_COLLECTION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;allow&quot;</span>
-
-<span class="c1"># Restrict to specific quantization levels (optional)</span>
-<span class="c1"># Common values: fp16, bf16, fp8, int8, int4, unknown</span>
-<span class="n">OPENROUTER_QUANTIZATION</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;fp16,bf16&quot;</span>
-</pre></div>
-</div>
-<p class="rubric">Requesty</p>
-<p><a class="reference external" href="https://requesty.ai/">Requesty</a> is an OpenAI-compatible LLM gateway that routes to many models through a single API key, using the same <code class="docutils literal notranslate"><span class="pre">provider/model</span></code> naming as OpenRouter (e.g. <code class="docutils literal notranslate"><span class="pre">requesty/openai/gpt-4o-mini</span></code>, <code class="docutils literal notranslate"><span class="pre">requesty/anthropic/claude-sonnet-4-5</span></code>). It is reached through the standard OpenAI-compatible client path.</p>
-<p><strong>Configuration:</strong></p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># In gptme.toml or ~/.config/gptme/config.toml</span>
-<span class="k">[env]</span>
-<span class="n">REQUESTY_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;your-api-key&quot;</span>
-</pre></div>
-</div>
-<p>Get an API key at <a class="reference external" href="https://app.requesty.ai/api-keys">https://app.requesty.ai/api-keys</a>. See <a class="reference external" href="https://docs.requesty.ai">https://docs.requesty.ai</a> for details.</p>
-<p class="rubric">Groq</p>
-<p><a class="reference external" href="https://groq.com/">Groq</a> provides fast inference for open-source models via its own API key — <strong>not</strong> through the <code class="docutils literal notranslate"><span class="pre">OPENAI_BASE_URL</span></code> / <code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY</span></code> pattern.</p>
-<p><strong>Configuration:</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GROQ_API_KEY</span><span class="o">=</span><span class="s2">&quot;gsk_...&quot;</span>
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>groq/llama-3.3-70b-versatile
-</pre></div>
-</div>
-<p>Or store the key via the interactive setup:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s1">&#39;/account setup groq&#39;</span>
-</pre></div>
-</div>
-<p>Or in <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/config.toml</span></code>:</p>
-<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[env]</span>
-<span class="n">GROQ_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gsk_...&quot;</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Using <code class="docutils literal notranslate"><span class="pre">OPENAI_BASE_URL=https://api.groq.com/openai/v1</span></code> with <code class="docutils literal notranslate"><span class="pre">OPENAI_API_KEY</span></code>
-will return a 401 — Groq requires its own <code class="docutils literal notranslate"><span class="pre">GROQ_API_KEY</span></code>.
-The <code class="docutils literal notranslate"><span class="pre">groq/&lt;model&gt;</span></code> provider prefix handles this automatically.</p>
-</div>
-<p>Popular Groq models:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">groq/llama-3.3-70b-versatile</span></code> — fast 70B Llama 3.3</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">groq/llama-3.1-8b-instant</span></code> — fastest, smallest</p></li>
-</ul>
-<p class="rubric">OpenAI Subscription</p>
-<p>You can use your existing ChatGPT Plus/Pro subscription with gptme. This uses the ChatGPT backend API (Codex endpoint) instead of the OpenAI Platform API, allowing you to leverage your subscription for development.</p>
-<p><strong>Setup:</strong></p>
-<p>Authenticate using the OAuth command (opens browser for login):</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>openai-subscription
-</pre></div>
-</div>
-<p>This stores credentials locally at <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/oauth/openai_subscription.json</span></code>.
-Access tokens are automatically refreshed before expiry, so you only need to authenticate once.</p>
-<p><strong>Usage:</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.5-pro
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.4
-</pre></div>
-</div>
-<p>You can also append reasoning levels: <code class="docutils literal notranslate"><span class="pre">:low</span></code>, <code class="docutils literal notranslate"><span class="pre">:medium</span></code>, <code class="docutils literal notranslate"><span class="pre">:high</span></code>, or <code class="docutils literal notranslate"><span class="pre">:xhigh</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;solve this problem&quot;</span><span class="w"> </span>-m<span class="w"> </span>openai-subscription/gpt-5.5-pro:high
-</pre></div>
-</div>
-<p><strong>Available Models:</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.5-pro</span></code> - Latest flagship with maximum reasoning compute (Responses API only)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.4</span></code> - Previous flagship with reasoning capabilities</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.3-codex</span></code> - Previous code-optimized variant</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.3-codex-spark</span></code> - Faster variant of gpt-5.3-codex</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.2</span></code> - Previous generation GPT model</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.2-codex</span></code> - Previous code-optimized variant</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex-max</span></code> - Maximum capability variant</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex</span></code> - Code-optimized</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1-codex-mini</span></code> - Smaller code-optimized variant</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">gpt-5.1</span></code> - Previous generation</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This is for <strong>personal development use</strong> with your own ChatGPT Plus/Pro subscription.
-For production or multi-user applications, use the OpenAI Platform API.
-OAuth credentials are stored locally and access tokens are refreshed automatically.</p>
-</div>
-<p class="rubric">gptme Managed Service</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">gptme</span></code> provider connects to the <a class="reference external" href="https://gptme.ai">gptme.ai</a> managed service, which acts as an OpenAI-compatible LLM proxy/gateway. This gives you access to multiple model providers (Anthropic, OpenAI, etc.) through a single account.</p>
-<p><strong>Setup:</strong></p>
-<p>Authenticate using the Device Flow command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>login
-</pre></div>
-</div>
-<p>This opens your browser to approve access, then stores a token locally at <code class="docutils literal notranslate"><span class="pre">~/.config/gptme/auth/gptme-cloud-&lt;hash&gt;.json</span></code>. Tokens are refreshed automatically.</p>
-<p><strong>Usage:</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme/claude-sonnet-4-6
-gptme<span class="w"> </span><span class="s2">&quot;hello&quot;</span><span class="w"> </span>-m<span class="w"> </span>gptme<span class="w">                    </span><span class="c1"># uses default model</span>
-</pre></div>
-</div>
-<p>Models are pass-through: <code class="docutils literal notranslate"><span class="pre">gptme/&lt;model&gt;</span></code> proxies to the corresponding backend provider.</p>
-<p><strong>Environment variables</strong> (alternative to Device Flow login):</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_CLOUD_API_KEY</span></code>: API key for the managed service</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_CLOUD_BASE_URL</span></code>: Custom service URL (default: <code class="docutils literal notranslate"><span class="pre">https://fleet.gptme.ai/v1</span></code>)</p></li>
-</ul>
-<p><strong>Auth commands:</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gptme-auth<span class="w"> </span>login<span class="w">               </span><span class="c1"># Login via Device Flow (opens browser)</span>
-gptme-auth<span class="w"> </span>login<span class="w"> </span>--no-browser<span class="w">  </span><span class="c1"># Print URL instead of opening browser</span>
-gptme-auth<span class="w"> </span>status<span class="w">              </span><span class="c1"># Show current login status</span>
-gptme-auth<span class="w"> </span><span class="nb">logout</span><span class="w">              </span><span class="c1"># Remove stored credentials</span>
-</pre></div>
-</div>
-<p class="rubric">Local</p>
+</section>
+<section id="local">
+<h2>Local<a class="headerlink" href="#local" title="Link to this heading">#</a></h2>
 <p>You can use local LLM models using any OpenAI API-compatible server.</p>
 <p>To achieve that with <code class="docutils literal notranslate"><span class="pre">ollama</span></code>, install it then run:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:1b
@@ -771,6 +827,14 @@ ollama<span class="w"> </span>serve
 <p class="admonition-title">Note</p>
 <p>Small models won’t work well with tools, severely limiting the usefulness of gptme. You can find an overview of how different models perform on the <a class="reference internal" href="evals.html"><span class="doc">Evals</span></a> page.</p>
 </div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">More about providers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -808,6 +872,30 @@ ollama<span class="w"> </span>serve
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-a-provider-and-model">Selecting a provider and model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-credentials">Configuring credentials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-platform">OpenAI Platform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openrouter">OpenRouter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requesty">Requesty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groq">Groq</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openai-subscription">OpenAI Subscription</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme-managed-service">gptme Managed Service</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#provider-plugins-entry-points">Provider Plugins (Entry Points)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local">Local</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

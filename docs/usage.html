@@ -170,7 +170,9 @@
 <li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a workflow for your task</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
@@ -181,15 +183,20 @@
 <li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser.html">Browser Tool</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="provider-integration.html">Provider Integration Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
 </ul>
@@ -211,6 +218,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
@@ -225,6 +233,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/ptc-tool-interface.html">Design: Programmatic Tool Calling (PTC) Interface</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -233,6 +242,8 @@
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.33.0.html">v0.33.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.32.1.html">v0.32.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
@@ -490,6 +501,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commands">Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-conversations">Managing Conversations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaces">Interfaces</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing Files</a></li>
@@ -529,20 +541,21 @@ document.write(`
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#commands" id="id1">Commands</a></p></li>
-<li><p><a class="reference internal" href="#interfaces" id="id2">Interfaces</a></p></li>
-<li><p><a class="reference internal" href="#features" id="id3">Features</a></p>
+<li><p><a class="reference internal" href="#managing-conversations" id="id2">Managing Conversations</a></p></li>
+<li><p><a class="reference internal" href="#interfaces" id="id3">Interfaces</a></p></li>
+<li><p><a class="reference internal" href="#features" id="id4">Features</a></p>
 <ul>
-<li><p><a class="reference internal" href="#writing-files" id="id4">Writing Files</a></p></li>
-<li><p><a class="reference internal" href="#making-changes" id="id5">Making Changes</a></p></li>
-<li><p><a class="reference internal" href="#browser-integration" id="id6">Browser Integration</a></p></li>
-<li><p><a class="reference internal" href="#multiprompt-syntax" id="id7">Multiprompt syntax</a></p></li>
-<li><p><a class="reference internal" href="#queue-follow-up-prompts" id="id8">Queue follow-up prompts</a></p></li>
-<li><p><a class="reference internal" href="#tool-selection-patterns" id="id9">Tool Selection Patterns</a></p></li>
-<li><p><a class="reference internal" href="#minimal-context-mode" id="id10">Minimal context mode</a></p></li>
-<li><p><a class="reference internal" href="#skip-confirmation-prompts" id="id11">Skip confirmation prompts</a></p></li>
-<li><p><a class="reference internal" href="#non-interactive-mode" id="id12">Non-interactive mode</a></p></li>
-<li><p><a class="reference internal" href="#machine-readable-output" id="id13">Machine-readable output</a></p></li>
-<li><p><a class="reference internal" href="#pre-commit-integration" id="id14">Pre-commit Integration</a></p></li>
+<li><p><a class="reference internal" href="#writing-files" id="id5">Writing Files</a></p></li>
+<li><p><a class="reference internal" href="#making-changes" id="id6">Making Changes</a></p></li>
+<li><p><a class="reference internal" href="#browser-integration" id="id7">Browser Integration</a></p></li>
+<li><p><a class="reference internal" href="#multiprompt-syntax" id="id8">Multiprompt syntax</a></p></li>
+<li><p><a class="reference internal" href="#queue-follow-up-prompts" id="id9">Queue follow-up prompts</a></p></li>
+<li><p><a class="reference internal" href="#tool-selection-patterns" id="id10">Tool Selection Patterns</a></p></li>
+<li><p><a class="reference internal" href="#minimal-context-mode" id="id11">Minimal context mode</a></p></li>
+<li><p><a class="reference internal" href="#skip-confirmation-prompts" id="id12">Skip confirmation prompts</a></p></li>
+<li><p><a class="reference internal" href="#non-interactive-mode" id="id13">Non-interactive mode</a></p></li>
+<li><p><a class="reference internal" href="#machine-readable-output" id="id14">Machine-readable output</a></p></li>
+<li><p><a class="reference internal" href="#pre-commit-integration" id="id15">Pre-commit Integration</a></p></li>
 </ul>
 </li>
 </ul>
@@ -563,12 +576,67 @@ For the complete reference, see <a class="reference internal" href="commands.htm
 <li><p><code class="docutils literal notranslate"><span class="pre">/exit</span></code> - Exit the program</p></li>
 </ul>
 </section>
+<section id="managing-conversations">
+<span id="usage-conversations"></span><h2>Managing Conversations<a class="headerlink" href="#managing-conversations" title="Link to this heading">#</a></h2>
+<p>Every gptme interaction is part of a <strong>conversation</strong> — a named history of
+messages persisted on disk. Conversations can be resumed, searched, forked,
+and renamed.</p>
+<p>For term definitions (conversation, branch, fork, analytics session), see the <a class="reference internal" href="glossary.html"><span class="doc">Glossary</span></a>.</p>
+<p><strong>Start or resume a named conversation</strong></p>
+<p>Give a conversation an explicit name so you can return to it later:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start a new named conversation</span>
+gptme<span class="w"> </span>--name<span class="w"> </span>my-refactor<span class="w"> </span><span class="s2">&quot;let&#39;s refactor the auth module&quot;</span>
+
+<span class="c1"># Resume that same conversation in a future session</span>
+gptme<span class="w"> </span>--name<span class="w"> </span>my-refactor
+
+<span class="c1"># Resume the most recently modified conversation (any name)</span>
+gptme<span class="w"> </span>-r
+</pre></div>
+</div>
+<p>Without <code class="docutils literal notranslate"><span class="pre">--name</span></code>, gptme assigns a random name (e.g. <code class="docutils literal notranslate"><span class="pre">hopping-blue-robot</span></code>).</p>
+<p><strong>List and search conversations</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List the 20 most recent conversations</span>
+gptme<span class="w"> </span>chats<span class="w"> </span>list
+
+<span class="c1"># Show full metadata (model, cost, token counts)</span>
+gptme<span class="w"> </span>chats<span class="w"> </span>list<span class="w"> </span>--metadata
+
+<span class="c1"># Search conversation content</span>
+gptme<span class="w"> </span>chats<span class="w"> </span>search<span class="w"> </span><span class="s2">&quot;auth module refactor&quot;</span>
+
+<span class="c1"># Machine-readable JSON output</span>
+gptme<span class="w"> </span>chats<span class="w"> </span>list<span class="w"> </span>--json
+</pre></div>
+</div>
+<p><strong>Fork a conversation to explore an alternate approach</strong></p>
+<p>Forking creates a new independent conversation from messages up to turn N.
+The original conversation is unchanged.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fork after the third user+assistant exchange</span>
+gptme-util<span class="w"> </span>chats<span class="w"> </span>fork<span class="w"> </span>my-refactor<span class="w"> </span>--at-turn<span class="w"> </span><span class="m">3</span>
+
+<span class="c1"># Fork with a custom name for the new conversation</span>
+gptme-util<span class="w"> </span>chats<span class="w"> </span>fork<span class="w"> </span>my-refactor<span class="w"> </span>--at-turn<span class="w"> </span><span class="m">3</span><span class="w"> </span>--name<span class="w"> </span>my-refactor-v2
+
+<span class="c1"># Then resume the fork normally</span>
+gptme<span class="w"> </span>--name<span class="w"> </span>my-refactor-v2
+</pre></div>
+</div>
+<p>Within a running conversation, <code class="docutils literal notranslate"><span class="pre">/fork</span> <span class="pre">my-experiment</span></code> achieves the same result
+at the current turn (see <a class="reference internal" href="commands.html"><span class="doc">Commands</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">/fork</span></code> and <code class="docutils literal notranslate"><span class="pre">gptme-util</span> <span class="pre">chats</span> <span class="pre">fork</span></code> both create a <strong>new top-level conversation</strong>,
+not a branch inside the current one. For workspace rollback before risky changes,
+use <code class="docutils literal notranslate"><span class="pre">/checkpoint</span></code> (committed state) or <code class="docutils literal notranslate"><span class="pre">/snapshot</span></code> (any state) instead.</p>
+</div>
+</section>
 <section id="interfaces">
 <h2>Interfaces<a class="headerlink" href="#interfaces" title="Link to this heading">#</a></h2>
 <p>Besides the CLI, gptme can be used through:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="server.html#server-gptme-webui"><span class="std std-ref">gptme-webui: Modern Web Interface</span></a> - A web-based interface</p></li>
-<li><p>A <a class="reference external" href="https://github.com/gptme/gptme-tauri">desktop app</a> (WIP)</p></li>
+<li><p>A <a class="reference external" href="https://github.com/gptme/gptme-tauri">desktop app</a> for Linux, macOS, and Windows (<a class="reference external" href="https://github.com/gptme/gptme/releases/latest">download</a>)</p></li>
 <li><p><a class="reference internal" href="bot.html"><span class="doc">GitHub Bot</span></a> - GitHub bot integration</p></li>
 </ul>
 <p>For more detailed information about specific features, check out:</p>
@@ -883,6 +951,7 @@ def my_function(x: int, y: int) -> int:
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commands">Commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-conversations">Managing Conversations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interfaces">Interfaces</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing Files</a></li>

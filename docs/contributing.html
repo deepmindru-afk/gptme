@@ -48,7 +48,7 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Building Executables" href="building.html" />
+    <link rel="next" title="PR lifecycle" href="pr-lifecycle.html" />
     <link rel="prev" title="Skills" href="skills.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -170,7 +170,9 @@
 <li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a workflow for your task</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
 <li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
@@ -181,15 +183,20 @@
 <li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="browser.html">Browser Tool</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="provider-integration.html">Provider Integration Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
 </ul>
@@ -211,6 +218,7 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
@@ -225,6 +233,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/ptc-tool-interface.html">Design: Programmatic Tool Calling (PTC) Interface</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
@@ -233,6 +242,8 @@
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.33.0.html">v0.33.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.32.1.html">v0.32.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.31.0.html">v0.31.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.30.0.html">v0.30.0</a></li>
@@ -499,7 +510,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-instances">Multiple Instances</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release">Release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release">Release</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#android-release-signing">Android release signing</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-labels">Issue Labels</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difficulty">Difficulty</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#status">Status</a></li>
@@ -526,6 +540,12 @@ document.write(`
 <p class="admonition-title">Note</p>
 <p>This document is a work in progress. PRs are welcome.</p>
 </div>
+<p>If you already have a change ready, read <a class="reference internal" href="pr-lifecycle.html"><span class="doc">PR lifecycle</span></a> for the current
+pull-request flow: what automation runs, what maintainers look for, and the
+recent response/merge timings contributors can expect.</p>
+<p>Looking to <strong>add a new LLM provider</strong>? See <a class="reference internal" href="provider-integration.html"><span class="doc">Provider Integration Guide</span></a> for the
+dedicated guide covering plugin packages, custom provider configs, and built-in
+provider PRs.</p>
 <section id="install">
 <h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># checkout the code and navigate to the root of the project</span>
@@ -696,6 +716,50 @@ poetry<span class="w"> </span>run<span class="w"> </span>gptme-server
 <section id="release">
 <h2>Release<a class="headerlink" href="#release" title="Link to this heading">#</a></h2>
 <p>To make a release, simply run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">release</span></code> and follow the instructions.</p>
+<section id="android-release-signing">
+<h3>Android release signing<a class="headerlink" href="#android-release-signing" title="Link to this heading">#</a></h3>
+<p>Android releases are signed with a long-lived upload key in the
+<code class="docutils literal notranslate"><span class="pre">tauri-autoupdater-signing</span></code> GitHub environment. Configure these secrets before
+running a tagged release:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ANDROID_KEYSTORE</span></code>: base64-encoded JKS or PKCS12 keystore</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ANDROID_KEY_ALIAS</span></code>: alias of the signing key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ANDROID_KEY_PASSWORD</span></code>: password for the key entry</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ANDROID_STORE_PASSWORD</span></code>: password for the keystore</p></li>
+</ul>
+<p>Also set the non-secret environment variable <code class="docutils literal notranslate"><span class="pre">ANDROID_CERT_SHA256</span></code> to the
+signing certificate’s SHA-256 fingerprint. Generate a key and obtain that value
+with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>keytool<span class="w"> </span>-genkeypair<span class="w"> </span>-keystore<span class="w"> </span>release.jks<span class="w"> </span>-alias<span class="w"> </span>gptme-release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-keyalg<span class="w"> </span>RSA<span class="w"> </span>-keysize<span class="w"> </span><span class="m">4096</span><span class="w"> </span>-validity<span class="w"> </span><span class="m">10000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-dname<span class="w"> </span><span class="s2">&quot;CN=gptme, OU=release, O=gptme, C=SE&quot;</span>
+keytool<span class="w"> </span>-list<span class="w"> </span>-v<span class="w"> </span>-keystore<span class="w"> </span>release.jks<span class="w"> </span>-alias<span class="w"> </span>gptme-release
+</pre></div>
+</div>
+<p>Store the keystore and passwords in the project’s offline recovery vault before
+provisioning GitHub. Losing this key prevents future releases from retaining the
+same Android signing identity.</p>
+<p>The release workflow refuses to upload Android artifacts when any signing value
+is missing, signature verification fails, or the APK certificate does not match
+<code class="docutils literal notranslate"><span class="pre">ANDROID_CERT_SHA256</span></code>. To rotate the key, first archive the old keystore,
+create and back up the replacement, update all four secrets and the fingerprint
+in one maintenance window, then verify the first release’s APK with
+<code class="docutils literal notranslate"><span class="pre">apksigner</span> <span class="pre">verify</span> <span class="pre">--verbose</span> <span class="pre">--print-certs</span></code>. Keep the previous public
+fingerprint in the release notes so downstream metadata consumers can recognize
+the intentional identity transition.</p>
+<p>This signing strategy is intentionally shared with
+<a class="reference external" href="https://github.com/ActivityWatch/aw-android">ActivityWatch/aw-android</a>
+(see <code class="docutils literal notranslate"><span class="pre">scripts/sign_apk.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">.github/workflows/build.yml</span></code> there):
+zipalign before signing, apksigner for APKs, jarsigner for AABs, and passwords
+passed via environment variables. When changing the signing approach in either
+project, apply the same change to the other to keep them consistent.</p>
+<p>Note that gptme’s Android app is built by Tauri (<code class="docutils literal notranslate"><span class="pre">tauri</span> <span class="pre">android</span> <span class="pre">build</span></code>, a
+generated Gradle project) while aw-android is a native Android app — this does
+not affect signing, since both sign the standard unsigned Gradle outputs after
+the build. Signing deliberately happens in the tag-gated release job rather
+than via a Gradle <code class="docutils literal notranslate"><span class="pre">signingConfig</span></code> or Tauri’s keystore hooks in the build job,
+so signing secrets are never exposed to PR-triggered builds.</p>
+</section>
 </section>
 <section id="issue-labels">
 <h2>Issue Labels<a class="headerlink" href="#issue-labels" title="Link to this heading">#</a></h2>
@@ -776,11 +840,11 @@ poetry<span class="w"> </span>run<span class="w"> </span>gptme-server
       </div>
     </a>
     <a class="right-next"
-       href="building.html"
+       href="pr-lifecycle.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Building Executables</p>
+        <p class="prev-next-title">PR lifecycle</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -810,7 +874,10 @@ poetry<span class="w"> </span>run<span class="w"> </span>gptme-server
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-instances">Multiple Instances</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release">Release</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release">Release</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#android-release-signing">Android release signing</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#issue-labels">Issue Labels</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difficulty">Difficulty</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#status">Status</a></li>
