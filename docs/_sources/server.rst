@@ -1,7 +1,10 @@
+:audience: power-user
+
 Server
 ======
 
-gptme provides multiple web-based interfaces for browser-based interactions, from lightweight options to sophisticated desktop-integrated experiences.
+``gptme-server`` serves the :doc:`web UI <webui>` and the REST API. This page covers
+running and hosting it; see :doc:`webui` for the interfaces it serves.
 
 Installation
 ------------
@@ -21,62 +24,92 @@ Start the server, then open http://localhost:5700:
 The server and modern web UI share one origin by default, so no separate
 frontend process or CORS configuration is required.
 
-For more CLI options, see the :ref:`CLI reference <cli:gptme-server>`.
+For more CLI options, see the :doc:`CLI reference <cli/gptme-server>`.
 
-.. _server:gptme-webui:
+.. _server-preview-guidance:
 
-gptme-webui: Modern Web Interface
----------------------------------
+Teaching agents about app previews
+----------------------------------
 
-The primary web interface is `gptme-webui <https://github.com/gptme/gptme/tree/master/webui>`_: a modern, feature-rich application that provides a complete gptme experience in your browser. (Originally a `standalone repo <https://github.com/gptme/gptme-webui>`_, now merged into the main gptme repository.)
+The server proxies authenticated HTTP and WebSocket requests at
+``/preview/{port}/`` to ``127.0.0.1:{port}``. Allowed ports are 1024-65535 except
+5700 (the server) and 5900 (raw VNC). This does not start an app or provision
+noVNC. WebSocket forwarding requires a supported raw-socket WSGI transport.
+Validate the complete upgrade path, not just raw-socket availability, before
+advertising WebSocket/HMR or noVNC support.
 
-**Try it now:**
+Operators can advertise that capability through
+:ref:`config.runtime.toml and named prompt fragments <global-config-runtime>`,
+without editing user preferences or selecting a different agent profile.
+Only install the fragment when the deployment actually supports the described
+preview routes and interface.
 
-- `chat.gptme.org <https://chat.gptme.org>`_ (latest version of gptme-webui, bring your own gptme-server)
-- `gptme.ai <https://gptme.ai>`_ (upcoming hosted gptme service)
+The following example assumes the webui and instance server share an origin
+and the instance is mounted at the origin root:
 
-**Key Features:**
+.. code-block:: toml
 
-- Modern interface
-- Streaming responses
-- Mobile-friendly responsive design
-- Dark mode support
-- Conversation export and offline capabilities
-- Integrated computer use interface
-- Create your own persistent `agents`
+    [prompt.fragments]
+    live_app_preview = '''
+    This deployment exposes authenticated live app previews in the webui.
+    Bind development apps to 127.0.0.1 on ports 1024-65535 except 5700/5900.
+    They are reachable at /preview/{port}/ relative to the instance server URL.
+    Configure absolute asset paths and HMR for the public preview base, e.g.
+    vite --host 127.0.0.1 --port 5173 --strictPort --base=/preview/5173/
+    WebSockets are supported by this deployment's proxy transport.
+    If noVNC is running on 6080, use the computer preview panel; its
+    /preview/6080/vnc.html URL includes the proxied websockify path parameter.
+    Verify the app is responding before describing it as running.
+    In the webui, if unsandboxed ipython is available, return this Message as
+    the final expression (do not print JSON) to register a live_app panel:
+    ```ipython
+    from gptme.message import Message
+    Message("system", "App preview ready.", metadata={"panel_hints": [{
+        "id": "app-preview-5173",
+        "kind": "live_app",
+        "title": "App preview",
+        "url": "/preview/5173/",
+        "status": "running",
+        "sandbox": ["allow-scripts", "allow-forms"]
+    }]})
+    ```
+    Use a new ID for a new declaration; duplicate IDs do not update status.
+    Tell the user to open/refresh the Panels sidebar. If Message passthrough
+    or the webui is unavailable, give the preview link without claiming panel
+    registration. Never disable sandboxing just to register a panel.
+    '''
 
-**Local use:**
+The panel convention is ``Message.metadata.panel_hints``; ``live_app`` entries
+use ``url`` (not ``src``) and need ``status="running"`` to display the iframe.
+The unsandboxed IPython tool passes a returned ``Message`` through to the
+conversation log. Its Docker/Wasmtime execution modes do not. Printing a
+descriptor, writing a Markdown link, or posting metadata to the message-create
+API does not register a panel. Status is declarative, not automatic health
+monitoring, and duplicate IDs are first-wins. The panel list refreshes on load
+or manual refresh.
 
-The modern UI is bundled in gptme release packages. Run ``gptme-server`` and
-open http://localhost:5700.
+.. important::
 
-For frontend development, see the `gptme-webui README <https://github.com/gptme/gptme/tree/master/webui>`_.
-When Vite runs separately on port 5701, allow that development origin:
+    Operators must substitute the actual **browser-visible instance prefix**
+    into asset/HMR bases, panel URLs, and user links. For example, a same-origin
+    server mounted at ``/instances/example`` needs
+    ``/instances/example/preview/5173/``, not just ``/preview/5173/``. This path
+    is illustrative, not a cloud routing API.
 
-.. code-block:: bash
+    Relative iframe URLs currently resolve against the **webui origin**, not
+    its configured server base URL. The panel allowlist rejects non-loopback
+    absolute URLs, so a remote absolute URL is not a workaround for a separately
+    hosted webui. Such a topology needs an independently designed resolver;
+    do not weaken the sandbox or allowlist. The existing computer preview
+    component builds noVNC URLs from the server base URL and supplies the full
+    prefixed ``websockify`` path.
 
-    gptme-server --cors-origin 'http://localhost:5701'
-
-.. note::
-
-    **Connecting the hosted web UI to a local server (Chrome 142+).**
-    When you use the hosted web UI at `chat.gptme.org <https://chat.gptme.org>`_
-    with a ``gptme-server`` running on ``localhost``, recent Chromium browsers
-    (Chrome 142+) gate the connection behind a *Local Network Access* permission
-    prompt. This check runs *before* CORS headers are evaluated, so the
-    ``--cors-origin`` flag is necessary but no longer sufficient — you must also
-    click **Allow** on the permission prompt for the page to reach your local
-    server. Serving the web UI from a local origin (for example
-    ``http://localhost:5701``) avoids the prompt entirely, since that is a
-    local-to-local request.
-
-.. note::
-
-    **Host-header validation.** Bearer authentication is enabled for loopback
-    and network binds alike. If an operator explicitly disables authentication
-    with ``GPTME_DISABLE_AUTH``, they can still opt into Host-header validation
-    with ``gptme-server serve --allowed-hosts gptme.local`` (comma-separated,
-    or via ``GPTME_SERVER_ALLOWED_HOSTS``).
+Deployment startup owns atomic/idempotent runtime-file generation, the public
+URL/prefix, and knowledge of which tools and preview services are available.
+It must separately verify authenticated HTTP, WebSockets/HMR, noVNC if
+provisioned, actual panel rendering, and preservation of user config across
+restarts. Core config/prompt support alone does not establish cloud deployment
+readiness or public/shareable previews.
 
 Self-Hosting with Docker Compose
 --------------------------------
@@ -105,10 +138,9 @@ The modern web UI is bundled at the same origin — just open
 http://localhost:5700 in a browser. Being same-origin, it needs no CORS setup
 (you will still need the server token; see below).
 
-To use the hosted web UI instead, open
-`chat.gptme.org <https://chat.gptme.org>`_ and point it at your server. That is
-a cross-origin setup, so uncomment the Compose ``command`` and set
-``CORS_ORIGIN`` to the hosted UI (or your separately hosted UI).
+To point a separately hosted web UI at this server instead, uncomment the
+Compose ``command`` and set ``CORS_ORIGIN`` to that UI's origin — a cross-origin
+setup needs it.
 
 Key ``.env`` settings:
 
@@ -205,7 +237,7 @@ example below uses nginx with a Let's Encrypt certificate.
 
 The server and bundled UI are now reachable together at
 ``https://gptme.example.com``. If you instead use a separately hosted UI such
-as `chat.gptme.org <https://chat.gptme.org>`_, set ``CORS_ORIGIN`` in ``.env``
+from another origin, set ``CORS_ORIGIN`` in ``.env``
 to that UI's origin and enable the Compose ``--cors-origin`` command.
 
 .. note::
@@ -263,92 +295,6 @@ persistent credential across restarts. This is **required for persistent
 deployments**: if omitted the server generates a new random token at each startup,
 invalidating any client already configured with the previous token.
 
-Basic Web UI
-------------
-
-A lightweight chat interface with minimal dependencies is bundled with the gptme server for simple deployments.
-
-Access at http://localhost:5700 after starting ``gptme-server``.
-
-This interface provides basic chat functionality and is useful for:
-
-- Quick testing and development
-- Minimal server deployments
-- Environments with limited resources
-
-Computer Use Interface
-----------------------
-
-The computer use interface provides an innovative split-view experience with chat on the left and a live desktop environment on the right, enabling AI agents to interact directly with desktop applications.
-
-.. include:: computer-use-warning.rst
-
-**Docker Setup** (Recommended):
-
-.. code-block:: bash
-
-   # Clone the repository
-   git clone https://github.com/gptme/gptme.git
-   cd gptme
-
-   # Build and run the computer use container
-   make build-docker-computer
-   docker run -v ~/.config/gptme:/home/computeruse/.config/gptme -p 6080:6080 -p 8080:8080 gptme-computer:latest
-
-**Access Points:**
-
-- **Combined interface:** http://localhost:8080/computer
-- **Chat only:** http://localhost:8080
-- **Desktop only:** http://localhost:6080/vnc.html
-
-**Features:**
-
-- Split-view interface with real-time desktop interaction
-- Toggle between view-only and interactive desktop modes
-- Automatic screen scaling optimized for LLM vision models
-- Secure containerized environment
-
-**Requirements:**
-
-- Docker with X11 support
-- Available ports: 6080 (VNC) and 8080 (web interface)
-
-Local Computer Use (Advanced)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can enable the ``computer`` tool locally on Linux systems, though this is not recommended for security reasons.
-
-**Requirements:**
-
-- X11 server
-- ``xdotool`` package installed
-
-**Usage:**
-
-.. code-block:: bash
-
-   # Enable computer tool in addition to default tools
-   gptme --tools +computer
-
-Set an appropriate screen resolution for your vision model before use.
-
-For long-running visual workflows, prefer a specialized subagent profile to keep
-parent context smaller:
-
-.. code-block:: python
-
-   # Desktop interaction (mouse, keyboard, screenshots)
-   subagent(
-       "computer-use",
-       "Click the Submit button, wait for the modal, and screenshot the result",
-   )
-
-   # Web browsing and testing
-   subagent(
-       "browser-use",
-       "Open localhost:5173, capture a screenshot, and report UI issues",
-   )
-
 Security
 --------
 
@@ -380,6 +326,15 @@ if unset the server generates one and prints it at startup.
    individual endpoint.
 
 .. _server:threat-model:
+
+Host-header validation
+~~~~~~~~~~~~~~~~~~~~~~
+
+Bearer authentication is enabled for loopback and network binds alike. If an
+operator explicitly disables authentication with ``GPTME_DISABLE_AUTH``, they can
+still opt into Host-header validation with
+``gptme-server serve --allowed-hosts gptme.local`` (comma-separated, or via
+``GPTME_SERVER_ALLOWED_HOSTS``).
 
 Threat Model
 ~~~~~~~~~~~~
@@ -458,3 +413,28 @@ The API endpoints support the core gptme operations including chat interactions,
 
 .. note::
    API documentation is available when running the server. Visit the server endpoint ``/api/docs/`` for interactive API documentation based on the OpenAPI spec (served at ``/api/docs/openapi.json``).
+
+.. raw:: html
+
+   <script>
+   (function () {
+     // The web UI sections moved to webui.html; forward old deep links.
+     var moved = {
+       "server-gptme-webui": 1,
+       "gptme-webui-modern-web-interface": 1,
+       "basic-web-ui": 1,
+       "computer-use-interface": 1,
+       "local-computer-use-advanced": 1
+     };
+     var raw = location.hash.slice(1);
+     var id;
+     try {
+       id = decodeURIComponent(raw);
+     } catch (e) {
+       return;
+     }
+     if (id && moved[id] && !document.getElementById(id)) {
+       location.replace("webui.html#" + id);
+     }
+   })();
+   </script>

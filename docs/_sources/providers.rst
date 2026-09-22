@@ -1,13 +1,36 @@
+:audience: user
+
 Providers
 =========
 
 We support LLMs from several providers, including OpenAI, Anthropic, OpenRouter, Requesty, Deepseek, Azure, and any OpenAI-compatible server (e.g. ``ollama``, ``llama-cpp-python``).
 
-.. note::
+You can also bring your own subscription instead of an API key: a ChatGPT Plus/Pro plan via :ref:`OpenAI Subscription <openai-subscription>` or a SuperGrok plan via :ref:`Grok Subscription <grok-subscription>`.
 
-    We are in the process of adding support for configurable :doc:`custom providers <providers-custom>`.
+.. important::
 
-You can find our model recommendations on the :doc:`evals` page.
+    A provider or subscription backend is not an agent harness. This page
+    configures model access **inside the gptme runtime**. For example,
+    ``openai-subscription`` uses ChatGPT subscription access from gptme; it does
+    not run the Codex CLI harness. Likewise, ``grok-subscription`` does not run
+    the Grok Build harness. See :ref:`agent-runtime-portability` for the
+    workspace / harness / model / access distinction.
+
+This page is an overview of how to get model access. To decide *which* model to
+use, see :doc:`models`. For details, see:
+
+- :doc:`providers-supported` — setup details for each built-in provider
+- :doc:`providers-custom` — Ollama, LM Studio, vLLM, and other OpenAI-compatible servers
+- :doc:`providers-integration` — add a new provider as a config entry, plugin package, or core PR
+- :doc:`tool-formats` — how tools are presented to the model, and which format to choose
+
+.. toctree::
+   :hidden:
+
+   providers-supported
+   providers-custom
+   providers-integration
+   tool-formats
 
 Selecting a provider and model
 ------------------------------
@@ -16,21 +39,111 @@ To select a provider and model, run ``gptme`` with the ``-m``/``--model`` flag s
 
 .. code-block:: sh
 
-    gptme "hello" -m openai/gpt-5.5
+    gptme "hello" -m openai/gpt-5.6-sol
+    gptme "hello" -m openai-subscription/gpt-6-astra  # uses your ChatGPT Plus/Pro subscription
     gptme "hello" -m anthropic  # will use provider default
     gptme "hello" -m openrouter/x-ai/grok-4
-    gptme "hello" -m openrouter/deepseek/deepseek-v4-pro
-    gptme "hello" -m deepseek/deepseek-reasoner
+    gptme "hello" -m openrouter/deepseek/deepseek-v4-flash@together  # pin to Together subprovider
+    gptme "hello" -m deepseek/deepseek-v4-flash
+    gptme "hello" -m xai/grok-4
+    gptme "hello" -m grok-subscription/grok-4.6  # uses your SuperGrok subscription
     gptme "hello" -m gemini/gemini-2.5-flash
     gptme "hello" -m groq/llama-3.3-70b-versatile
-    gptme "hello" -m xai/grok-4
-    gptme "hello" -m local/llama3.2:1b
-    gptme "hello" -m gptme/claude-sonnet-4-6
+    gptme "hello" -m gptme/claude-sonnet-4-6  # use the gptme managed service as router
+    gptme "hello" -m local/llama3.2:1b  # uses a local OpenAI-compatible server (e.g. ollama)
+    gptme "hello" -m custom/model  # use a custom provider plugin
 
 You can list the models known to gptme using ``gptme '/models' - '/exit'``.
 
 Which tool format a model performs best with also varies by provider and model —
 see :doc:`tool-formats` for how to choose one.
+
+Supported providers
+-------------------
+
+Built-in providers, the model prefix to use, and how each one authenticates.
+Each links to its setup details on :doc:`providers-supported`.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 25 50
+
+   * - Provider
+     - Model prefix
+     - Authentication
+   * - :ref:`OpenAI Platform <openai-platform>`
+     - ``openai/``
+     - ``OPENAI_API_KEY``
+   * - :ref:`Anthropic <anthropic>`
+     - ``anthropic/``
+     - ``ANTHROPIC_API_KEY``
+   * - :ref:`OpenRouter <openrouter>`
+     - ``openrouter/``
+     - ``OPENROUTER_API_KEY``, or browser sign-in with ``/account setup openrouter``
+   * - :ref:`Requesty <requesty>`
+     - ``requesty/``
+     - ``REQUESTY_API_KEY``
+   * - :ref:`Groq <groq>`
+     - ``groq/``
+     - ``GROQ_API_KEY``
+   * - :ref:`Google Gemini <gemini>`
+     - ``gemini/``
+     - ``GEMINI_API_KEY``
+   * - :ref:`xAI <xai>`
+     - ``xai/``
+     - ``XAI_API_KEY``
+   * - :ref:`DeepSeek <deepseek>`
+     - ``deepseek/``
+     - ``DEEPSEEK_API_KEY``
+   * - :ref:`Moonshot <moonshot>`
+     - ``moonshot/``
+     - ``MOONSHOT_API_KEY``
+   * - :ref:`NVIDIA <nvidia>`
+     - ``nvidia/``
+     - ``NVIDIA_API_KEY``
+   * - :ref:`Azure OpenAI <azure>`
+     - ``azure/``
+     - ``AZURE_OPENAI_API_KEY`` and ``AZURE_OPENAI_ENDPOINT``
+   * - :ref:`OpenAI Subscription <openai-subscription>`
+     - ``openai-subscription/``
+     - ChatGPT Plus/Pro sign-in with ``gptme-auth openai-subscription``
+   * - :ref:`Grok Subscription <grok-subscription>`
+     - ``grok-subscription/``
+     - SuperGrok sign-in with ``gptme-auth grok-subscription`` (or an existing ``grok login``)
+   * - :ref:`gptme Managed Service <gptme-managed-service>`
+     - ``gptme/``
+     - ``gptme-auth login``, or ``GPTME_CLOUD_API_KEY``
+   * - :ref:`Local server <local-providers>`
+     - ``local/``
+     - ``OPENAI_BASE_URL`` pointing at an OpenAI-compatible server
+
+.. _default-models:
+
+Default models
+--------------
+
+When you pass only a provider name (for example ``gptme -m anthropic``), gptme
+uses that provider's default model. This table is generated at docs-build time
+from the installed gptme, so it always reflects the current release. The summary
+model is the cheaper model used for conversation titles and summaries.
+
+.. command-output:: gptme-util models recommended
+   :cwd: ..
+   :shell:
+
+.. _providers-subscriptions:
+
+Subscriptions
+-------------
+
+Several frontier models are reachable through a consumer subscription instead of a metered API key, which is usually the cheapest way to run gptme on a frontier model:
+
+- **ChatGPT Plus/Pro (Codex)** — ``openai-subscription/gpt-6-astra`` (and the GPT-5.6 family). Authenticate once with ``gptme-auth openai-subscription``.
+- **SuperGrok (Grok Build)** — ``grok-subscription/grok-4.6``. Reuses the grok CLI's login, or ``gptme-auth grok-subscription``.
+- **Claude Max** — not available: Anthropic does not permit third-party tools on the consumer subscription; use the ``anthropic`` provider with an API key.
+- **Cursor** — not supported. Cursor exposes no sanctioned endpoint for using a personal subscription from third-party tools (its Cloud Agents API is separately metered and is not a chat-completions API). Unofficial proxies that reuse the Cursor CLI's login state exist, but gptme does not integrate them.
+
+See :ref:`openai-subscription` and :ref:`grok-subscription` for setup details.
 
 Configuring credentials
 -----------------------
@@ -47,6 +160,8 @@ To configure provider credentials interactively, run ``/account`` inside gptme:
 
 For providers without OAuth onboarding yet, ``/account setup <provider>`` prompts for the key without putting it in shell history and stores it in ``~/.config/gptme/credentials.toml`` (or ``$XDG_CONFIG_HOME/gptme/credentials.toml`` if set). Supported manual providers currently include ``anthropic``, ``openai``, ``deepseek``, ``gemini``, ``groq``, and ``xai``.
 
+Subscription sign-in (ChatGPT Plus/Pro and SuperGrok) is also offered in the first-run setup when gptme starts without any configured credentials.
+
 You can still use the ``[env]`` section in the :ref:`global-config` file to store API keys using the same format as the environment variables:
 
 - ``OPENAI_API_KEY="your-api-key"``
@@ -57,297 +172,73 @@ You can still use the ``[env]`` section in the :ref:`global-config` file to stor
 - ``GROQ_API_KEY="your-api-key"``
 - ``DEEPSEEK_API_KEY="your-api-key"``
 
-OpenAI Platform
----------------
+.. _reasoning-effort:
 
-Use the direct OpenAI Platform provider with ``openai/<model>``:
+Reasoning effort
+----------------
 
-.. code-block:: sh
+Reasoning models accept a named effort level that trades latency and cost for
+more thinking. gptme exposes one knob, ``GPTME_THINKING_EFFORT``, and maps it
+to each provider's parameter:
 
-    gptme "hello" -m openai/gpt-4o
-    gptme "hello" -m openai/gpt-5
-    gptme "fix this bug" -m openai/gpt-5.5
+.. list-table::
+   :header-rows: 1
 
-GPT-5-class ``openai/*`` models (``gpt-5``, ``gpt-5.5``, ``gpt-5-mini``, and
-``gpt-5-nano``) and o-series models automatically use the OpenAI Responses API.
-gptme routes these models through ``/v1/responses`` by default:
+   * - Provider
+     - Request parameter
+     - Accepted levels
+   * - Anthropic
+     - ``thinking.budget_tokens`` (and ``output_config.effort`` on SDK >= 0.77)
+     - ``low``, ``medium``, ``high``, ``xhigh``, ``max``
+   * - OpenAI (Chat Completions)
+     - ``reasoning_effort``
+     - ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``, ``max``
+   * - OpenAI (Responses API)
+     - ``reasoning.effort``
+     - same as above
+   * - OpenRouter
+     - ``reasoning.effort`` (replaces the default ``reasoning.max_tokens`` budget)
+     - ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``
+   * - Moonshot Kimi K3
+     - ``reasoning_effort``
+     - ``low``, ``high``, ``max``
+   * - OpenAI Subscription (Codex)
+     - ``reasoning.effort`` from the model ``:level`` suffix (default ``medium``)
+     - ``low``, ``medium``, ``high``, ``xhigh``
 
-.. code-block:: sh
-
-    export OPENAI_API_KEY="your-api-key"
-    gptme "solve this problem" -m openai/gpt-5
-
-Non-GPT-5 models, proxy providers such as OpenRouter, and other
-OpenAI-compatible backends continue using the chat-completions path.
-
-To force the legacy chat-completions path for debugging or comparison, set
-``GPTME_OPENAI_RESPONSES_API=0``:
-
-.. code-block:: sh
-
-    export GPTME_OPENAI_RESPONSES_API=0
-    gptme "solve this problem" -m openai/gpt-5
-
-In addition to ``0``, the flag also accepts ``false``, ``no``, and ``off`` as
-falsy values.
-
-.. note::
-
-    This flag only affects the direct ``openai`` provider. The
-    ``openai-subscription`` provider uses its own Responses API path by
-    default.
-
-OpenRouter
-----------
-
-`OpenRouter <https://openrouter.ai/>`_ provides access to 100+ models through a single API key. gptme applies sensible defaults for OpenRouter requests:
-
-- **Provider routing**: ``require_parameters`` is enabled, ensuring the routed provider supports all request parameters (tools, response format, etc.). This prevents silent failures when OpenRouter falls back to a provider that doesn't support function calling.
-- **Privacy**: ``data_collection`` defaults to ``"deny"``, preventing providers from training on your data. This aligns with gptme's privacy-first philosophy.
-- **Provider override**: Use ``model@provider`` syntax to pin a specific backend (e.g. ``anthropic/claude-sonnet-4-20250514@anthropic``).
-- **Quantization**: Optionally restrict to specific precision levels (e.g. ``fp16`` for quality, ``int4`` for cost savings). Set ``OPENROUTER_QUANTIZATION`` to a comma-separated list of accepted levels.
-
-**Configuration:**
-
-.. code-block:: toml
-
-    # In gptme.toml or ~/.config/gptme/config.toml
-    [env]
-    OPENROUTER_API_KEY = "your-api-key"
-
-    # Override data collection preference (default: "deny")
-    # Set to "allow" if you need providers that require data collection consent
-    OPENROUTER_DATA_COLLECTION = "allow"
-
-    # Restrict to specific quantization levels (optional)
-    # Common values: fp16, bf16, fp8, int8, int4, unknown
-    OPENROUTER_QUANTIZATION = "fp16,bf16"
-
-Requesty
---------
-
-`Requesty <https://requesty.ai/>`_ is an OpenAI-compatible LLM gateway that routes to many models through a single API key, using the same ``provider/model`` naming as OpenRouter (e.g. ``requesty/openai/gpt-4o-mini``, ``requesty/anthropic/claude-sonnet-4-5``). It is reached through the standard OpenAI-compatible client path.
-
-**Configuration:**
-
-.. code-block:: toml
-
-    # In gptme.toml or ~/.config/gptme/config.toml
-    [env]
-    REQUESTY_API_KEY = "your-api-key"
-
-Get an API key at https://app.requesty.ai/api-keys. See https://docs.requesty.ai for details.
-
-Groq
-----
-
-`Groq <https://groq.com/>`_ provides fast inference for open-source models via its own API key — **not** through the ``OPENAI_BASE_URL`` / ``OPENAI_API_KEY`` pattern.
-
-**Configuration:**
+Which subset a specific model accepts (for example ``none`` on gpt-5.1+,
+``xhigh`` on gpt-5.2+) is enforced by the provider; gptme only rejects levels
+the provider never accepts. Models without reasoning support ignore the
+variable, so it is safe to leave set across model switches.
 
 .. code-block:: sh
 
-    export GROQ_API_KEY="gsk_..."
-    gptme "hello" -m groq/llama-3.3-70b-versatile
+    GPTME_THINKING_EFFORT=high gptme "prove this" -m openai/gpt-5.5
+    GPTME_THINKING_EFFORT=low gptme "rename the variable" -m openrouter/deepseek/deepseek-r1
 
-Or store the key via the interactive setup:
+Every assistant message records what happened, so session logs are not blind
+to effort:
 
-.. code-block:: sh
+- ``metadata.reasoning_effort`` - the level that shaped the request (only set
+  when one applied; absent means the provider default).
 
-    gptme '/account setup groq'
+- ``metadata.usage.reasoning_tokens`` - reasoning tokens reported by the
+  provider (OpenAI, OpenRouter, Codex). Anthropic bills thinking inside
+  ``output_tokens`` and does not report it separately.
 
-Or in ``~/.config/gptme/config.toml``:
+Custom, local, and plugin providers
+-----------------------------------
 
-.. code-block:: toml
+Any OpenAI-compatible server (Ollama, LM Studio, vLLM, a private proxy) can be
+used with the ``local/`` prefix or declared as a named ``[[providers]]`` entry
+in your config — see :doc:`providers-custom`.
 
-    [env]
-    GROQ_API_KEY = "gsk_..."
-
-.. note::
-
-    Using ``OPENAI_BASE_URL=https://api.groq.com/openai/v1`` with ``OPENAI_API_KEY``
-    will return a 401 — Groq requires its own ``GROQ_API_KEY``.
-    The ``groq/<model>`` provider prefix handles this automatically.
-
-Popular Groq models:
-
-- ``groq/llama-3.3-70b-versatile`` — fast 70B Llama 3.3
-- ``groq/llama-3.1-8b-instant`` — fastest, smallest
-
-OpenAI Subscription
--------------------
-
-You can use your existing ChatGPT Plus/Pro subscription with gptme. This uses the ChatGPT backend API (Codex endpoint) instead of the OpenAI Platform API, allowing you to leverage your subscription for development.
-
-**Setup:**
-
-Authenticate using the OAuth command (opens browser for login):
+Third-party packages can also register providers through the ``gptme.providers``
+entry point, making them available right after installation:
 
 .. code-block:: sh
-
-    gptme-auth openai-subscription
-
-This stores credentials locally at ``~/.config/gptme/oauth/openai_subscription.json``.
-Access tokens are automatically refreshed before expiry, so you only need to authenticate once.
-
-**Usage:**
-
-.. code-block:: sh
-
-    gptme "hello" -m openai-subscription/gpt-5.5-pro
-    gptme "hello" -m openai-subscription/gpt-5.4
-
-You can also append reasoning levels: ``:low``, ``:medium``, ``:high``, or ``:xhigh``:
-
-.. code-block:: sh
-
-    gptme "solve this problem" -m openai-subscription/gpt-5.5-pro:high
-
-**Available Models:**
-
-- ``gpt-5.5-pro`` - Latest flagship with maximum reasoning compute (Responses API only)
-- ``gpt-5.4`` - Previous flagship with reasoning capabilities
-- ``gpt-5.3-codex`` - Previous code-optimized variant
-- ``gpt-5.3-codex-spark`` - Faster variant of gpt-5.3-codex
-- ``gpt-5.2`` - Previous generation GPT model
-- ``gpt-5.2-codex`` - Previous code-optimized variant
-- ``gpt-5.1-codex-max`` - Maximum capability variant
-- ``gpt-5.1-codex`` - Code-optimized
-- ``gpt-5.1-codex-mini`` - Smaller code-optimized variant
-- ``gpt-5.1`` - Previous generation
-
-.. note::
-
-    This is for **personal development use** with your own ChatGPT Plus/Pro subscription.
-    For production or multi-user applications, use the OpenAI Platform API.
-    OAuth credentials are stored locally and access tokens are refreshed automatically.
-
-gptme Managed Service
----------------------
-
-The ``gptme`` provider connects to the `gptme.ai <https://gptme.ai>`_ managed service, which acts as an OpenAI-compatible LLM proxy/gateway. This gives you access to multiple model providers (Anthropic, OpenAI, etc.) through a single account.
-
-**Setup:**
-
-Authenticate using the Device Flow command:
-
-.. code-block:: sh
-
-    gptme-auth login
-
-This opens your browser to approve access, then stores a token locally at ``~/.config/gptme/auth/gptme-cloud-<hash>.json``. Tokens are refreshed automatically.
-
-**Usage:**
-
-.. code-block:: sh
-
-    gptme "hello" -m gptme/claude-sonnet-4-6
-    gptme "hello" -m gptme                    # uses default model
-
-Models are pass-through: ``gptme/<model>`` proxies to the corresponding backend provider.
-
-**Environment variables** (alternative to Device Flow login):
-
-- ``GPTME_CLOUD_API_KEY``: API key for the managed service
-- ``GPTME_CLOUD_BASE_URL``: Custom service URL (default: ``https://fleet.gptme.ai/v1``)
-
-**Auth commands:**
-
-.. code-block:: sh
-
-    gptme-auth login               # Login via Device Flow (opens browser)
-    gptme-auth login --no-browser  # Print URL instead of opening browser
-    gptme-auth status              # Show current login status
-    gptme-auth logout              # Remove stored credentials
-
-Provider Plugins (Entry Points)
--------------------------------
-
-Third-party packages can register LLM providers via Python entry points, making them available immediately after ``pip install`` without any configuration changes.
-
-**How it works:** A plugin package declares an entry point in the ``gptme.providers`` group::
-
-    [project.entry-points."gptme.providers"]
-    minimax = "gptme_provider_minimax:provider"
-
-Where ``provider`` is a ``ProviderPlugin`` instance.
-
-**Usage:** Once installed, use the provider name as the model prefix::
 
     pip install gptme-provider-minimax
     gptme "hello" -m minimax/MiniMax-M3
 
-**Creating a provider plugin:**
-
-.. code-block:: python
-
-    from gptme.llm.models import ModelMeta, ProviderPlugin
-
-    provider = ProviderPlugin(
-        name="minimax",                          # Unique provider name
-        api_key_env="MINIMAX_API_KEY",           # Env var for API key
-        base_url="https://api.minimax.chat/v1",  # OpenAI-compatible endpoint
-        models=[
-            ModelMeta(
-                provider="unknown",
-                model="minimax/MiniMax-M3",
-                context=1_000_000,
-                price_input=0.6,
-                price_output=2.4,
-                supports_vision=True,
-                supports_reasoning=True,
-            ),
-            ModelMeta(
-                provider="unknown",
-                model="minimax/MiniMax-M2.7",
-                context=204_800,
-                price_input=0.3,
-                price_output=1.2,
-                supports_reasoning=True,
-            ),
-        ],
-    )
-
-**ProviderPlugin fields:**
-
-================= ======== ==========================================================
-Field             Required Description
-================= ======== ==========================================================
-``name``           Yes      Unique provider name (e.g. ``"minimax"``)
-``api_key_env``    Yes      Environment variable holding the API key
-``base_url``       Yes      OpenAI-compatible API base URL
-``models``         No       List of ``ModelMeta`` objects
-``init``           No       Custom ``(Config) -> None``; ``None`` = auto-init OpenAI client
-================= ======== ==========================================================
-
-If ``init`` is provided, it **must** register an OpenAI-compatible client before returning, or gptme will raise a ``RuntimeError``.
-
-Plugin providers are auto-initialised on first use and routed through the OpenAI client path.
-
-.. note::
-
-   For new plugins, consider using the :ref:`unified plugin system <unified-plugins>` (``gptme.plugins`` entry-point group) instead. It lets a single package provide tools, hooks, commands, **and** a provider together. The ``gptme.providers`` group still works and is supported for backward compatibility.
-
-Local
------
-
-You can use local LLM models using any OpenAI API-compatible server.
-
-To achieve that with ``ollama``, install it then run:
-
-.. code-block:: sh
-
-    ollama pull llama3.2:1b
-    ollama serve
-    OPENAI_BASE_URL="http://127.0.0.1:11434/v1" gptme 'hello' -m local/llama3.2:1b
-
-.. note::
-
-    Small models won't work well with tools, severely limiting the usefulness of gptme. You can find an overview of how different models perform on the :doc:`evals` page.
-
-.. toctree::
-   :maxdepth: 1
-   :caption: More about providers
-
-   providers-custom
-   tool-formats
+See :doc:`providers-integration` to write one.

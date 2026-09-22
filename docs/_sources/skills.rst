@@ -1,3 +1,5 @@
+:audience: power-user
+
 Skills
 ======
 
@@ -6,6 +8,51 @@ gptme's skill system fully conforms to the `Agent Skills open standard
 Anthropic and adopted by 26+ tools (Claude Code, OpenAI Codex, Gemini CLI,
 GitHub Copilot, Cursor, and more). Skills authored for gptme work in those
 tools, and vice versa — the same interop play gptme makes for :doc:`MCP <mcp>`.
+
+Looking for something to install? See the :doc:`skills-gallery` — a curated
+selection of community skills from gptme-contrib.
+
+.. toctree::
+   :hidden:
+
+   Gallery <skills-gallery>
+
+Explicit invocation telemetry
+-----------------------------
+
+``/skill:<name>`` writes lifecycle evidence to ``skill-events.jsonl`` beside the
+conversation log. Ambient matching and instruction injection do not count as
+invocations. Each invocation has a stable ID; queueing records ``queued``, while
+terminal adapters record ``completed``, ``failed``, or ``abandoned``. Completed
+means the runtime finished responding, not that arbitrary skill instructions
+achieved their intended outcome.
+
+Accounting fields use schema version 2. Readers accept version 1 history without
+rewriting it. Upgrade processes sharing a conversation before resuming writes:
+older version 1 writers reject the newer ledger and stop recording events.
+
+When telemetry is enabled, successful ledger appends also emit
+``gptme_skill_invocations``, ``gptme_skill_completions``,
+``gptme_skill_duration_seconds``, ``gptme_skill_tokens``, and
+``gptme_skill_cost_usd`` through the existing metrics exporter. Labels are limited
+to skill name and surface, plus terminal status, the boolean ``usage_available``
+on completions, and token type on token counters. Session IDs, invocation IDs,
+paths, and error details remain in the ledger. Export failure does not prevent
+invocation; these live metrics are best-effort and are not replayed from history.
+
+Cost and token fields are deltas from the existing ``CostTracker`` over the
+inclusive admission-to-terminal window. They are available only when both ends
+observe the same tracker for the same conversation. A reset, missing tracker, or
+foreign conversation produces ``usage: null`` and ``usage_available=false``;
+it does not produce a zero-cost measurement. Overlapping invocations can have
+overlapping cost windows, so these values must not be summed as exclusive billing.
+
+Frontend accounting coverage remains separate from lifecycle coverage. In
+particular, the TUI does not yet initialize session cost tracking, and native
+server request workers do not consistently retain its ownership. Their lifecycle
+counts and durations remain useful while unmeasurable costs stay unknown. CLI
+invocations can use their existing session tracker. Cross-harness adapters and
+end-to-end accounting parity are separate work.
 
 .. note::
 
@@ -154,7 +201,7 @@ Skills are loaded from the following directories (if they exist):
 
 **User-level:**
 
-1. ``~/.config/gptme/skills/`` - gptme native skills
+1. ``~/.config/gptme/skills/`` - gptme native skills (or ``$XDG_CONFIG_HOME/gptme/skills/`` if ``XDG_CONFIG_HOME`` is set)
 2. ``~/.claude/skills/`` - Claude CLI compatibility (share skills with Claude CLI)
 3. ``~/.agents/skills/`` - Cross-platform standard
 
@@ -180,7 +227,79 @@ Use the utility CLI to see what the current workspace already knows about:
 
 ``skills list`` shows skill names and descriptions. ``--all`` includes regular
 lessons in the same discovery pass, and ``skills dirs`` shows exactly which
-directories are being scanned.
+directories are being scanned. For the full list of subcommands, run
+``gptme-util skills --help``.
+
+Install a skill from the default ``gptme-contrib`` registry with
+(use ``gptme-util skills dirs`` to see exactly where it lands):
+
+.. code-block:: bash
+
+    gptme-util skills install home-assistant
+
+See the :doc:`skills-gallery` for a curated list of community skills and the
+same install command.
+
+Invoking Skills as Commands
+---------------------------
+
+Every discovered skill is also registered as a slash command, matching how
+Claude Code and Codex expose skills. Inside a chat (CLI, TUI, or server/WebUI),
+``/skill:<name> [args]`` queues the skill body as your next user prompt (with a
+``Skill invoked:`` header) so the assistant acts on it immediately:
+
+.. code-block:: text
+
+    /skill:end                # canonical form, never collides
+    /end                      # bare alias, only if no command/tool is named "end"
+    /skill:review src/app.py  # arguments are passed through
+
+In the skill body, ``$ARGUMENTS`` expands to the full argument string and
+``$ARGUMENTS[N]`` / ``${N}`` to the N-th (0-based) whitespace-separated
+argument (curly braces are required for positional references to avoid
+ambiguity with literal dollar amounts like ``$100`` in skill prose).
+Use ``/skills read <name>`` to view a skill without invoking it.
+
+Invocation evidence
+~~~~~~~~~~~~~~~~~~~
+
+Explicit slash-command invocations append versioned records to
+``<conversation>/skill-events.jsonl``. Each invocation gets a UUID, carried through
+the prompt queue into message metadata as ``skill_invocation_id``. The ledger
+records skill identity, source path, invocation surface, run identity, timestamp,
+and phase. It does not record arguments or skill contents. Ambient skill matching
+and injection do not create invocation events.
+
+``started`` means the prompt was built; ``queued`` means it was admitted to the
+queue. Queue errors record ``failed`` with the exception class, without its text.
+Neither admission nor a normal turn/session hook establishes skill completion.
+The explicit ``record_skill_phase`` API accepts a later ``completed`` or ``failed``
+event from a caller with execution evidence; terminal transitions are idempotent.
+
+On CLI exit, unresolved invocations from that run become ``abandoned``. This means
+no completion evidence was recorded, and does not establish that the skill's work
+failed. Nested and resumed CLI runs and each TUI app have separate UUIDs.
+
+The TUI records ``completed`` when its worker produces a nonempty final response
+with no runnable tools, or receives the explicit session-complete signal. Errors
+record ``failed``; interruption, declined tools, step limits, cancellation, and
+app exit abandon unfinished invocations. A response containing tools keeps the
+invocation open until the tool loop reaches a final response.
+
+The native V2 server tracks invocation ownership per conversation session across
+generation and tool-confirmation workers. A nonempty, tool-free response completes
+an invocation only after pending and executing tools have drained. Generation/tool
+exceptions fail it; skipped tools, interrupts, session removal, and expiry abandon
+it. Revoked generation epochs cannot finalize a replacement worker's invocation.
+Server admission records retain the conversation path as their session identity;
+execution ownership is scoped to the invocation IDs in the latest user turn.
+
+``completed`` describes the runtime response boundary, not independent verification
+that the skill achieved its goal. ACP execution, queued server commands that never
+reach a step, abrupt-process recovery, cost attribution, and OTEL metrics remain
+follow-up work. Storage failures are logged and never prevent skill execution.
+Malformed ledgers are preserved and refuse further writes until repaired, rather
+than risking duplicate terminal events.
 
 Creating Skills
 ---------------
@@ -364,6 +483,7 @@ Example:
 Related
 -------
 
+- :doc:`skills-gallery` - Curated community skills to install
 - :doc:`lessons` - Core knowledge system
 - :doc:`plugins` - For hooks, custom tools, and deep integration
 - :doc:`hooks` - Lifecycle callbacks (plugins only)

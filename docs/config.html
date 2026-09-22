@@ -48,8 +48,8 @@
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Providers" href="providers.html" />
-    <link rel="prev" title="TUI" href="tui.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Set Up Text-to-Speech" href="howto/tts-setup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -159,89 +159,168 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">User Guide</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="system-dependencies.html">System Dependencies</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="getting-started.html">Getting Started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="system-dependencies.html">Extras and System Dependencies</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="demos.html">Demos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="automation.html">Automation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="projects.html">Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Minimal Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">Edit Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">Review Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">Debug Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">Refactor Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">Automate Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/parallel-research.html">Parallel Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/computer-use.html">Computer Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/skills-workflows.html">Reusable Skills</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/custom-tool-plugin.html">Custom Tool Plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Text-to-Speech</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="cookbook.html">Cookbook</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="howto/index.html">How-To Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="howto/choose-workflow.html">Choose a workflow for your task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/minimal-context.html">Run gptme with minimal context</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/edit-files.html">How to Edit Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/code-review.html">How to Review Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/debug-python.html">How to Debug Python</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/automate-task.html">How to Automate Tasks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/refactor.html">How to Refactor Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/computer-use.html">How to Automate GUIs with Computer Use</a></li>
-<li class="toctree-l2"><a class="reference internal" href="howto/tts-setup.html">Set Up Text-to-Speech</a></li>
 </ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="browser.html">Browser Tool</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Using gptme</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="providers.html">Providers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="providers-supported.html">Supported Providers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="providers-custom.html">Custom and Local Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="providers-integration.html">Provider Integration Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tool-formats.html">Tool Formats</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="provider-integration.html">Provider Integration Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="model-routing.html">Choosing your model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">Security Considerations</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tools.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tools/read.html">Read</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/save.html">Save</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/patch.html">Patch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/morph.html">Morph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/hashline-edit.html">Hashline Edit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/python.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/shell.html">Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/gh.html">GitHub (gh)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/precommit.html">Precommit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/autocommit.html">Autocommit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/browser.html">Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/rag.html">RAG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/chats.html">Chats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/vision.html">Vision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/screenshot.html">Screenshot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/computer.html">Computer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/choice.html">Choice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/elicit.html">Elicit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/form.html">Form</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/tmux.html">Tmux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/subagent.html">Subagent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/complete.html">Complete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/restart.html">Restart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/vent.html">Vent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/request-tool-change.html">Request Tool Change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/lessons.html">Lessons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/todo.html">Todo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/mcp.html">MCP</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Extensibility</span></p>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="automation.html">Automation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security.html">Security</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Interfaces</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="agent/verifier-profile.html">Verifier Profile</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="cli.html">CLI</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli/gptme.html">gptme</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/gptme-server.html">gptme-server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/gptme-tui.html">gptme-tui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/gptme-util.html">gptme-util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/agents.html">Agent Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/gptme-mcp-server.html">gptme-mcp-server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/setup.html">Setup and Diagnostics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/sessions.html">Sessions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli/evaluation.html">Evaluation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tui.html">TUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">App</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cloud.html">Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="channels.html">Channels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channels/email.html">Email</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channels/agent-messaging.html">Agent Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channels/chat.html">Chat Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="channels/voice.html">Voice</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="server.html">Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="acp.html">ACP (Agent Client Protocol)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webui.html">Web</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Agents &amp; Context</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="agents.html">Agents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="agents/workspace.html">Workspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="agents/autonomous.html">Running autonomously</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profiles.html">Profiles</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="lessons.html">Lessons</a></li>
-<li class="toctree-l1"><a class="reference internal" href="skills.html">Skills</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="skills.html">Skills</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="skills-gallery.html">Gallery</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="memory.html">Memory</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Extending gptme</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcp.html">MCP</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pr-lifecycle.html">PR Lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building.html">Building Executables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="custom_tool.html">Custom Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugin System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="prompts.html">Prompts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bot.html">GitHub Bot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/llm.html">LLMs and Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tools.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/plugins.html">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/commands.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/profiles.html">Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/memory.html">Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/prompts.html">Prompts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/server.html">Server</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Design Documents</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="design/hook-based-confirmations.html">Design: Hook-Based Tool Confirmations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="design/elicitation.html">Design: Generalized Elicitation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="design/ptc-tool-interface.html">Design: Programmatic Tool Calling (PTC) Interface</a></li>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="context-compression.html">Context Compression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evals.html">Evals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="finetuning.html">Finetuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="design/index.html">Design Documents</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="design/hook-based-confirmations.html">Hook-Based Tool Confirmations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/elicitation.html">Generalized Elicitation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/ptc-tool-interface.html">Programmatic Tool Calling (PTC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/transcript-persistence.html">Transcript Persistence</a></li>
+</ul>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="alternatives.html">Alternatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="projects.html">Projects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arewetiny.html">Are we tiny?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="misc/acronyms.html">What does “gptme” stand for?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeline.html">Timeline</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="changelog.html">Changelog</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="releases/v0.34.0.html">v0.34.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.33.0.html">v0.33.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.1.html">v0.32.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="releases/v0.32.0.html">v0.32.0</a></li>
@@ -500,17 +579,18 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global config</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global config</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-model-selection-works">How model selection works</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-overrides-config-local-toml">Local overrides (<code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#runtime-defaults-and-prompt-fragments">Runtime defaults and prompt fragments</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-config">Project config</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-config">Project config</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-overrides-gptme-local-toml">Local overrides (<code class="docutils literal notranslate"><span class="pre">gptme.local.toml</span></code>)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-config">Chat config</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-conversation-context">Cross-Conversation Context</a></li>
 </ul>
 </li>
@@ -605,6 +685,9 @@ document.write(`
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">files</span></code>: A list of additional files to always include in context. Supports absolute paths, <code class="docutils literal notranslate"><span class="pre">~</span></code> expansion, and paths relative to the config directory.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">project</span></code>: A table of project descriptions, keyed by project name, included when working in the matching Git repository. The default config includes descriptions for <code class="docutils literal notranslate"><span class="pre">activitywatch</span></code> and <code class="docutils literal notranslate"><span class="pre">gptme</span></code> — when the git root directory name matches one of these keys, the description is automatically injected into the system prompt.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fragments</span></code>: A table of named, additive system-prompt text, described in
+<a class="reference internal" href="#global-config-runtime"><span class="std std-ref">Runtime defaults and prompt fragments</span></a>. These sections do not replace user preferences,
+workspace files, profiles, or a conversation’s custom system prompt.</p></li>
 </ul>
 <p>The <code class="docutils literal notranslate"><span class="pre">env</span></code> section contains environment variables that gptme will fall back to if they are not set in the shell environment. This is useful for setting the default model and API keys for <a class="reference internal" href="providers.html"><span class="doc">Providers</span></a>. It can also be used to set default tool configuration options, see <a class="reference internal" href="custom_tool.html"><span class="doc">Custom Tools</span></a> for more information.</p>
 <div class="admonition note">
@@ -615,7 +698,7 @@ exposing your keys. The webui setup wizard already writes keys to <code class="d
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">settings</span></code> section contains user-level CLI defaults. Currently supported:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">gear</span></code>: Default autonomy preset for new conversations. Gear <code class="docutils literal notranslate"><span class="pre">0</span></code> is read-only
+<li><p><code class="docutils literal notranslate"><span class="pre">gear</span></code>: Default autonomy preset for new conversations (experimental). Gear <code class="docutils literal notranslate"><span class="pre">0</span></code> is read-only
 observe mode, gear <code class="docutils literal notranslate"><span class="pre">1</span></code> is the interactive default, gear <code class="docutils literal notranslate"><span class="pre">2</span></code> allows file edits
 while excluding shell/network tools by default, gear <code class="docutils literal notranslate"><span class="pre">3</span></code> is fully autonomous,
 and gear <code class="docutils literal notranslate"><span class="pre">4</span></code> adds subagent orchestration.</p></li>
@@ -626,14 +709,21 @@ and gear <code class="docutils literal notranslate"><span class="pre">4</span></
 </div>
 <section id="how-model-selection-works">
 <span id="id2"></span><h3>How model selection works<a class="headerlink" href="#how-model-selection-works" title="Link to this heading">#</a></h3>
-<p>When you start gptme, the model is resolved in this priority order:</p>
+<p>When you start gptme, the model is resolved in this priority order. The layers
+run from most specific (this one command) to most general (your global config):</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--model</span></code> / <code class="docutils literal notranslate"><span class="pre">-m</span></code> CLI flag (highest priority, per-session)</p></li>
 <li><p>Per-chat model saved with <code class="docutils literal notranslate"><span class="pre">/model</span></code> — persists across session resumes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MODEL</span></code> / <code class="docutils literal notranslate"><span class="pre">GPTME_MODEL</span></code> env var set in your shell</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in the chat’s own config</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in the project’s <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">[models].default</span></code> in your global config</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MODEL</span></code> env var (in shell or <code class="docutils literal notranslate"><span class="pre">[env]</span></code> section of config)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in your global config</p></li>
 <li><p>Auto-detection based on which API keys are configured</p></li>
 </ol>
+<p>So a variable exported for one command, or a model pinned by a project’s
+<code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code>, wins over the global default — while <code class="docutils literal notranslate"><span class="pre">[models].default</span></code> still
+wins over <code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> set in that <em>same</em> global config.</p>
 <p><strong>Setting a permanent default model:</strong></p>
 <p>The recommended approach is to use <code class="docutils literal notranslate"><span class="pre">[models].default</span></code> in your config:</p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[models]</span>
@@ -682,7 +772,7 @@ and gear <code class="docutils literal notranslate"><span class="pre">4</span></
 </div>
 <p>So if you have both <code class="docutils literal notranslate"><span class="pre">ANTHROPIC_API_KEY</span></code> and <code class="docutils literal notranslate"><span class="pre">GROQ_API_KEY</span></code> set, gptme will
 use Anthropic (earlier in the list) unless you override with <code class="docutils literal notranslate"><span class="pre">MODEL</span></code> or <code class="docutils literal notranslate"><span class="pre">--model</span></code>.
-See <a class="reference internal" href="providers.html"><span class="doc">Providers</span></a> for the full list and the <a class="reference internal" href="evals.html"><span class="doc">Evals</span></a> page for model recommendations.</p>
+See <a class="reference internal" href="providers.html"><span class="doc">Providers</span></a> for the full list and <a class="reference internal" href="models.html"><span class="doc">Models</span></a> for model recommendations.</p>
 <p><strong>Using multiple providers:</strong></p>
 <p>You can set API keys for as many providers as you like. Use <code class="docutils literal notranslate"><span class="pre">--model</span></code> on the
 command line to select a specific model for a session, or set <code class="docutils literal notranslate"><span class="pre">[models].default</span></code>
@@ -707,11 +797,11 @@ the <code class="docutils literal notranslate"><span class="pre">local/</span></
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">models</span></code> section configures model selection preferences:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code>: The default chat model, as a fully-qualified model ID (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;anthropic/claude-sonnet-4-6&quot;</span></code>). A formal alternative to the <code class="docutils literal notranslate"><span class="pre">MODEL</span></code> env var; <code class="docutils literal notranslate"><span class="pre">models.default</span></code> takes precedence over the <code class="docutils literal notranslate"><span class="pre">MODEL</span></code> env var (and <code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in the config file), but is itself overridden by an explicit per-chat model or the <code class="docutils literal notranslate"><span class="pre">--model</span></code> CLI flag.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code>: The default chat model, as a fully-qualified model ID (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;anthropic/claude-sonnet-4-6&quot;</span></code>). A formal alternative to <code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in the same config file, which it takes precedence over. It is overridden by anything more specific: the <code class="docutils literal notranslate"><span class="pre">--model</span></code> CLI flag, a per-chat model, a <code class="docutils literal notranslate"><span class="pre">MODEL</span></code> env var in your shell, or <code class="docutils literal notranslate"><span class="pre">[env].MODEL</span></code> in a project’s <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code>. See <a class="reference internal" href="#how-model-selection-works"><span class="std std-ref">How model selection works</span></a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">favorites</span></code>: A list of fully-qualified model IDs (e.g. <code class="docutils literal notranslate"><span class="pre">[&quot;anthropic/claude-sonnet-4-6&quot;,</span> <span class="pre">&quot;openai/gpt-4o&quot;]</span></code>) curated by the user. These are surfaced prominently in model pickers such as the web UI model selector.</p></li>
 </ul>
 <p>If you want to configure MCP servers, you can do so in a <code class="docutils literal notranslate"><span class="pre">mcp</span></code> section. See <a class="reference internal" href="mcp.html#mcp"><span class="std std-ref">MCP</span></a> for more information.</p>
-<p>See <a class="reference internal" href="api.html#gptme.config.UserConfig" title="gptme.config.UserConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.UserConfig</span></code></a> for the API reference.</p>
+<p>See <a class="reference internal" href="api/config.html#gptme.config.UserConfig" title="gptme.config.UserConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.UserConfig</span></code></a> for the API reference.</p>
 </section>
 <section id="local-overrides-config-local-toml">
 <span id="global-config-local"></span><h3>Local overrides (<code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code>)<a class="headerlink" href="#local-overrides-config-local-toml" title="Link to this heading">#</a></h3>
@@ -728,6 +818,80 @@ the <code class="docutils literal notranslate"><span class="pre">local/</span></
 </pre></div>
 </div>
 <p>Values in <code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code> are merged into the main config: dictionary sections are merged recursively, and MCP servers are merged by name (so you can define the server command/args in <code class="docutils literal notranslate"><span class="pre">config.toml</span></code> and add secrets in <code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code>). Scalar values in the local file override the main file.</p>
+</section>
+<section id="runtime-defaults-and-prompt-fragments">
+<span id="global-config-runtime"></span><h3>Runtime defaults and prompt fragments<a class="headerlink" href="#runtime-defaults-and-prompt-fragments" title="Link to this heading">#</a></h3>
+<p>Deployments can provide an optional <code class="docutils literal notranslate"><span class="pre">config.runtime.toml</span></code> alongside the main
+and local files. This is a generic operator-owned defaults layer, not a
+cloud-specific switch or an enforcement policy. File precedence, lowest to
+highest, is:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">config.runtime.toml</span></code> (deployment defaults)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config.toml</span></code> (user preferences)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code> (user’s local overrides/secrets)</p></li>
+</ol>
+<p>While the runtime file is present, built-in defaults form a lower-priority,
+in-memory baseline. A preview-only runtime file therefore retains the standard
+user guidance and project descriptions. Explicit values, including empty strings
+and lists, still override defaults; legacy <code class="docutils literal notranslate"><span class="pre">[prompt]</span></code> user preferences retain
+their existing fallback behavior.</p>
+<p>Existing process-environment, project, chat, and CLI resolution rules are
+unchanged. Dictionaries merge recursively; MCP servers and providers merge by
+name. Other lists and scalar values are replaced by the higher-priority layer,
+not concatenated. In particular, do not use deployment <code class="docutils literal notranslate"><span class="pre">prompt.files</span></code> to append
+to a user’s file list.</p>
+<p>For additive instructions, use named fragments instead:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># config.runtime.toml, written by the deployment</span>
+<span class="k">[prompt.fragments]</span>
+<span class="n">deployment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;This environment provides an authenticated app preview.&quot;</span>
+</pre></div>
+</div>
+<p>Other keys in the user’s <code class="docutils literal notranslate"><span class="pre">[prompt.fragments]</span></code> coexist with that fragment.
+To override or disable just the deployment fragment, set the same key in
+<code class="docutils literal notranslate"><span class="pre">config.toml</span></code> or <code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[prompt.fragments]</span>
+<span class="n">deployment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">  </span><span class="c1"># Disable this fragment, without changing the runtime file</span>
+<span class="n">personal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Keep explanations concise.&quot;</span>
+</pre></div>
+</div>
+<p>Fragment values must be strings; names must match
+<code class="docutils literal notranslate"><span class="pre">[A-Za-z0-9][A-Za-z0-9_.-]*</span></code>. Nonblank fragments become
+named <code class="docutils literal notranslate"><span class="pre">prompt_fragment:&lt;name&gt;</span></code> sections, sorted by name, before dynamic context
+and the cache boundary. They participate in prompt statistics and the same
+generation/pinning mechanism as other system instructions. They work with full,
+short, custom, and selective prompts without depending on a workspace or tools.
+<code class="docutils literal notranslate"><span class="pre">include_user_context=False</span></code> and <code class="docutils literal notranslate"><span class="pre">prompt=&quot;none&quot;</span></code> suppress these optional
+fragments.</p>
+<p>These global fragments apply to all prompt-builder callers in the configured
+environment, including CLI and server conversations. Interface-specific text
+should describe its prerequisites rather than assume every caller is the webui.
+An absent runtime file and empty fragment mapping leave ordinary local
+installations unchanged. See <a class="reference internal" href="server.html#server-preview-guidance"><span class="std std-ref">Teaching agents about app previews</span></a> for an app-preview
+example using the existing webui panel protocol.</p>
+<p>gptme never creates, edits, or removes the runtime file and never copies its
+contents into user configuration or <code class="docutils literal notranslate"><span class="pre">ChatConfig.system_prompt</span></code>. An invalid or
+unreadable runtime file reports an error rather than silently disabling its
+defaults. If the main file is absent while runtime defaults are present, gptme
+creates an empty main file, so generated user settings do not override deployment
+defaults. This does not persist built-in defaults into that file either. Removing
+the runtime file restores ordinary no-runtime loading: an existing sparse main
+file uses dataclass fallbacks (for example no user description or project
+descriptions), whereas a missing main file is initialized normally. Preferences
+that should survive removal of deployment configuration belong in the user’s
+main/local files.</p>
+<p>The deployment should atomically replace only its runtime file on
+startup; do not append repeatedly or rewrite the user’s main/local files.
+The config UI reports the defaults file separately while continuing to edit
+the main file; existing secret writes still target the local file.</p>
+<p>The runtime layer is read on configuration load/reload. Updated fragments affect
+new prompts and existing regeneration paths (for example conversation settings
+changes and model/tool changes). CLI <code class="docutils literal notranslate"><span class="pre">/model</span></code> and <code class="docutils literal notranslate"><span class="pre">/tools</span> <span class="pre">load</span></code> re-read user
+configuration before regenerating, preserving the active chat/project settings
+and loaded tools. Atomically replaced, removed, or disabled fragments therefore
+take effect without restarting the CLI. There is no file watcher or historical-log
+migration. Restarting the server alone does not rewrite a resumed conversation’s
+stored messages. Removing the runtime fragment is not immediate revocation of
+instructions already in a conversation.</p>
 </section>
 </section>
 <section id="project-config">
@@ -769,15 +933,15 @@ exposed through this shell adapter. Example:</p>
 <code class="docutils literal notranslate"><span class="pre">GPTME_WORKSPACE</span></code>, and the current <code class="docutils literal notranslate"><span class="pre">GPTME_MODEL</span></code> in their environment.
 A failure or timeout is logged and does not alter the session result.</p>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">settings</span></code>, a dictionary of project-local CLI defaults. <code class="docutils literal notranslate"><span class="pre">settings.gear</span></code> accepts the same 0-4 autonomy presets as <code class="docutils literal notranslate"><span class="pre">gptme</span> <span class="pre">--gear</span></code> and overrides the global <code class="docutils literal notranslate"><span class="pre">[settings].gear</span></code> default for conversations started in this workspace.</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">settings</span></code>, a dictionary of project-local CLI defaults. <code class="docutils literal notranslate"><span class="pre">settings.gear</span></code> accepts the same experimental 0-4 autonomy presets as <code class="docutils literal notranslate"><span class="pre">gptme</span> <span class="pre">--gear</span></code> and overrides the global <code class="docutils literal notranslate"><span class="pre">[settings].gear</span></code> default for conversations started in this workspace.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code class="docutils literal notranslate"><span class="pre">context_cmd</span></code> and project <code class="docutils literal notranslate"><span class="pre">hooks.scripts</span></code> commands are executed with shell
 interpretation. Review <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code> before running gptme in untrusted
-repositories. See <a class="reference internal" href="security.html"><span class="doc">Security Considerations</span></a> for details.</p>
+repositories. See <a class="reference internal" href="security.html"><span class="doc">Security</span></a> for details.</p>
 </div>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">rag</span></code>, a dictionary to configure the RAG tool. See <a class="reference internal" href="tools.html#rag"><span class="std std-ref">RAG</span></a> for more information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rag</span></code>, a dictionary to configure the RAG tool. See <a class="reference internal" href="tools/rag.html#rag"><span class="std std-ref">RAG</span></a> for more information.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">plugins</span></code>, a dictionary to configure plugins for this project. See <a class="reference internal" href="plugins.html"><span class="doc">Plugin System</span></a> for more information. Example:</p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[plugins]</span>
 <span class="n">paths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;./plugins&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~/.config/gptme/plugins&quot;</span><span class="p">]</span>
@@ -800,7 +964,7 @@ repositories. See <a class="reference internal" href="security.html"><span class
 <li><p><code class="docutils literal notranslate"><span class="pre">env</span></code>, a dictionary of environment variables to set for this project. These take precedence over global config but are overridden by shell environment variables.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">mcp</span></code>, MCP server configuration for this project. See <a class="reference internal" href="mcp.html#mcp"><span class="std std-ref">MCP</span></a> for more information.</p></li>
 </ul>
-<p>See <a class="reference internal" href="api.html#gptme.config.ProjectConfig" title="gptme.config.ProjectConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.ProjectConfig</span></code></a> for the API reference.</p>
+<p>See <a class="reference internal" href="api/config.html#gptme.config.ProjectConfig" title="gptme.config.ProjectConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.ProjectConfig</span></code></a> for the API reference.</p>
 <section id="local-overrides-gptme-local-toml">
 <span id="project-config-local"></span><h3>Local overrides (<code class="docutils literal notranslate"><span class="pre">gptme.local.toml</span></code>)<a class="headerlink" href="#local-overrides-gptme-local-toml" title="Link to this heading">#</a></h3>
 <p>You can create a <code class="docutils literal notranslate"><span class="pre">gptme.local.toml</span></code> file next to <code class="docutils literal notranslate"><span class="pre">gptme.toml</span></code> to override or extend the project config with values you don’t want to commit to version control (e.g. secrets for MCP servers, personal env vars).</p>
@@ -816,7 +980,7 @@ repositories. See <a class="reference internal" href="security.html"><span class
 <p>The chat configuration file stores configuration options for a particular chat.
 It is used to store the model, toolset, tool format, and streaming/interactive mode.</p>
 <p>The chat configuration file is stored as <code class="docutils literal notranslate"><span class="pre">config.toml</span></code> in the chat log directory (i.e. <code class="docutils literal notranslate"><span class="pre">~/.local/share/gptme/logs/2025-04-23-dancing-happy-walrus/config.toml</span></code>). It is automatically generated when a new chat is started and loaded when the chat is resumed, applying any overloaded options passed through the CLI.</p>
-<p>See <a class="reference internal" href="api.html#gptme.config.ChatConfig" title="gptme.config.ChatConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.ChatConfig</span></code></a> for the API reference.</p>
+<p>See <a class="reference internal" href="api/config.html#gptme.config.ChatConfig" title="gptme.config.ChatConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gptme.config.ChatConfig</span></code></a> for the API reference.</p>
 </section>
 <section id="environment-variables">
 <span id="id5"></span><h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading">#</a></h2>
@@ -837,6 +1001,10 @@ It is used to store the model, toolset, tool format, and streaming/interactive m
 <p class="rubric">API Configuration</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">LLM_API_TIMEOUT</span></code> - Set the timeout in seconds for LLM API requests (default: 600). Must be a valid numeric string (e.g., “600”, “1800”). Useful for local LLMs that may take longer to respond.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_LLM_MAX_RETRIES</span></code> - Number of attempts (including the first) for a failing LLM request (default: 11). Retries use exponential backoff capped at 60s per wait, giving a ~5 minute window so a brief upstream rate-limit or outage does not end a long session. Provider SDK-level retries are disabled so this is the only retry loop.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_THINKING_EFFORT</span></code> - Named reasoning effort level for reasoning models (default: unset, the provider default applies). Case-insensitive. Accepted levels depend on the provider that serves the request: Anthropic <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">xhigh</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>; OpenAI <code class="docutils literal notranslate"><span class="pre">none</span></code>, <code class="docutils literal notranslate"><span class="pre">minimal</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">xhigh</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>; OpenRouter <code class="docutils literal notranslate"><span class="pre">none</span></code>, <code class="docutils literal notranslate"><span class="pre">minimal</span></code>, <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">medium</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">xhigh</span></code>; Moonshot Kimi K3 <code class="docutils literal notranslate"><span class="pre">low</span></code>, <code class="docutils literal notranslate"><span class="pre">high</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>. Non-reasoning models and other providers ignore it; a level the active provider does not accept raises an error before the request is sent. The applied level is recorded on each assistant message as <code class="docutils literal notranslate"><span class="pre">metadata.reasoning_effort</span></code>. See <a class="reference internal" href="providers.html#reasoning-effort"><span class="std std-ref">Reasoning effort</span></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_REASONING_BUDGET</span></code> - Anthropic extended-thinking budget in tokens (default: 16000). Ignored when <code class="docutils literal notranslate"><span class="pre">GPTME_THINKING_EFFORT</span></code> is set.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GPTME_REASONING</span></code> - Force Anthropic extended thinking on (<code class="docutils literal notranslate"><span class="pre">1</span></code>) or off (<code class="docutils literal notranslate"><span class="pre">0</span></code>) regardless of the model default.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GPTME_ANTHROPIC_FAST_MODE</span></code> - Enable Anthropic fast mode for the Anthropic provider (default: false). When enabled, requests set <code class="docutils literal notranslate"><span class="pre">speed:</span> <span class="pre">&quot;fast&quot;</span></code> for up to ~2.5x higher output tokens/sec at premium pricing — a research preview available on Claude Opus 4.8+. Requires an org with fast-mode access; otherwise the API returns an error. Off by default, so it never affects standard usage. Useful for latency-sensitive callers (e.g. gptme-voice).</p></li>
 </ul>
 <p class="rubric">Browser Configuration</p>
@@ -893,20 +1061,20 @@ The variable name is derived from the parameter name in uppercase.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="tui.html"
+       href="howto/tts-setup.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">TUI</p>
+        <p class="prev-next-title">Set Up Text-to-Speech</p>
       </div>
     </a>
     <a class="right-next"
-       href="providers.html"
+       href="models.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Providers</p>
+        <p class="prev-next-title">Models</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -926,17 +1094,18 @@ The variable name is derived from the parameter name in uppercase.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global config</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#global-config">Global config</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-model-selection-works">How model selection works</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-overrides-config-local-toml">Local overrides (<code class="docutils literal notranslate"><span class="pre">config.local.toml</span></code>)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#runtime-defaults-and-prompt-fragments">Runtime defaults and prompt fragments</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-config">Project config</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-config">Project config</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-overrides-gptme-local-toml">Local overrides (<code class="docutils literal notranslate"><span class="pre">gptme.local.toml</span></code>)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chat-config">Chat config</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-conversation-context">Cross-Conversation Context</a></li>
 </ul>
 </li>

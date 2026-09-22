@@ -1,3 +1,5 @@
+:audience: developer
+
 Contributing
 ============
 
@@ -6,13 +8,14 @@ We welcome contributions to the project. Here is some information to get you sta
 .. note::
     This document is a work in progress. PRs are welcome.
 
-If you already have a change ready, read :doc:`pr-lifecycle` for the current
-pull-request flow: what automation runs, what maintainers look for, and the
-recent response/merge timings contributors can expect.
+- :doc:`pr-lifecycle` — the current pull-request flow: what automation runs,
+  what maintainers look for, and the response/merge timings contributors can expect.
 
-Looking to **add a new LLM provider**? See :doc:`provider-integration` for the
-dedicated guide covering plugin packages, custom provider configs, and built-in
-provider PRs.
+- :doc:`building` — build standalone executables with PyInstaller.
+
+- Looking to **add a new LLM provider**? See :doc:`providers-integration` for
+  the dedicated guide covering plugin packages, custom provider configs, and
+  built-in provider PRs.
 
 Install
 -------
@@ -36,6 +39,36 @@ You can now start ``gptme`` from your development environment using the regular 
 
 You can also install it in editable mode with ``pipx`` using ``pipx install -e .`` which will let you use your development version of gptme regardless of venv.
 
+Keeping your environment in sync
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``poetry.lock`` pins the toolchain, and ``.pre-commit-config.yaml`` pins the
+hook versions separately. A virtualenv that has drifted from the lockfile will
+disagree with CI, usually in confusing ways:
+
+- ``make lint`` reports errors CI does not have, or misses errors CI finds —
+  most often a lint rule that was added or removed between versions.
+- ``pre-commit`` keeps reformatting a file you just formatted, and the commit
+  aborts every time with "files were modified by this hook".
+
+Run ``poetry install`` before concluding that a lint or test result is a
+problem with the repository, and check the version you are actually reasoning
+about:
+
+.. code-block:: bash
+
+   poetry install
+   poetry run ruff --version   # must match poetry.lock
+
+Two things worth knowing when this happens:
+
+- **Let the hooks own formatting.** Do not run a formatter yourself and then
+  commit. If your version differs from the pinned hook's, the two rewrite each
+  other's output and every commit fails.
+- **A commit rejected by a hook does not exist.** The hook output scrolls past
+  and a subsequent ``git push`` succeeds while pushing nothing. Check
+  ``git log -1`` before reporting a commit as made.
+
 Tests
 -----
 
@@ -46,6 +79,88 @@ Some tests make LLM calls, which might take a while and so are not run by defaul
 There are also some integration tests in ``./tests/test-integration.sh`` which are used to manually test more complex tasks.
 
 There is also the :doc:`evals`.
+
+Documentation
+-------------
+
+The docs are built with Sphinx from ``docs/`` (reStructuredText and MyST
+Markdown). Build them locally with ``make docs``; CI treats warnings as errors.
+
+Target audience
+~~~~~~~~~~~~~~~
+
+Every page declares who it is written for, as file-wide metadata at the very
+top of the file (before any label or title):
+
+.. code-block:: rst
+
+   :audience: user
+
+   Page Title
+   ==========
+
+In Markdown pages, use front matter:
+
+.. code-block:: markdown
+
+   ---
+   audience: power-user
+   ---
+
+   # Page Title
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 80
+
+   * - Audience
+     - Written for
+   * - ``user``
+     - Anyone using gptme. Task- and outcome-focused; links to other pages for
+       configuration details and internals.
+   * - ``power-user``
+     - Users configuring, automating, or integrating gptme: config keys,
+       environment variables, provider specifics, edge cases.
+   * - ``developer``
+     - Contributors to gptme and authors of plugins, tools, and providers:
+       internals, APIs, code paths, design rationale.
+
+The build warns (and CI fails) when a page lacks a valid audience. Keep content
+at the page's level: put power-user or developer detail on a more technical page
+and link to it. Reviewers should flag content that doesn't match the page's audience.
+
+Page structure
+~~~~~~~~~~~~~~
+
+The left sidebar lists pages; the right sidebar lists the headings of the
+current page. Structure pages so both stay useful:
+
+- **Hub pages** give a short overview and list their subpages near the top,
+  with a brief descriptive list and a ``:hidden:`` toctree in the same place.
+  Subpages then appear nested under the hub in the left sidebar.
+
+- **Leaf pages** hold the content, have no toctree, and keep headings shallow
+  (ideally two levels below the title), so the right sidebar reads as an outline.
+
+- If a section should be reachable from the left sidebar, make it a subpage
+  rather than a heading.
+
+- Only nest a page under a hub whose content is an overview of its subpages.
+  Don't nest a single related page under a content-heavy page: the sidebar
+  then suggests that page is the parent's only subtopic. Link to it instead,
+  and place it as a sibling.
+
+- Don't add ``.. contents::`` directives; the right sidebar already shows the
+  page outline.
+
+- When moving or renaming a page, leave an ``:orphan:`` redirect stub at the old
+  path (see ``docs/custom-providers.rst``) so external links keep working.
+
+To see the structure as readers do, build the docs and run ``make docs-structure``:
+it prints the left-sidebar tree with each page's headings. ``make docs`` also runs
+``scripts/docs_structure.py --check``, which fails on broken sidebar links or pages
+without a single title, and warns about skipped heading levels, overly deep or
+duplicate headings, and content-heavy pages with a lone subpage.
 
 Telemetry
 ---------

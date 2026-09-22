@@ -1,3 +1,5 @@
+:audience: power-user
+
 Configuration
 =============
 
@@ -87,6 +89,9 @@ The ``prompt`` section contains options included in both interactive and non-int
 
 - ``files``: A list of additional files to always include in context. Supports absolute paths, ``~`` expansion, and paths relative to the config directory.
 - ``project``: A table of project descriptions, keyed by project name, included when working in the matching Git repository. The default config includes descriptions for ``activitywatch`` and ``gptme`` — when the git root directory name matches one of these keys, the description is automatically injected into the system prompt.
+- ``fragments``: A table of named, additive system-prompt text, described in
+  :ref:`global-config-runtime`. These sections do not replace user preferences,
+  workspace files, profiles, or a conversation's custom system prompt.
 
 The ``env`` section contains environment variables that gptme will fall back to if they are not set in the shell environment. This is useful for setting the default model and API keys for :doc:`providers`. It can also be used to set default tool configuration options, see :doc:`custom_tool` for more information.
 
@@ -98,7 +103,7 @@ The ``env`` section contains environment variables that gptme will fall back to 
 
 The ``settings`` section contains user-level CLI defaults. Currently supported:
 
-- ``gear``: Default autonomy preset for new conversations. Gear ``0`` is read-only
+- ``gear``: Default autonomy preset for new conversations (experimental). Gear ``0`` is read-only
   observe mode, gear ``1`` is the interactive default, gear ``2`` allows file edits
   while excluding shell/network tools by default, gear ``3`` is fully autonomous,
   and gear ``4`` adds subagent orchestration.
@@ -113,13 +118,21 @@ The ``settings`` section contains user-level CLI defaults. Currently supported:
 How model selection works
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you start gptme, the model is resolved in this priority order:
+When you start gptme, the model is resolved in this priority order. The layers
+run from most specific (this one command) to most general (your global config):
 
 1. ``--model`` / ``-m`` CLI flag (highest priority, per-session)
 2. Per-chat model saved with ``/model`` — persists across session resumes
-3. ``[models].default`` in your global config
-4. ``MODEL`` env var (in shell or ``[env]`` section of config)
-5. Auto-detection based on which API keys are configured
+3. ``MODEL`` / ``GPTME_MODEL`` env var set in your shell
+4. ``[env].MODEL`` in the chat's own config
+5. ``[env].MODEL`` in the project's ``gptme.toml``
+6. ``[models].default`` in your global config
+7. ``[env].MODEL`` in your global config
+8. Auto-detection based on which API keys are configured
+
+So a variable exported for one command, or a model pinned by a project's
+``gptme.toml``, wins over the global default — while ``[models].default`` still
+wins over ``[env].MODEL`` set in that *same* global config.
 
 **Setting a permanent default model:**
 
@@ -162,7 +175,7 @@ If no model is configured, gptme will scan your API keys and pick the first avai
 
 So if you have both ``ANTHROPIC_API_KEY`` and ``GROQ_API_KEY`` set, gptme will
 use Anthropic (earlier in the list) unless you override with ``MODEL`` or ``--model``.
-See :doc:`providers` for the full list and the :doc:`evals` page for model recommendations.
+See :doc:`providers` for the full list and :doc:`models` for model recommendations.
 
 **Using multiple providers:**
 
@@ -195,7 +208,7 @@ the ``local/`` prefix — it does not affect OpenAI, Anthropic, or other provide
 
 The ``models`` section configures model selection preferences:
 
-- ``default``: The default chat model, as a fully-qualified model ID (e.g. ``"anthropic/claude-sonnet-4-6"``). A formal alternative to the ``MODEL`` env var; ``models.default`` takes precedence over the ``MODEL`` env var (and ``[env].MODEL`` in the config file), but is itself overridden by an explicit per-chat model or the ``--model`` CLI flag.
+- ``default``: The default chat model, as a fully-qualified model ID (e.g. ``"anthropic/claude-sonnet-4-6"``). A formal alternative to ``[env].MODEL`` in the same config file, which it takes precedence over. It is overridden by anything more specific: the ``--model`` CLI flag, a per-chat model, a ``MODEL`` env var in your shell, or ``[env].MODEL`` in a project's ``gptme.toml``. See :ref:`how-model-selection-works`.
 - ``favorites``: A list of fully-qualified model IDs (e.g. ``["anthropic/claude-sonnet-4-6", "openai/gpt-4o"]``) curated by the user. These are surfaced prominently in model pickers such as the web UI model selector.
 
 If you want to configure MCP servers, you can do so in a ``mcp`` section. See :ref:`mcp` for more information.
@@ -223,6 +236,93 @@ Example ``config.local.toml``:
     env = { API_KEY = "secret-key" }
 
 Values in ``config.local.toml`` are merged into the main config: dictionary sections are merged recursively, and MCP servers are merged by name (so you can define the server command/args in ``config.toml`` and add secrets in ``config.local.toml``). Scalar values in the local file override the main file.
+
+.. _global-config-runtime:
+
+Runtime defaults and prompt fragments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Deployments can provide an optional ``config.runtime.toml`` alongside the main
+and local files. This is a generic operator-owned defaults layer, not a
+cloud-specific switch or an enforcement policy. File precedence, lowest to
+highest, is:
+
+1. ``config.runtime.toml`` (deployment defaults)
+2. ``config.toml`` (user preferences)
+3. ``config.local.toml`` (user's local overrides/secrets)
+
+While the runtime file is present, built-in defaults form a lower-priority,
+in-memory baseline. A preview-only runtime file therefore retains the standard
+user guidance and project descriptions. Explicit values, including empty strings
+and lists, still override defaults; legacy ``[prompt]`` user preferences retain
+their existing fallback behavior.
+
+Existing process-environment, project, chat, and CLI resolution rules are
+unchanged. Dictionaries merge recursively; MCP servers and providers merge by
+name. Other lists and scalar values are replaced by the higher-priority layer,
+not concatenated. In particular, do not use deployment ``prompt.files`` to append
+to a user's file list.
+
+For additive instructions, use named fragments instead:
+
+.. code-block:: toml
+
+    # config.runtime.toml, written by the deployment
+    [prompt.fragments]
+    deployment = "This environment provides an authenticated app preview."
+
+Other keys in the user's ``[prompt.fragments]`` coexist with that fragment.
+To override or disable just the deployment fragment, set the same key in
+``config.toml`` or ``config.local.toml``:
+
+.. code-block:: toml
+
+    [prompt.fragments]
+    deployment = ""  # Disable this fragment, without changing the runtime file
+    personal = "Keep explanations concise."
+
+Fragment values must be strings; names must match
+``[A-Za-z0-9][A-Za-z0-9_.-]*``. Nonblank fragments become
+named ``prompt_fragment:<name>`` sections, sorted by name, before dynamic context
+and the cache boundary. They participate in prompt statistics and the same
+generation/pinning mechanism as other system instructions. They work with full,
+short, custom, and selective prompts without depending on a workspace or tools.
+``include_user_context=False`` and ``prompt="none"`` suppress these optional
+fragments.
+
+These global fragments apply to all prompt-builder callers in the configured
+environment, including CLI and server conversations. Interface-specific text
+should describe its prerequisites rather than assume every caller is the webui.
+An absent runtime file and empty fragment mapping leave ordinary local
+installations unchanged. See :ref:`server-preview-guidance` for an app-preview
+example using the existing webui panel protocol.
+
+gptme never creates, edits, or removes the runtime file and never copies its
+contents into user configuration or ``ChatConfig.system_prompt``. An invalid or
+unreadable runtime file reports an error rather than silently disabling its
+defaults. If the main file is absent while runtime defaults are present, gptme
+creates an empty main file, so generated user settings do not override deployment
+defaults. This does not persist built-in defaults into that file either. Removing
+the runtime file restores ordinary no-runtime loading: an existing sparse main
+file uses dataclass fallbacks (for example no user description or project
+descriptions), whereas a missing main file is initialized normally. Preferences
+that should survive removal of deployment configuration belong in the user's
+main/local files.
+
+The deployment should atomically replace only its runtime file on
+startup; do not append repeatedly or rewrite the user's main/local files.
+The config UI reports the defaults file separately while continuing to edit
+the main file; existing secret writes still target the local file.
+
+The runtime layer is read on configuration load/reload. Updated fragments affect
+new prompts and existing regeneration paths (for example conversation settings
+changes and model/tool changes). CLI ``/model`` and ``/tools load`` re-read user
+configuration before regenerating, preserving the active chat/project settings
+and loaded tools. Atomically replaced, removed, or disabled fragments therefore
+take effect without restarting the CLI. There is no file watcher or historical-log
+migration. Restarting the server alone does not rewrite a resumed conversation's
+stored messages. Removing the runtime fragment is not immediate revocation of
+instructions already in a conversation.
 
 .. _project-config:
 
@@ -272,7 +372,7 @@ This file currently supports a few options:
   ``GPTME_WORKSPACE``, and the current ``GPTME_MODEL`` in their environment.
   A failure or timeout is logged and does not alter the session result.
 
-- ``settings``, a dictionary of project-local CLI defaults. ``settings.gear`` accepts the same 0-4 autonomy presets as ``gptme --gear`` and overrides the global ``[settings].gear`` default for conversations started in this workspace.
+- ``settings``, a dictionary of project-local CLI defaults. ``settings.gear`` accepts the same experimental 0-4 autonomy presets as ``gptme --gear`` and overrides the global ``[settings].gear`` default for conversations started in this workspace.
 
   .. warning::
 
@@ -356,6 +456,10 @@ Besides the configuration files, gptme supports several environment variables to
 .. rubric:: API Configuration
 
 - ``LLM_API_TIMEOUT`` - Set the timeout in seconds for LLM API requests (default: 600). Must be a valid numeric string (e.g., "600", "1800"). Useful for local LLMs that may take longer to respond.
+- ``GPTME_LLM_MAX_RETRIES`` - Number of attempts (including the first) for a failing LLM request (default: 11). Retries use exponential backoff capped at 60s per wait, giving a ~5 minute window so a brief upstream rate-limit or outage does not end a long session. Provider SDK-level retries are disabled so this is the only retry loop.
+- ``GPTME_THINKING_EFFORT`` - Named reasoning effort level for reasoning models (default: unset, the provider default applies). Case-insensitive. Accepted levels depend on the provider that serves the request: Anthropic ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenAI ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenRouter ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``; Moonshot Kimi K3 ``low``, ``high``, ``max``. Non-reasoning models and other providers ignore it; a level the active provider does not accept raises an error before the request is sent. The applied level is recorded on each assistant message as ``metadata.reasoning_effort``. See :ref:`reasoning-effort`.
+- ``GPTME_REASONING_BUDGET`` - Anthropic extended-thinking budget in tokens (default: 16000). Ignored when ``GPTME_THINKING_EFFORT`` is set.
+- ``GPTME_REASONING`` - Force Anthropic extended thinking on (``1``) or off (``0``) regardless of the model default.
 - ``GPTME_ANTHROPIC_FAST_MODE`` - Enable Anthropic fast mode for the Anthropic provider (default: false). When enabled, requests set ``speed: "fast"`` for up to ~2.5x higher output tokens/sec at premium pricing — a research preview available on Claude Opus 4.8+. Requires an org with fast-mode access; otherwise the API returns an error. Off by default, so it never affects standard usage. Useful for latency-sensitive callers (e.g. gptme-voice).
 
 .. rubric:: Browser Configuration
