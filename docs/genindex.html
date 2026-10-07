@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="./" >
+<html lang="en" data-content_root="./" data-theme="auto">
 
   <head>
     <meta charset="utf-8" />
@@ -12,37 +12,42 @@
   
   
   <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=4418a689" />
+    <link rel="stylesheet" type="text/css" href="_static/asciinema-player_3.12.1.css?v=ab443ba2" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css?v=3a28e17f" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/asciinema-player_3.12.1.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/asciinema-player_3.12.1.js?v=a76e5cb3"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -399,40 +404,37 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://gptme.org/docs/genindex.html" />
     <link rel="icon" href="_static/logo.png"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="auto">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -440,7 +442,6 @@ window.runMermaid = runMermaid;</script>
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -448,15 +449,55 @@ window.runMermaid = runMermaid;</script>
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
     </header>
   
 
@@ -467,7 +508,8 @@ window.runMermaid = runMermaid;</script>
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -497,21 +539,17 @@ window.runMermaid = runMermaid;</script>
     
     
     <img src="_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="gptme - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
@@ -556,6 +594,8 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l2"><a class="reference internal" href="tools/patch.html">Patch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/morph.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/hashline-edit.html">Hashline Edit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/patch-many.html">Patch many</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/convert.html">Convert</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/python.html">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/shell.html">Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/gh.html">GitHub (gh)</a></li>
@@ -576,8 +616,12 @@ window.runMermaid = runMermaid;</script>
 <li class="toctree-l2"><a class="reference internal" href="tools/restart.html">Restart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/vent.html">Vent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/request-tool-change.html">Request Tool Change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/watch.html">Watch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/progress.html">Progress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/clarify.html">Clarify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/lessons.html">Lessons</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/todo.html">Todo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/memory.html">Memory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tools/mcp.html">MCP</a></li>
 </ul>
 </details></li>
@@ -747,9 +791,14 @@ window.runMermaid = runMermaid;</script>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -799,7 +848,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -813,24 +862,23 @@ window.runMermaid = runMermaid;</script>
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -921,6 +969,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    --allow-hosts
+
+      <ul>
+        <li><a href="cli/gptme.html#cmdoption-gptme-allow-hosts">gptme command line option</a>
+</li>
+      </ul></li>
+      <li>
     --allowed-hosts
 
       <ul>
@@ -983,6 +1038,13 @@ document.write(`
 
       <ul>
         <li><a href="cli/gptme.html#cmdoption-gptme-context">gptme command line option</a>
+</li>
+      </ul></li>
+      <li>
+    --context-budget
+
+      <ul>
+        <li><a href="cli/gptme.html#cmdoption-gptme-context-budget">gptme command line option</a>
 </li>
       </ul></li>
       <li>
@@ -1517,6 +1579,8 @@ document.write(`
         <li><a href="cli/evaluation.html#cmdoption-gptme-eval-p">gptme-eval command line option</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     --path
 
@@ -1526,8 +1590,6 @@ document.write(`
         <li><a href="cli/gptme-util.html#cmdoption-gptme-util-context-tree-path">gptme-util-context-tree command line option</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     --platform
 
@@ -2154,6 +2216,8 @@ document.write(`
 </li>
         <li><a href="api/config.html#gptme.config.MCPServerConfig.__init__">(gptme.config.MCPServerConfig method)</a>
 </li>
+        <li><a href="api/config.html#gptme.config.ModelConfig.__init__">(gptme.config.ModelConfig method)</a>
+</li>
         <li><a href="api/config.html#gptme.config.ModelsConfig.__init__">(gptme.config.ModelsConfig method)</a>
 </li>
         <li><a href="api/config.html#gptme.config.PluginsConfig.__init__">(gptme.config.PluginsConfig method)</a>
@@ -2275,6 +2339,12 @@ document.write(`
 </li>
       <li><a href="api/core.html#gptme.codeblock.Codeblock">Codeblock (class in gptme.codeblock)</a>
 </li>
+      <li><a href="api/config.html#gptme.config.AgentConfig.color">color (gptme.config.AgentConfig attribute)</a>
+
+      <ul>
+        <li><a href="api/config.html#gptme.config.UserIdentityConfig.color">(gptme.config.UserIdentityConfig attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/commands.html#gptme.commands.command">command() (in module gptme.commands)</a>
 </li>
       <li><a href="api/commands.html#gptme.commands.CommandContext">CommandContext (class in gptme.commands)</a>
@@ -2289,10 +2359,10 @@ document.write(`
         <li><a href="context-compression.html#gptme.tools.autocompact.context_provider.DefaultContextProvider.compress">(gptme.tools.autocompact.context_provider.DefaultContextProvider method)</a>
 </li>
       </ul></li>
-      <li><a href="context-compression.html#gptme.tools.autocompact.context_provider.CompressionConfig">CompressionConfig (class in gptme.tools.autocompact.context_provider)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="context-compression.html#gptme.tools.autocompact.context_provider.CompressionConfig">CompressionConfig (class in gptme.tools.autocompact.context_provider)</a>
+</li>
       <li><a href="api/config.html#gptme.config.compute_shell_hash">compute_shell_hash() (in module gptme.config)</a>
 </li>
       <li><a href="api/core.html#gptme.message.Message.concat">concat() (gptme.message.Message method)</a>
@@ -2521,7 +2591,11 @@ document.write(`
 </li>
         <li><a href="cli/gptme.html#cmdoption-gptme-agent-profile">--agent-profile</a>
 </li>
+        <li><a href="cli/gptme.html#cmdoption-gptme-allow-hosts">--allow-hosts</a>
+</li>
         <li><a href="cli/gptme.html#cmdoption-gptme-context">--context</a>
+</li>
+        <li><a href="cli/gptme.html#cmdoption-gptme-context-budget">--context-budget</a>
 </li>
         <li><a href="cli/gptme.html#cmdoption-gptme-m">--model</a>
 </li>
@@ -3154,6 +3228,8 @@ document.write(`
 </li>
         <li><a href="cli/gptme-tui.html#cmdoption-gptme-tui-w">-w</a>
 </li>
+        <li><a href="cli/gptme-tui.html#cmdoption-gptme-tui-arg-PROMPTS">PROMPTS</a>
+</li>
       </ul></li>
       <li>
     gptme-tutorial command line option
@@ -3534,6 +3610,8 @@ document.write(`
 </li>
       <li><a href="api/config.html#gptme.config.MCPServerConfig.is_http">is_http (gptme.config.MCPServerConfig property)</a>
 </li>
+      <li><a href="api/llm.html#gptme.llm.is_llm_reply_error">is_llm_reply_error() (in module gptme.llm)</a>
+</li>
       <li><a href="api/llm.html#gptme.llm.is_provider_error">is_provider_error() (in module gptme.llm)</a>
 </li>
       <li><a href="api/tools.html#gptme.tools.ToolSpec.is_runnable">is_runnable (gptme.tools.ToolSpec property)</a>
@@ -3638,6 +3716,8 @@ document.write(`
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/llm.html#gptme.llm.models.model_to_dict">model_to_dict() (in module gptme.llm.models)</a>
+</li>
+      <li><a href="api/config.html#gptme.config.ModelConfig">ModelConfig (class in gptme.config)</a>
 </li>
       <li><a href="api/llm.html#gptme.llm.models.ModelMeta">ModelMeta (class in gptme.llm.models)</a>
 </li>
@@ -3760,6 +3840,8 @@ document.write(`
 </li>
       <li><a href="api/core.html#gptme.logmanager.prepare_messages">prepare_messages() (in module gptme.logmanager)</a>
 </li>
+      <li><a href="api/tools.html#gptme.tools.ToolUse.preview_content">preview_content (gptme.tools.ToolUse property)</a>
+</li>
       <li><a href="api/core.html#gptme.logmanager.Log.print">print() (gptme.logmanager.Log method)</a>
 </li>
       <li><a href="api/profiles.html#gptme.profiles.Profile">Profile (class in gptme.profiles)</a>
@@ -3808,6 +3890,8 @@ document.write(`
 
       <ul>
         <li><a href="cli/gptme.html#cmdoption-gptme-arg-PROMPTS">gptme command line option</a>
+</li>
+        <li><a href="cli/gptme-tui.html#cmdoption-gptme-tui-arg-PROMPTS">gptme-tui command line option</a>
 </li>
       </ul></li>
       <li><a href="api/prompts.html#gptme.prompts.PromptSectionStat">PromptSectionStat (class in gptme.prompts)</a>
@@ -3930,6 +4014,8 @@ document.write(`
 </li>
       <li><a href="api/config.html#gptme.config.set_config_value">set_config_value() (in module gptme.config)</a>
 </li>
+      <li><a href="api/tools.html#gptme.tools.set_tool_format">set_tool_format() (in module gptme.tools)</a>
+</li>
       <li><a href="api/config.html#gptme.config.SettingsConfig">SettingsConfig (class in gptme.config)</a>
 </li>
       <li><a href="api/config.html#gptme.config.setup_config_from_cli">setup_config_from_cli() (in module gptme.config)</a>
@@ -4018,22 +4104,26 @@ document.write(`
 </li>
       <li><a href="api/tools.html#gptme.tools.ToolUse">ToolUse (class in gptme.tools)</a>
 </li>
+      <li><a href="context-compression.html#gptme.tools.autocompact.context_provider.CompressionConfig.trim_target_ratio">trim_target_ratio (gptme.tools.autocompact.context_provider.CompressionConfig attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/core.html#gptme.message.Message.ui_only">ui_only (gptme.message.Message attribute)</a>
+</li>
       <li><a href="api/core.html#gptme.logmanager.LogManager.undo">undo() (gptme.logmanager.LogManager method)</a>
 </li>
       <li><a href="api/commands.html#gptme.commands.unregister_command">unregister_command() (in module gptme.commands)</a>
 </li>
       <li><a href="api/memory.html#gptme.memory.update_index_line">update_index_line() (in module gptme.memory)</a>
 </li>
-      <li><a href="api/config.html#gptme.config.AgentConfig.urls">urls (gptme.config.AgentConfig attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/config.html#gptme.config.AgentConfig.urls">urls (gptme.config.AgentConfig attribute)</a>
+</li>
       <li><a href="api/prompts.html#gptme.prompts.use_chat_history_context">use_chat_history_context() (in module gptme.prompts)</a>
 </li>
       <li><a href="api/config.html#gptme.config.UserConfig">UserConfig (class in gptme.config)</a>
@@ -4129,8 +4219,8 @@ By Erik Bjäreholt
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>

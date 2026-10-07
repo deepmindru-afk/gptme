@@ -29,6 +29,7 @@ Here is an example:
     about = "I am a curious human programmer."
     response_preference = "Basic concepts don't need to be explained."
     avatar = "~/Pictures/avatar.jpg"  # Path to avatar image (or URL)
+    color = "magenta"  # Color for your name in the CLI and TUI
 
     [prompt]
     # Additional files to always include in context
@@ -80,6 +81,7 @@ The ``user`` section configures user identity:
 - ``about``: A description of yourself, included in the system prompt so the assistant knows who it's talking to (default: ``"I am a curious human programmer."``).
 - ``response_preference``: Preferences for how the assistant should respond (e.g. level of detail, default: ``"Basic concepts don't need to be explained."``).
 - ``avatar``: Path to your avatar image (supports ``~`` expansion) or URL. Displayed in the web UI next to your messages.
+- ``color``: Color for your name in the CLI and TUI: hex (``"#e5a50a"``), ``"rgb(229,165,10)"``, or a color name. An invalid value is ignored with a warning (default: green).
 
 .. note::
 
@@ -336,6 +338,23 @@ This file currently supports a few options:
 
 - ``files``, a list of paths that gptme will always include in the context. If no ``gptme.toml`` is present or if the ``files`` option is unset, gptme will automatically look for common project files, such as: ``README.md``, ``pyproject.toml``, ``package.json``, ``Cargo.toml``, ``Makefile``, ``.cursor/rules/**.mdc``, ``CLAUDE.md``, ``GEMINI.md``.
 - ``prompt``, a string that will be included in the system prompt with a ``# Current Project`` header.
+- ``exclude``, a list of glob patterns for files to drop from the context file list. Each pattern is matched against both the file name and its path relative to the workspace, and applies to context files from ``files``, auto-detected project files, and user-configured files. :ref:`Agent instruction files <agent-instruction-files>` such as ``AGENTS.md`` are loaded separately and are not filtered.
+- ``system``, the system prompt variant: ``"full"`` (default) or ``"short"`` (a compact prompt with roughly 60% fewer tokens). An explicitly passed ``--system`` CLI flag takes precedence.
+
+  ``exclude`` and ``system`` are only read from the ``[prompt]`` table form of the
+  config. That form nests *all* prompt options instead of placing them at the top
+  level, and the two forms are mutually exclusive: when a ``[prompt]`` table is
+  present, ``files``, ``prompt``, ``base_prompt``, and ``context_cmd`` must be
+  nested inside it too. A top-level ``files`` alongside a ``[prompt]`` table is
+  ignored with an "Unknown keys" warning.
+
+  .. code-block:: toml
+
+      [prompt]
+      prompt = "This is gptme."
+      files = ["README.md", "docs/**/*.rst"]
+      exclude = ["CHANGELOG.md", "docs/releases/*"]
+      system = "short"
 - ``base_prompt``, a string that will be used as the base prompt for the project. This will override the global base prompt ("You are gptme v{__version__}, a general-purpose AI assistant powered by LLMs. [...]"). It can be useful to change the identity of the assistant and override some default behaviors.
 - ``context_cmd``, a command used to generate context to include when constructing the system prompt. The command will be run in the workspace root and should output a string that will be included in the system prompt. Examples can be ``git status -v`` or ``scripts/context.sh``. For new conversations where the first user message is known at context-construction time, it is available in the ``GPTME_PROMPT_INITIAL`` environment variable, enabling query-dependent retrieval without interpolating untrusted prompt text into the shell command. The variable is unset when no initial prompt exists or when it exceeds the safe process-environment size. For example, ``context_cmd = 'my-retriever --query-env GPTME_PROMPT_INITIAL'`` lets a retriever read the query directly from its process environment.
 - ``hooks.scripts``, a list of bounded shell commands attached to lifecycle events.
@@ -383,14 +402,50 @@ This file currently supports a few options:
       [agent]
       name = "Bob"
       avatar = "assets/avatar.png"  # Path to avatar image (relative to workspace)
+      color = "#e5a50a"  # Color for the agent's name in the CLI and TUI
 
   Options:
 
   - ``name``: The agent's name, used in system prompts and identification.
   - ``avatar``: Path to an avatar image (relative to workspace) or URL. Used by gptme-webui, gptme-server, and multi-agent UIs to display the agent's profile picture.
+  - ``color``: Color for the agent's name (and message border in the TUI): hex, ``"rgb(r,g,b)"``, or a color name. ``GPTME_AGENT_COLOR`` overrides it. An invalid value is ignored with a warning.
 
 - ``env``, a dictionary of environment variables to set for this project. These take precedence over global config but are overridden by shell environment variables.
 - ``mcp``, MCP server configuration for this project. See :ref:`mcp` for more information.
+- ``lessons``, extra lesson directories for this project. Relative paths are resolved against the directory gptme is started from (normally the workspace root). ``~`` is not expanded here, and missing directories are skipped silently. See :doc:`lessons` for the lesson format. Example:
+
+  .. code-block:: toml
+
+      [lessons]
+      dirs = ["lessons", "/opt/shared-lessons"]
+
+- ``subagent``, subagent execution settings. ``max_concurrent`` caps how many subagents run at once; excess subagents queue until a slot frees up. Resolution order: the ``GPTME_SUBAGENT_MAX_CONCURRENT`` environment variable, then this setting, then ``min(8, cpu_count)``. Example:
+
+  .. code-block:: toml
+
+      [subagent]
+      max_concurrent = 4
+
+- ``context``, context management settings. ``budget`` sets when compaction triggers, as a fraction of the model context window (``0 < x <= 1``) or an absolute token count; see :doc:`context-compression` for how it layers with the CLI flag, environment variable, and per-model config. ``enabled`` turns on fresh context mode (default ``false``; it replaces ``GPTME_FRESH``, and takes precedence over it whenever a project config is present), ``[context.selector]`` tunes how relevant files are selected, and ``scout_model`` names a cheap model that picks relevant files before each user turn (unset disables the pre-pass). Example:
+
+  .. code-block:: toml
+
+      [context]
+      budget = 0.85
+      enabled = true
+      scout_model = "openai/gpt-4.1-mini"
+
+      [context.selector]
+      strategy = "hybrid"  # "rule", "llm" or "hybrid"
+      max_candidates = 20
+      max_selected = 5
+
+- ``plugin``, per-plugin configuration under ``[plugin.<name>]`` tables. gptme passes these through without validation; each plugin reads its own table from ``config.project.plugin`` (and ``config.user.plugin`` for the global config). Example:
+
+  .. code-block:: toml
+
+      [plugin.my_project_plugin]
+      api_url = "http://localhost:8080"
 
 See :class:`gptme.config.ProjectConfig` for the API reference.
 
@@ -406,6 +461,48 @@ The merging behavior is the same as for the :ref:`global local config <global-co
 .. tip::
 
     Add ``gptme.local.toml`` to your ``.gitignore`` to keep secrets out of version control.
+
+.. _agent-instruction-files:
+
+Agent instruction files (``AGENTS.md``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+At startup, gptme loads agent instruction files (``AGENTS.md``, ``CLAUDE.md``,
+``COPILOT.md``, ``GEMINI.md``, ``.github/copilot-instructions.md``,
+``.cursorrules``, ``.windsurfrules``) from ``~/.config/gptme/`` and from every
+directory between your home directory and the workspace, most general first.
+
+During a session, instructions follow you: when the working directory changes
+(for example after a ``cd`` in the shell tool), or a file tool reads or writes a
+path in another directory, gptme loads any instruction files for that directory
+that are not in context yet. This way a subdirectory or another project's own
+rules apply when the assistant works there. Each load adds a short visible line
+naming the file, such as ``Loaded agent instructions from ~/proj/AGENTS.md``.
+
+There is one exception. Instruction files inside a different
+:doc:`agent <agents>` workspace are never loaded mid-session. An agent workspace
+is a directory whose ``gptme.toml`` has an ``[agent]`` section, and its
+``AGENTS.md`` usually defines that agent's identity. Loading it because of a
+``cd`` would hand the session another agent's persona and rules. Instead, gptme
+adds a short notice, once per workspace:
+
+.. code-block:: text
+
+    Entered ~/alice, which is agent workspace 'Alice'; its instructions were not
+    loaded (it defines a different agent identity than this session's 'Bob'). ...
+
+The rule:
+
+- A workspace belongs to the session when it is the session workspace, the
+  session's agent workspace, a parent directory of either, or declares the
+  same agent name (for example a worktree or clone of the same agent).
+- Any other agent workspace is foreign, including every agent workspace when
+  the session itself is not an agent. Files anywhere inside a foreign workspace,
+  including nested projects, are skipped.
+- Directories without an agent ``gptme.toml`` keep loading as usual.
+
+To work with another agent's rules deliberately, read its ``AGENTS.md``
+explicitly, or start a session in that workspace.
 
 
 .. _chat-config:
@@ -439,12 +536,15 @@ Besides the configuration files, gptme supports several environment variables to
 - ``GPTME_BREAK_ON_TOOLUSE`` - Interrupt generation when tool use occurs in stream. Default is model-dependent: ``false`` for capable models that support parallel tool calls (e.g. claude-sonnet-4-6, gpt-4o), ``true`` for others. Set to ``0`` to force parallel tool calls, ``1`` to force single tool call per response.
 - ``GPTME_PATCH_RECOVERY`` - Return file content in error for non-matching patches (default: false)
 - ``GPTME_SUGGEST_LLM`` - Enable LLM-powered prompt completion (default: false)
+- ``GPTME_TUI_DISPLAY_THINKING`` - Show model thinking in the :doc:`TUI <tui>` at startup (default: false; toggle at runtime with ``/display thinking``). Display only; does not affect reasoning.
+- ``GPTME_TUI_DISPLAY_HIDDEN`` - Show hidden messages (sent to the model but normally not displayed, e.g. token/time notices) in the :doc:`TUI <tui>` at startup (default: false; toggle at runtime with ``/display hidden``)
+- ``GPTME_TUI_DISPLAY_HIGHLIGHT`` - Syntax-highlight commands in tool-call titles and output summaries in the :doc:`TUI <tui>` (default: true; toggle at runtime with ``/display highlight``)
 
 .. rubric:: API Configuration
 
 - ``LLM_API_TIMEOUT`` - Set the timeout in seconds for LLM API requests (default: 600). Must be a valid numeric string (e.g., "600", "1800"). Useful for local LLMs that may take longer to respond.
 - ``GPTME_LLM_MAX_RETRIES`` - Number of attempts (including the first) for a failing LLM request (default: 11). Retries use exponential backoff capped at 60s per wait, giving a ~5 minute window so a brief upstream rate-limit or outage does not end a long session. Provider SDK-level retries are disabled so this is the only retry loop.
-- ``GPTME_THINKING_EFFORT`` - Named reasoning effort level for reasoning models (default: unset, the provider default applies). Case-insensitive. Accepted levels depend on the provider that serves the request: Anthropic ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenAI ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenRouter ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``; Moonshot Kimi K3 ``low``, ``high``, ``max``. Non-reasoning models and other providers ignore it; a level the active provider does not accept raises an error before the request is sent. The applied level is recorded on each assistant message as ``metadata.reasoning_effort``. See :ref:`reasoning-effort`.
+- ``GPTME_THINKING_EFFORT`` - Named reasoning effort level for reasoning models (default: unset, the provider default applies). Case-insensitive. Accepted levels depend on the provider that serves the request: Anthropic ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenAI ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``, ``max``; OpenRouter ``none``, ``minimal``, ``low``, ``medium``, ``high``, ``xhigh``, ``max``; Moonshot Kimi K3 ``low``, ``high``, ``max``. Non-reasoning models and other providers ignore it; a level the active provider does not accept raises an error before the request is sent. The applied level is recorded on each assistant message as ``metadata.reasoning_effort``. See :ref:`reasoning-effort`.
 - ``GPTME_REASONING_BUDGET`` - Anthropic extended-thinking budget in tokens (default: 16000). Ignored when ``GPTME_THINKING_EFFORT`` is set.
 - ``GPTME_REASONING`` - Force Anthropic extended thinking on (``1``) or off (``0``) regardless of the model default.
 - ``GPTME_ANTHROPIC_FAST_MODE`` - Enable Anthropic fast mode for the Anthropic provider (default: false). When enabled, requests set ``speed: "fast"`` for up to ~2.5x higher output tokens/sec at premium pricing — a research preview available on Claude Opus 4.8+. Requires an org with fast-mode access; otherwise the API returns an error. Off by default, so it never affects standard usage. Useful for latency-sensitive callers (e.g. gptme-voice).

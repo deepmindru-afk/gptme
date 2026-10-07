@@ -9,29 +9,76 @@ gptme provides a pluggable context compression system that allows conversations 
 Overview
 ========
 
-The context compression system has two main components:
+The context compression system has one unified pipeline:
 
-1. **Automatic Compaction** - Triggered when conversations exceed token limits or contain massive tool results
-2. **Plugin Interface** - Allows third-party packages to provide custom compression strategies
+1. **Context Budget** - A configurable token threshold at which compaction is triggered (distinct from the provider window)
+2. **Automatic Compaction** - Triggered after each turn when the log approaches the budget; shared CLI/server recovery handles provider context-length overflow
+3. **Plugin Interface** - Allows third-party packages to provide custom compression strategies
+
+The budget defaults to
+``min(0.9 × window, window − max_output − headroom, 256k)``. For a
+200k-window model with 64k maximum output this is 135k; an unvalidated
+1M-window model defaults to 256k. Models proven reliable near their full window
+can opt out through model metadata (Anthropic's native 1M models currently use
+``context_budget = 0.9``). Explicit budgets remain clamped to the output/headroom
+ceiling so they cannot make provider requests overflow.
+
+The trigger uses the last response's provider-reported input count (uncached
+input plus cache reads and cache writes), then adds a tokenizer estimate for
+that response and subsequent messages. This includes provider overhead such as
+tool schemas that a stored-text estimate misses. Usage is anchored to the stored
+input prefix and model: edits, compaction views, and model changes invalidate
+it. Conversations without a valid usage anchor fall back to tokenizer estimates
+until a new response arrives. UI-only status messages do not count as growth.
+
+Configuring the Context Budget
+===============================
+
+The budget can be set at multiple levels (first match wins):
+
+- **CLI**: ``--context-budget 0.85`` (fraction) or
+  ``--context-budget 300000`` (absolute tokens), persisted for that conversation
+- **Environment variable**: ``GPTME_CONTEXT_BUDGET=0.85`` or
+  ``GPTME_CONTEXT_BUDGET=300000``
+- **Per-model user config**: ``[models."deepseek/deepseek-v4"]`` followed by
+  ``context_budget = 300000`` in ``~/.config/gptme/config.toml``
+- **Project/user config**: the existing broad ``[context] budget`` override
+- **Model metadata**: built-in evidence-backed override for validated models
+- **Default**: ``min(0.9 × window, window − max_output − headroom, 256k)``
+
+Note: ``GPTME_CONTEXT_LENGTH`` overrides the *provider window* for local models; ``GPTME_CONTEXT_BUDGET`` controls when compaction fires.
 
 Built-in Compression Strategy
 ==============================
 
-By default, gptme uses a 3-phase compression algorithm:
+The default trim path stubs stale tool outputs, truncates large tool results,
+and applies extractive compression to eligible older assistant messages.
+Age-based reasoning stripping is disabled: retained thinking blocks are not
+rewritten. Compaction waits until pending tool calls have their results.
 
-1. **Reasoning Stripping** - Remove reasoning tags from older messages (age-based)
-2. **Tool Result Truncation** - Truncate largest tool results first
-3. **Extractive Compression** - Summarize long assistant messages
+Budget-triggered trims target 70% of the budget and reject views saving less
+than 10% of the estimated stored text. If estimated trim savings are too small,
+the automatic path requests an LLM summary instead. A failed summary latches
+the conversation to trim-only until sufficient message growth permits a retry.
 
-This approach intelligently prioritizes the largest messages for removal to achieve target reduction with minimal information loss.
+CLI and server overflow recovery try a trim first, then remove old whole
+assistant/user steps with their tool results toward 70% of the previous context
+size. The protected head, pinned steps, newest user request, and final step stay
+verbatim. Every retry must reduce the prepared input; at most eight retries run.
+Partial output stops retries. Failed recovery restores the original active view;
+successful recovery keeps the smaller view and preserves the lossless master log.
 
-Using the Default Compressor
-=============================
+Using Compaction
+================
 
-When you enable the ``autocompact`` tool, automatic compression is triggered via a post-turn hook:
+Compaction is **enabled by default** — the post-turn hook runs after every turn without needing ``--tool autocompact``. You can also trigger it manually:
 
 .. code-block:: bash
 
+    # Compaction fires automatically; no extra flag needed
+    gptme
+
+    # Still works as an explicit opt-in (no change in behavior)
     gptme --tool autocompact
 
 You can also manually compact a conversation:
@@ -44,13 +91,25 @@ You can also manually compact a conversation:
 
 Two strategies are available:
 
-- **trim** (default) — rule-based: strips old reasoning blocks, truncates massive tool
-  results, and compresses long assistant messages. Fast and deterministic; no LLM call.
+- **trim** (default) — rule-based: stubs stale tool outputs, truncates massive tool
+  results, and compresses eligible assistant messages without rewriting thinking.
+  Fast and deterministic; no LLM call.
   If savings would be low, gptme will suggest ``/compact summarize`` instead.
 
-- **summarize** — LLM-powered: asks the model to produce a ``RESUME.md`` capturing
-  key decisions, open tasks, and relevant file paths, then starts a fresh context
-  from that summary. More thorough but requires a model call and restarts context.
+- **summarize** — LLM-powered: produces a structured checkpoint (objective,
+  decisions, current state, open items, files to reload), then rebuilds context
+  from that checkpoint plus the most recent ``keep_recent_tokens`` of history
+  (default 20k). More thorough but requires a model call.
+
+  Optional instructions can be passed inline::
+
+      /compact summarize focus on the failing test suite
+
+  Or set project-wide via ``[context] compact_instructions`` in ``gptme.toml``::
+
+      [context]
+      compact_instructions = "Always note the current task ID and git branch."
+      keep_recent_tokens = 15000   # tokens of history to keep after checkpoint
 
 .. deprecated::
    ``/compact auto`` and ``/compact resume`` are deprecated aliases for ``trim`` and

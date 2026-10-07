@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../" >
+<html lang="en" data-content_root="../" data-theme="auto">
 
   <head>
     <meta charset="utf-8" />
@@ -13,37 +13,41 @@
   
   
   <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../_static/asciinema-player_3.12.1.css" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=3a28e17f" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/asciinema-player_3.12.1.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v0.10.1';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://gptme.org/docs/releases/v0.10.1.html" />
     <link rel="icon" href="../_static/logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -52,34 +56,30 @@
     <link rel="prev" title="v0.10.2" href="v0.10.2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="auto">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -87,7 +87,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -95,15 +94,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -112,7 +155,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -142,21 +186,17 @@
     
     
     <img src="../_static/logo.png" class="logo__image only-light" alt="gptme - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="gptme - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="gptme - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
@@ -201,6 +241,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../tools/patch.html">Patch</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/morph.html">Morph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/hashline-edit.html">Hashline Edit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/patch-many.html">Patch many</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/convert.html">Convert</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/python.html">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/shell.html">Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/gh.html">GitHub (gh)</a></li>
@@ -221,8 +263,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../tools/restart.html">Restart</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/vent.html">Vent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/request-tool-change.html">Request Tool Change</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/watch.html">Watch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/progress.html">Progress</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/clarify.html">Clarify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/lessons.html">Lessons</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/todo.html">Todo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/memory.html">Memory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/mcp.html">MCP</a></li>
 </ul>
 </details></li>
@@ -392,9 +438,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -524,7 +575,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -538,25 +589,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -578,10 +628,10 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors">Contributors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changelog">Changelog</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">📦 gptme</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">📦 gptme</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixes-6">🐛 Fixes (6)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-18">🔨 Misc (18)</a></li>
 </ul>
@@ -614,12 +664,12 @@ document.write(`
 <section id="fixes-6">
 <h3>🐛 Fixes (6)<a class="headerlink" href="#fixes-6" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>fix: added some comments, and strip.sh (<a class="reference external" href="https://github.com/gptme/gptme/commit/d2f65d21"><code class="docutils literal notranslate"><span class="pre">d2f65d21</span></code></a>)</p></li>
-<li><p>fix: added pragma no cover to gptme-server entrypoint (<a class="reference external" href="https://github.com/gptme/gptme/commit/c8fbb1e7"><code class="docutils literal notranslate"><span class="pre">c8fbb1e7</span></code></a>)</p></li>
-<li><p>fix: major improvements to reduce tool: added tests, added truncate codeblocks, disabled summarize in reduce_log (<a class="reference external" href="https://github.com/gptme/gptme/commit/bb5f9dab"><code class="docutils literal notranslate"><span class="pre">bb5f9dab</span></code></a>)</p></li>
-<li><p>fix: fixed don’t show ‘test-server-…’ in convo picker (<a class="reference external" href="https://github.com/gptme/gptme/commit/656e8d38"><code class="docutils literal notranslate"><span class="pre">656e8d38</span></code></a>)</p></li>
-<li><p>fix: fixed error when /dev/tty cannot be opened (such as in CI) (<a class="reference external" href="https://github.com/gptme/gptme/commit/aaf5d9eb"><code class="docutils literal notranslate"><span class="pre">aaf5d9eb</span></code></a>)</p></li>
-<li><p>fix(tools): set GIT_PAGER=cat on shell init (<a class="reference external" href="https://github.com/gptme/gptme/commit/a9257984"><code class="docutils literal notranslate"><span class="pre">a9257984</span></code></a>)</p></li>
+<li><p>fix: added some comments, and strip.sh (<a class="reference external" href="https://github.com/gptme/gptme/commit/d2f65d217a9f0be624f84edc734f0413ddc38b82"><code class="docutils literal notranslate"><span class="pre">d2f65d21</span></code></a>)</p></li>
+<li><p>fix: added pragma no cover to gptme-server entrypoint (<a class="reference external" href="https://github.com/gptme/gptme/commit/c8fbb1e7d8a7d52b43b1b36435912a4f03fdae2b"><code class="docutils literal notranslate"><span class="pre">c8fbb1e7</span></code></a>)</p></li>
+<li><p>fix: major improvements to reduce tool: added tests, added truncate codeblocks, disabled summarize in reduce_log (<a class="reference external" href="https://github.com/gptme/gptme/commit/bb5f9dabf1df7f79343a5966c4a2e24be90b116f"><code class="docutils literal notranslate"><span class="pre">bb5f9dab</span></code></a>)</p></li>
+<li><p>fix: fixed don’t show ‘test-server-…’ in convo picker (<a class="reference external" href="https://github.com/gptme/gptme/commit/656e8d387ef50deb40fde7ba64a6aea79891543a"><code class="docutils literal notranslate"><span class="pre">656e8d38</span></code></a>)</p></li>
+<li><p>fix: fixed error when /dev/tty cannot be opened (such as in CI) (<a class="reference external" href="https://github.com/gptme/gptme/commit/aaf5d9eb50a32219d596a0ca85ab7ca9d6e97952"><code class="docutils literal notranslate"><span class="pre">aaf5d9eb</span></code></a>)</p></li>
+<li><p>fix(tools): set GIT_PAGER=cat on shell init (<a class="reference external" href="https://github.com/gptme/gptme/commit/a9257984880f505e77b668c7384daa4173be0675"><code class="docutils literal notranslate"><span class="pre">a9257984</span></code></a>)</p></li>
 </ul>
 </section>
 <section id="misc-18">
@@ -627,24 +677,24 @@ document.write(`
 <details><summary>Click to expand</summary>
 <p>
 <ul class="simple">
-<li><p>test: fixed coverage for playwright tests (<a class="reference external" href="https://github.com/gptme/gptme/commit/38183d1b"><code class="docutils literal notranslate"><span class="pre">38183d1b</span></code></a>)</p></li>
-<li><p>test: added test for /rename (<a class="reference external" href="https://github.com/gptme/gptme/commit/12d922f4"><code class="docutils literal notranslate"><span class="pre">12d922f4</span></code></a>)</p></li>
-<li><p>test: set <code class="docutils literal notranslate"><span class="pre">--log-level</span> <span class="pre">INFO</span></code> in <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>, add logging to browser tool (<a class="reference external" href="https://github.com/gptme/gptme/commit/c24b18d6"><code class="docutils literal notranslate"><span class="pre">c24b18d6</span></code></a>)</p></li>
-<li><p>test: added tests and fixes to browser tool (<a class="reference external" href="https://github.com/gptme/gptme/commit/e94f7f64"><code class="docutils literal notranslate"><span class="pre">e94f7f64</span></code></a>)</p></li>
-<li><p>test: added pragma nocover to interactive lines, added cli test for context via stdin and –version (<a class="reference external" href="https://github.com/gptme/gptme/commit/2ee73af0"><code class="docutils literal notranslate"><span class="pre">2ee73af0</span></code></a>)</p></li>
-<li><p>test: added test for patch (<a class="reference external" href="https://github.com/gptme/gptme/commit/328fa16d"><code class="docutils literal notranslate"><span class="pre">328fa16d</span></code></a>)</p></li>
-<li><p>test: improved testing for utils, removed unused functions (<a class="reference external" href="https://github.com/gptme/gptme/commit/b7b57b89"><code class="docutils literal notranslate"><span class="pre">b7b57b89</span></code></a>)</p></li>
-<li><p>test: improved test_fileblock and fixed –no-confirm for overwrite (<a class="reference external" href="https://github.com/gptme/gptme/commit/cbc0ffec"><code class="docutils literal notranslate"><span class="pre">cbc0ffec</span></code></a>)</p></li>
-<li><p>test: mark slow tests as slow, print 5 slowest tests on <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> (<a class="reference external" href="https://github.com/gptme/gptme/commit/6d580af3"><code class="docutils literal notranslate"><span class="pre">6d580af3</span></code></a>)</p></li>
-<li><p>test: added test fileblock (<a class="reference external" href="https://github.com/gptme/gptme/commit/df9c6a17"><code class="docutils literal notranslate"><span class="pre">df9c6a17</span></code></a>)</p></li>
-<li><p>test: improved testing for server (<a class="reference external" href="https://github.com/gptme/gptme/commit/e66d05b9"><code class="docutils literal notranslate"><span class="pre">e66d05b9</span></code></a>)</p></li>
-<li><p>test: improved command testing, fixed prompt parsing when passed command with path (<a class="reference external" href="https://github.com/gptme/gptme/commit/ef6b472f"><code class="docutils literal notranslate"><span class="pre">ef6b472f</span></code></a>)</p></li>
-<li><p>test: refactored commands and improved testing (<a class="reference external" href="https://github.com/gptme/gptme/commit/50c028db"><code class="docutils literal notranslate"><span class="pre">50c028db</span></code></a>)</p></li>
-<li><p>refactor: refactored prompts and get_codeblock (<a class="reference external" href="https://github.com/gptme/gptme/commit/d0a22453"><code class="docutils literal notranslate"><span class="pre">d0a22453</span></code></a>)</p></li>
-<li><p>docs: more wip stuff on finetuning doc (<a class="reference external" href="https://github.com/gptme/gptme/commit/32df0155"><code class="docutils literal notranslate"><span class="pre">32df0155</span></code></a>)</p></li>
-<li><p>test: fix blinking test (<a class="reference external" href="https://github.com/gptme/gptme/commit/dad5a255"><code class="docutils literal notranslate"><span class="pre">dad5a255</span></code></a>)</p></li>
-<li><p>docs: added logo to README (<a class="reference external" href="https://github.com/gptme/gptme/commit/6d3aa92d"><code class="docutils literal notranslate"><span class="pre">6d3aa92d</span></code></a>)</p></li>
-<li><p>chore: added logo (<a class="reference external" href="https://github.com/gptme/gptme/commit/4879d652"><code class="docutils literal notranslate"><span class="pre">4879d652</span></code></a>)</p></li>
+<li><p>test: fixed coverage for playwright tests (<a class="reference external" href="https://github.com/gptme/gptme/commit/38183d1b054af8c232d6ec959354f40b2d41a24e"><code class="docutils literal notranslate"><span class="pre">38183d1b</span></code></a>)</p></li>
+<li><p>test: added test for /rename (<a class="reference external" href="https://github.com/gptme/gptme/commit/12d922f4a1dd9469ae1fa942bd746905c6f320c0"><code class="docutils literal notranslate"><span class="pre">12d922f4</span></code></a>)</p></li>
+<li><p>test: set <code class="docutils literal notranslate"><span class="pre">--log-level</span> <span class="pre">INFO</span></code> in <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code>, add logging to browser tool (<a class="reference external" href="https://github.com/gptme/gptme/commit/c24b18d674137a121bf8aebe57460e162fb19e1c"><code class="docutils literal notranslate"><span class="pre">c24b18d6</span></code></a>)</p></li>
+<li><p>test: added tests and fixes to browser tool (<a class="reference external" href="https://github.com/gptme/gptme/commit/e94f7f64bef938e1ae2084f68ab1ac36a0598dea"><code class="docutils literal notranslate"><span class="pre">e94f7f64</span></code></a>)</p></li>
+<li><p>test: added pragma nocover to interactive lines, added cli test for context via stdin and –version (<a class="reference external" href="https://github.com/gptme/gptme/commit/2ee73af03c0ecee8073007b92c7acfdb8b8c2082"><code class="docutils literal notranslate"><span class="pre">2ee73af0</span></code></a>)</p></li>
+<li><p>test: added test for patch (<a class="reference external" href="https://github.com/gptme/gptme/commit/328fa16d4d36396f5bc2b9e34742f73928f716e9"><code class="docutils literal notranslate"><span class="pre">328fa16d</span></code></a>)</p></li>
+<li><p>test: improved testing for utils, removed unused functions (<a class="reference external" href="https://github.com/gptme/gptme/commit/b7b57b89cf644ebe11fb0e9641208df78833d492"><code class="docutils literal notranslate"><span class="pre">b7b57b89</span></code></a>)</p></li>
+<li><p>test: improved test_fileblock and fixed –no-confirm for overwrite (<a class="reference external" href="https://github.com/gptme/gptme/commit/cbc0ffec45887364ea9f41f52307b74ab3710418"><code class="docutils literal notranslate"><span class="pre">cbc0ffec</span></code></a>)</p></li>
+<li><p>test: mark slow tests as slow, print 5 slowest tests on <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code> (<a class="reference external" href="https://github.com/gptme/gptme/commit/6d580af335b7346dc53bb249fb7a2b9ed970d0ac"><code class="docutils literal notranslate"><span class="pre">6d580af3</span></code></a>)</p></li>
+<li><p>test: added test fileblock (<a class="reference external" href="https://github.com/gptme/gptme/commit/df9c6a1732a024dd35f96dc128ed56af21f5837b"><code class="docutils literal notranslate"><span class="pre">df9c6a17</span></code></a>)</p></li>
+<li><p>test: improved testing for server (<a class="reference external" href="https://github.com/gptme/gptme/commit/e66d05b961a45227897d7131d6e64444fad7295c"><code class="docutils literal notranslate"><span class="pre">e66d05b9</span></code></a>)</p></li>
+<li><p>test: improved command testing, fixed prompt parsing when passed command with path (<a class="reference external" href="https://github.com/gptme/gptme/commit/ef6b472f154de7b957d41fede11080567f489d47"><code class="docutils literal notranslate"><span class="pre">ef6b472f</span></code></a>)</p></li>
+<li><p>test: refactored commands and improved testing (<a class="reference external" href="https://github.com/gptme/gptme/commit/50c028dbb8124f6be1853dd4819dcfc741493e4e"><code class="docutils literal notranslate"><span class="pre">50c028db</span></code></a>)</p></li>
+<li><p>refactor: refactored prompts and get_codeblock (<a class="reference external" href="https://github.com/gptme/gptme/commit/d0a224532d95f48ae36223e4a5e7acc5e4a66b63"><code class="docutils literal notranslate"><span class="pre">d0a22453</span></code></a>)</p></li>
+<li><p>docs: more wip stuff on finetuning doc (<a class="reference external" href="https://github.com/gptme/gptme/commit/32df0155f3f82077764d0803ef4e3c6e8b0f0395"><code class="docutils literal notranslate"><span class="pre">32df0155</span></code></a>)</p></li>
+<li><p>test: fix blinking test (<a class="reference external" href="https://github.com/gptme/gptme/commit/dad5a2551ee1dce11e6790551906340ee930085d"><code class="docutils literal notranslate"><span class="pre">dad5a255</span></code></a>)</p></li>
+<li><p>docs: added logo to README (<a class="reference external" href="https://github.com/gptme/gptme/commit/6d3aa92d0dcdad236d0e9c427cf19ed50aad12f2"><code class="docutils literal notranslate"><span class="pre">6d3aa92d</span></code></a>)</p></li>
+<li><p>chore: added logo (<a class="reference external" href="https://github.com/gptme/gptme/commit/4879d652e6a53bf8c5e363ff08755a7ea778e879"><code class="docutils literal notranslate"><span class="pre">4879d652</span></code></a>)</p></li>
 </ul>
 </p>
 </details>
@@ -689,18 +739,20 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributors">Contributors</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changelog">Changelog</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">📦 gptme</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gptme">📦 gptme</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixes-6">🐛 Fixes (6)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-18">🔨 Misc (18)</a></li>
 </ul>
@@ -753,8 +805,8 @@ By Erik Bjäreholt
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>
